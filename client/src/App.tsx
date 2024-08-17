@@ -1,12 +1,16 @@
-import { useState } from 'react';
+import { Route, Routes } from 'react-router';
+import { JoinView } from './views/JoinView';
+import { Layout } from './Layout';
+import { HomeView } from './views/HomeView';
 
 function App() {
-  const [count, setCount] = useState(0);
   return (
-    <div>
-      <p>{count}</p>
-      <button onClick={() => setCount(count + 1)}>증가</button>
-    </div>
+    <Routes>
+      <Route path='/' element={<Layout />}>
+        <Route index element={<HomeView />} />
+        <Route path='/join' element={<JoinView />} />
+      </Route>
+    </Routes>
   );
 }
 
