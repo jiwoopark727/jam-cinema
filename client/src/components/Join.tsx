@@ -6,6 +6,7 @@ const JoinWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 100%;
 `;
 
 const InfoBox = styled.div`
@@ -13,6 +14,10 @@ const InfoBox = styled.div`
   background: #fafafa;
   padding: 70px 100px;
   border-radius: 50px;
+  h1 {
+    text-align: center;
+    margin-bottom: 30px;
+  }
   input {
     width: 100%;
     border: 1px solid #d7d7d7;
@@ -132,6 +137,7 @@ export const Join = () => {
   return (
     <JoinWrapper>
       <InfoBox>
+        <h1>회원가입</h1>
         <div className='name'>
           <div className='last'>
             <p>성</p>
