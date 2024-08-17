@@ -16,7 +16,7 @@ const HeaderWrapper = styled.div`
     img {
       width: 131px;
       height: 55px;
-      margin-right: 40px;
+      margin-right: 39px;
     }
     .dark_mode {
       display: flex;
