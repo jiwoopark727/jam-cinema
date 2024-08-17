@@ -49,7 +49,7 @@ const InfoBox = styled.div`
       div {
         display: flex;
         flex-direction: column-reverse;
-        font-size: 5vh;
+        font-size: 2vw;
       }
     }
   }
