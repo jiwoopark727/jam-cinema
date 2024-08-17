@@ -1,5 +1,9 @@
-import React from 'react';
+import { Join } from '../components/Join';
 
 export const JoinView = () => {
-  return <div>JoinView</div>;
+  return (
+    <div>
+      <Join />
+    </div>
+  );
 };
