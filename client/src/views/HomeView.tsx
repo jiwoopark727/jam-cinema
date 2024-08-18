@@ -5,14 +5,19 @@ import { RecentNewsSection } from '../components/Home/RecentNewsSection';
 import { CommunitySection } from '../components/Home/CommunitySection';
 import { GenreSection } from '../components/Home/GenreSection';
 import { EditorPickSection } from '../components/Home/EditorPickSection';
+import styled from 'styled-components';
+
+const HomeViewWrapper = styled.div`
+  height: 3000px;
+`;
 
 export const HomeView = () => {
-  return <div>
+  return <HomeViewWrapper>
     <BannerSection/>
     <RecentMovieSection/>
     <RecentNewsSection/>
     <CommunitySection/>
     <GenreSection/>
     <EditorPickSection/>    
-  </div>;
+  </HomeViewWrapper>;
 };
