@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const LayoutWrapper = styled.div`
   background: #e4e4e4;
   main {
-    height: 100vh;
+    height: 3000px;
   }
 `;
 
