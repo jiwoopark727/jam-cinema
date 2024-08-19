@@ -7,17 +7,17 @@ import { GenreSection } from '../components/Home/GenreSection';
 import { EditorPickSection } from '../components/Home/EditorPickSection';
 import styled from 'styled-components';
 
-const HomeViewWrapper = styled.div`
-  height: 3000px;
-`;
+const HomeViewWrapper = styled.div``;
 
 export const HomeView = () => {
-  return <HomeViewWrapper>
-    <BannerSection/>
-    <RecentMovieSection/>
-    <RecentNewsSection/>
-    <CommunitySection/>
-    <GenreSection/>
-    <EditorPickSection/>    
-  </HomeViewWrapper>;
+  return (
+    <HomeViewWrapper>
+      <BannerSection />
+      <RecentMovieSection />
+      <RecentNewsSection />
+      <CommunitySection />
+      <GenreSection />
+      <EditorPickSection />
+    </HomeViewWrapper>
+  );
 };
