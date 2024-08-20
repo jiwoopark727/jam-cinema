@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import JoinComplete from './JoinComplete';
 
 const JoinWrapper = styled.div`
   display: flex;
@@ -141,6 +142,7 @@ export const Join = () => {
   const [nicknameErrMsg, setNicknameErrMsg] = useState('');
   const [pwErrMsg, setPwErrMsg] = useState('');
   const [pwOkErrMsg, setPwOkErrMsg] = useState('');
+  const [joinComplete, setJoinComplete] = useState(false);
 
   const userEmailRef = useRef<HTMLInputElement>(null);
   const userNicknameRef = useRef<HTMLInputElement>(null);
@@ -226,7 +228,7 @@ export const Join = () => {
       .post('http://localhost:8001/auth/join', { addMember })
       .then((res) => {
         if (res.data.affectedRows === 1) {
-          alert('회원가입이 완료되었습니다.');
+          setJoinComplete(true);
         } else {
           alert('회원가입 실패');
           return;
@@ -270,110 +272,116 @@ export const Join = () => {
   return (
     <JoinWrapper>
       <InfoBox onSubmit={joinSubmit}>
-        <h1>회원가입</h1>
-        <div className='email'>
-          <p>이메일</p>
-          <input
-            type='email'
-            placeholder='이메일을 입력해 주세요.'
-            name='userEmail'
-            onChange={handleChange}
-            ref={userEmailRef}
-            onBlur={(e) => emailCheck(e.target.value)}
-            className={emailErrMsg ? 'err' : ''}
-          />
-          <div className='err_msg'>{emailErrMsg}</div>
-        </div>
-        <div className='emoji'>
-          <p>나만의 캐릭터</p>
-          <div className='emoji_wrapper'>
-            {animalEmoji.map((emo, idx) => (
-              <div>
-                <input
-                  type='radio'
-                  id={emo}
-                  name='userEmoji'
-                  value={emo}
-                  onChange={() => emojiChange(idx)}
-                />
-                <label htmlFor={emo}>{emo}</label>
+        {joinComplete ? (
+          <JoinComplete nickname={userInfo.userNickName} />
+        ) : (
+          <>
+            <h1>회원가입</h1>
+            <div className='email'>
+              <p>이메일</p>
+              <input
+                type='email'
+                placeholder='이메일을 입력해 주세요.'
+                name='userEmail'
+                onChange={handleChange}
+                ref={userEmailRef}
+                onBlur={(e) => emailCheck(e.target.value)}
+                className={emailErrMsg ? 'err' : ''}
+              />
+              <div className='err_msg'>{emailErrMsg}</div>
+            </div>
+            <div className='emoji'>
+              <p>나만의 캐릭터</p>
+              <div className='emoji_wrapper'>
+                {animalEmoji.map((emo, idx) => (
+                  <div>
+                    <input
+                      type='radio'
+                      id={emo}
+                      name='userEmoji'
+                      value={emo}
+                      onChange={() => emojiChange(idx)}
+                    />
+                    <label htmlFor={emo}>{emo}</label>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-          <div className='err_msg'>{emojiErrMsg}</div>
-        </div>
-        <div className='nickname'>
-          <p>닉네임</p>
-          <input
-            type='text'
-            placeholder='닉네임을 입력해 주세요.'
-            name='userNickName'
-            maxLength={8}
-            onChange={handleChange}
-            ref={userNicknameRef}
-            onBlur={(e) => nicknameCheck(e.target.value)}
-            className={nicknameErrMsg ? 'err' : ''}
-          />
-          <div className='err_msg'>{nicknameErrMsg}</div>
-        </div>
-        <div className='pw'>
-          <p>비밀번호</p>
-          <input
-            type='password'
-            placeholder='비밀번호를 입력해 주세요.'
-            name='userPw'
-            onChange={handleChange}
-            ref={userPwRef}
-            onBlur={() =>
-              userInfo.userPw
-                ? setPwErrMsg('')
-                : setPwErrMsg('비밀번호를 입력해 주세요.')
-            }
-            className={pwErrMsg ? 'err' : ''}
-          />
-          <div className='err_msg'>{pwErrMsg}</div>
-          <div className='standard_check'>
-            <div className='length'>
-              <FontAwesomeIcon icon={faCircleCheck} />
-              <p>8자리 이상</p>
+              <div className='err_msg'>{emojiErrMsg}</div>
             </div>
-            <div className='number'>
-              <FontAwesomeIcon icon={faCircleCheck} />
-              <p>숫자 포함</p>
+            <div className='nickname'>
+              <p>닉네임</p>
+              <input
+                type='text'
+                placeholder='닉네임을 입력해 주세요.'
+                name='userNickName'
+                maxLength={8}
+                onChange={handleChange}
+                ref={userNicknameRef}
+                onBlur={(e) => nicknameCheck(e.target.value)}
+                className={nicknameErrMsg ? 'err' : ''}
+              />
+              <div className='err_msg'>{nicknameErrMsg}</div>
             </div>
-            <div className='eng'>
-              <FontAwesomeIcon icon={faCircleCheck} />
-              <p>영문 포함</p>
+            <div className='pw'>
+              <p>비밀번호</p>
+              <input
+                type='password'
+                placeholder='비밀번호를 입력해 주세요.'
+                name='userPw'
+                onChange={handleChange}
+                ref={userPwRef}
+                onBlur={() =>
+                  userInfo.userPw
+                    ? setPwErrMsg('')
+                    : setPwErrMsg('비밀번호를 입력해 주세요.')
+                }
+                className={pwErrMsg ? 'err' : ''}
+              />
+              <div className='err_msg'>{pwErrMsg}</div>
+              <div className='standard_check'>
+                <div className='length'>
+                  <FontAwesomeIcon icon={faCircleCheck} />
+                  <p>8자리 이상</p>
+                </div>
+                <div className='number'>
+                  <FontAwesomeIcon icon={faCircleCheck} />
+                  <p>숫자 포함</p>
+                </div>
+                <div className='eng'>
+                  <FontAwesomeIcon icon={faCircleCheck} />
+                  <p>영문 포함</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className='pw_ok'>
-          <p>비밀번호 확인</p>
-          <input
-            type='password'
-            placeholder='비밀번호를 한번 더 입력해 주세요.'
-            name='userPwOk'
-            onChange={handleChange}
-            ref={userPwOkRef}
-            onBlur={() =>
-              userInfo.userPwOk
-                ? setPwOkErrMsg('')
-                : setPwOkErrMsg('비밀번호를 입력해 주세요.')
-            }
-            className={pwOkErrMsg ? 'err' : ''}
-          />
-          <div className='err_msg'>{pwOkErrMsg}</div>
-        </div>
-        <div className='btn'>
-          <div className='close'>
-            <button type='button' onClick={closeBtn}>
-              닫기
-            </button>
-          </div>
-          <div className='join'>
-            <button type='submit'>가입하기</button>
-          </div>
-        </div>
+            <div className='pw_ok'>
+              <p>비밀번호 확인</p>
+              <input
+                type='password'
+                placeholder='비밀번호를 한번 더 입력해 주세요.'
+                name='userPwOk'
+                onChange={handleChange}
+                ref={userPwOkRef}
+                onBlur={() =>
+                  userInfo.userPwOk
+                    ? setPwOkErrMsg('')
+                    : setPwOkErrMsg('비밀번호를 입력해 주세요.')
+                }
+                className={pwOkErrMsg ? 'err' : ''}
+              />
+              <div className='err_msg'>{pwOkErrMsg}</div>
+            </div>
+            <div className='btn'>
+              <div className='close'>
+                <button type='button' onClick={closeBtn}>
+                  닫기
+                </button>
+              </div>
+              <div className='join'>
+                <button type='submit'>가입하기</button>
+              </div>
+            </div>
+          </>
+        )}
       </InfoBox>
     </JoinWrapper>
   );
