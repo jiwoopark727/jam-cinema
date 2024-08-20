@@ -2,6 +2,7 @@ import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useRef, useState } from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const JoinWrapper = styled.div`
@@ -126,6 +127,8 @@ const InfoBox = styled.form`
 `;
 
 export const Join = () => {
+  const navigate = useNavigate();
+
   const [userInfo, setUserInfo] = useState({
     userEmail: '',
     userEmoji: '',
@@ -260,6 +263,10 @@ export const Join = () => {
       : setNicknameErrMsg('닉네임을 입력해 주세요.');
   };
 
+  const closeBtn = () => {
+    navigate(-1);
+  };
+
   return (
     <JoinWrapper>
       <InfoBox onSubmit={joinSubmit}>
@@ -359,7 +366,9 @@ export const Join = () => {
         </div>
         <div className='btn'>
           <div className='close'>
-            <button>닫기</button>
+            <button type='button' onClick={closeBtn}>
+              닫기
+            </button>
           </div>
           <div className='join'>
             <button type='submit'>가입하기</button>
