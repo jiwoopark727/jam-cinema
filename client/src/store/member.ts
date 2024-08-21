@@ -27,6 +27,7 @@ const memberSlice = createSlice({
         addr2,
       } as User;
       localStorage.loging = JSON.stringify({ userId: userId });
+      console.log(state.user);
     },
     // localUser(state, action) {
     //   state.user = action.payload;

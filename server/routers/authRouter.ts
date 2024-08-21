@@ -48,7 +48,19 @@ authRouter.post('/nicknamecheck', (req, res) => {
 });
 
 authRouter.post('/login', (req, res) => {
-  // 로그인 로직
+  const { userId, userPw } = req.body;
+  db.query(
+    'SELECT * FROM users WHERE email=? AND password=?',
+    [userId, userPw],
+    (err, result) => {
+      if (err) {
+        res.status(500).send('회원가입 실패');
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
 });
 
 export default authRouter;
