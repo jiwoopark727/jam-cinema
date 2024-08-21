@@ -1,7 +1,10 @@
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
+import { UserIcon } from './UserIcon';
+import { useState } from 'react';
 
 const HeaderWrapper = styled.div`
   position: relative;
@@ -17,6 +20,7 @@ const HeaderWrapper = styled.div`
       width: 131px;
       height: 55px;
       margin-right: 39px;
+      cursor: pointer;
     }
     .dark_mode {
       display: flex;
@@ -39,20 +43,43 @@ const HeaderWrapper = styled.div`
     }
   }
   .search_my {
+    position: relative;
     display: flex;
     margin-right: 20vh;
+    padding-left: 2rem;
     font-size: 18px;
     .search {
       margin-right: 30px;
+    }
+    .my {
+      svg {
+        cursor: pointer;
+      }
     }
   }
 `;
 
 export const Header = () => {
+  const [userMenu, setUserMenu] = useState(false);
+
+  const navigate = useNavigate();
+
+  const clickLogo = () => {
+    navigate('/');
+  };
+
+  const clickUserMenu = () => {
+    setUserMenu(!userMenu);
+  };
+
+  const closeUserMenu = () => {
+    setUserMenu(false);
+  };
+
   return (
     <HeaderWrapper>
       <div className='logo'>
-        <img src='../../images/logo.png' alt='logo' />
+        <img src='../../images/logo.png' alt='logo' onClick={clickLogo} />
         <div className='dark_mode'>
           <p>다크</p>
           <p>라이트</p>
@@ -68,8 +95,9 @@ export const Header = () => {
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </div>
         <div className='my'>
-          <FontAwesomeIcon icon={faUser} />
+          <FontAwesomeIcon icon={faUser} onClick={clickUserMenu} />
         </div>
+        {userMenu && <UserIcon closeUserMenu={closeUserMenu} />}
       </div>
     </HeaderWrapper>
   );

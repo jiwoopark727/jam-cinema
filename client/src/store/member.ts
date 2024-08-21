@@ -32,16 +32,17 @@ const memberSlice = createSlice({
     // localUser(state, action) {
     //   state.user = action.payload;
     // },
-    // userLogout(state, action) {
-    //   state.user = null;
-    //   localStorage.clear();
-    // },
+    userLogout(state, action) {
+      state.user = {};
+      localStorage.clear();
+      console.log(state.user);
+    },
   },
 });
 
 // export const { initMembers, userLogin, userLogout, localUser } =
 //   memberSlice.actions;
 
-export const { userLogin } = memberSlice.actions;
+export const { userLogin, userLogout } = memberSlice.actions;
 
 export default memberSlice.reducer;
