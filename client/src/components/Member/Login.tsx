@@ -90,6 +90,10 @@ export const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const closeBtn = () => {
+    navigate(-1);
+  };
+
   const loginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -143,7 +147,7 @@ export const Login = () => {
             </div>
           )}
           <div className='login_btn'>
-            <button className='close' type='button'>
+            <button className='close' type='button' onClick={closeBtn}>
               닫기
             </button>
             <button className='login' type='submit'>
