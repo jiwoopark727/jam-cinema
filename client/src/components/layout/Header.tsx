@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserIcon } from './UserIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const HeaderWrapper = styled.div`
   position: relative;
@@ -37,6 +38,7 @@ const HeaderWrapper = styled.div`
     display: flex;
     li {
       font-weight: bold;
+      cursor: pointer;
       &:nth-child(2) {
         margin: 0 50px;
       }
@@ -68,6 +70,10 @@ export const Header = () => {
     navigate('/');
   };
 
+  const goToCommunity = () => {
+    navigate('/community');
+  };
+
   const clickUserMenu = () => {
     setUserMenu(!userMenu);
   };
@@ -75,6 +81,19 @@ export const Header = () => {
   const closeUserMenu = () => {
     setUserMenu(false);
   };
+
+  // useEffect(() => {
+  //   axios
+  //     .get(
+  //       'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&releaseDts=20240801&nation=대한민국&listCount=20&ServiceKey=0WNF03ALRTCN83536BN5'
+  //     )
+  //     .then((res) => {
+  //       console.log(res.data.Data[0].Result);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // }, []);
 
   return (
     <HeaderWrapper>
@@ -87,7 +106,7 @@ export const Header = () => {
       </div>
       <ul className='menu'>
         <li>뉴스</li>
-        <li>커뮤니티</li>
+        <li onClick={goToCommunity}>커뮤니티</li>
         <li>장르별 영화</li>
       </ul>
       <div className='search_my'>
