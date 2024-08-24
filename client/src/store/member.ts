@@ -12,7 +12,7 @@ interface User {
 const memberSlice = createSlice({
   name: 'member',
   initialState: {
-    user: {}, // { userId, userPw, userName, zipCode, addr1, addr2}
+    user: {},
   },
   reducers: {
     userLogin(state, action) {

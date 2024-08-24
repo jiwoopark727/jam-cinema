@@ -70,6 +70,10 @@ export const Header = () => {
     navigate('/');
   };
 
+  const goToNews = () => {
+    navigate('/news');
+  };
+
   const goToCommunity = () => {
     navigate('/community');
   };
@@ -105,7 +109,7 @@ export const Header = () => {
         </div>
       </div>
       <ul className='menu'>
-        <li>뉴스</li>
+        <li onClick={goToNews}>뉴스</li>
         <li onClick={goToCommunity}>커뮤니티</li>
         <li>장르별 영화</li>
       </ul>

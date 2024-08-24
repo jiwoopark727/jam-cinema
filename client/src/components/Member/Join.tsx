@@ -169,10 +169,10 @@ export const Join = () => {
     setUserInfo((userInfo) => ({ ...userInfo, [name]: value }));
   };
 
-  const emojiChange = (idx: number) => {
+  const emojiChange = (emo: string) => {
     setUserInfo((userInfo) => ({
       ...userInfo,
-      userEmoji: String(idx),
+      userEmoji: String(emo),
     }));
     setEmojiErrMsg('');
   };
@@ -293,14 +293,14 @@ export const Join = () => {
             <div className='emoji'>
               <p>나만의 캐릭터</p>
               <div className='emoji_wrapper'>
-                {animalEmoji.map((emo, idx) => (
+                {animalEmoji.map((emo) => (
                   <div>
                     <input
                       type='radio'
                       id={emo}
                       name='userEmoji'
                       value={emo}
-                      onChange={() => emojiChange(idx)}
+                      onChange={() => emojiChange(emo)}
                     />
                     <label htmlFor={emo}>{emo}</label>
                   </div>

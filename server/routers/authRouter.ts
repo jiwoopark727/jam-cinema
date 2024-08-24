@@ -24,6 +24,7 @@ authRouter.post('/emailcheck', (req, res) => {
   db.query('SELECT * FROM users WHERE email=?', [email], (err, result) => {
     if (err) {
       res.status(500).send('회원가입 실패');
+      console.log(err);
       throw err;
     } else {
       res.send(result);

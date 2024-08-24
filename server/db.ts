@@ -7,4 +7,5 @@ export const db = mysql.createPool({
   password: '1234',
   database: 'jam-cinema',
   connectionLimit: 10,
+  charset: 'utf8mb4',
 });
