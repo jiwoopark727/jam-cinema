@@ -6,6 +6,7 @@ import { LoginView } from './views/LoginView';
 import { CommunityView } from './views/CommunityView';
 import { CommunityWriteView } from './views/CommunityWriteView';
 import { CommunityModifyView } from './views/CommunityModifyView';
+import { CommunityDetailView } from './views/CommunityDetailView';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path='/community' element={<CommunityView />} />
         <Route path='/community/write' element={<CommunityWriteView />} />
         <Route path='/community/modify' element={<CommunityModifyView />} />
+        <Route path='/community/detail/:id' element={<CommunityDetailView />} />
       </Route>
     </Routes>
   );
