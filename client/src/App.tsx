@@ -4,6 +4,7 @@ import { Layout } from './Layout';
 import { HomeView } from './views/HomeView';
 import { LoginView } from './views/LoginView';
 import { CommunityView } from './views/CommunityView';
+import { CommunityWriteView } from './views/CommunityWriteView';
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         <Route path='/join' element={<JoinView />} />
         <Route path='/login' element={<LoginView />} />
         <Route path='/community' element={<CommunityView />} />
+        <Route path='/community/write' element={<CommunityWriteView />} />
       </Route>
     </Routes>
   );

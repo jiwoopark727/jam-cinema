@@ -1,15 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { CommunityTopTitle } from './CommunityTopTitle';
 
 const CommunityListWrapper = styled.div`
-  .top_title {
-    display: flex;
-    justify-content: center;
-    h2 {
-      border-top: 2px solid #000;
-    }
-  }
   .write_btn {
     display: flex;
     justify-content: right;
@@ -54,9 +48,7 @@ const CommunityListWrapper = styled.div`
 export const CommunityList = () => {
   return (
     <CommunityListWrapper className='row'>
-      <div className='top_title'>
-        <h2>게시판</h2>
-      </div>
+      <CommunityTopTitle title={'커뮤니티'} />
       <div className='write_btn'>
         <Link to='/community/write'>글 작성</Link>
       </div>
