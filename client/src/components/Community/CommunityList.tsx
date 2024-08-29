@@ -8,7 +8,7 @@ const CommunityListWrapper = styled.div`
     display: flex;
     justify-content: right;
     a {
-      padding: 6px 20px;
+      padding: 6px 10px;
       background: #4939fc;
       color: #fff;
       border-radius: 10px;
@@ -20,7 +20,7 @@ const CommunityListWrapper = styled.div`
     display: flex;
     flex-wrap: wrap;
     margin-top: 20px;
-    border-top: 2px solid #4939fc;
+    border-top: 2px solid #000;
     li {
       text-align: center;
       font-weight: bold;
