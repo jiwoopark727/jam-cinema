@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface User {
+export interface User {
   userId: number;
   email: string;
   emoji: string;
@@ -10,7 +10,7 @@ interface User {
 const memberSlice = createSlice({
   name: 'member',
   initialState: {
-    user: {},
+    user: {} as User,
   },
   reducers: {
     userLogin(state, action) {
@@ -28,7 +28,7 @@ const memberSlice = createSlice({
     //   state.user = action.payload;
     // },
     userLogout(state, action) {
-      state.user = {};
+      state.user = {} as User;
       localStorage.clear();
       console.log(state.user);
     },

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 // import path from 'path';
 import cors from 'cors';
 import authRouter from './routers/authRouter';
-// import foodRouter from './routers/foodRouter';
+import communityRouter from './routers/communityRouter';
 
 const app = express();
 const PORT = process.env.PORT || 8001;
@@ -20,6 +20,6 @@ app.use(express.json());
 // app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRouter);
-// app.use('/food', foodRouter);
+app.use('/community', communityRouter);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
