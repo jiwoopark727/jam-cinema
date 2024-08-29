@@ -103,6 +103,10 @@ export const CommunityModify: React.FC<CommunityModifyProps> = ({ info }) => {
       });
   };
 
+  const cancel = () => {
+    navigate(-1);
+  };
+
   return (
     <CommunityModifyWrapper className='row'>
       <CommunityTopTitle title={'커뮤니티 수정'} />
@@ -129,7 +133,9 @@ export const CommunityModify: React.FC<CommunityModifyProps> = ({ info }) => {
           {contentErr && <p className='err_msg'>{contentErr}</p>}
         </div>
         <div className='write_btn'>
-          <button type='button'>취소</button>
+          <button type='button' onClick={cancel}>
+            취소
+          </button>
           <button type='submit'>수정</button>
         </div>
       </form>
