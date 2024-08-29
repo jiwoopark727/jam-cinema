@@ -17,7 +17,7 @@ function App() {
         <Route path='/login' element={<LoginView />} />
         <Route path='/community' element={<CommunityView />} />
         <Route path='/community/write' element={<CommunityWriteView />} />
-        <Route path='/community/modify' element={<CommunityModifyView />} />
+        <Route path='/community/modify/:id' element={<CommunityModifyView />} />
         <Route path='/community/detail/:id' element={<CommunityDetailView />} />
       </Route>
     </Routes>

@@ -46,4 +46,25 @@ communityRouter.post('/hit', (req, res) => {
   );
 });
 
+communityRouter.post('/modify', (req, res) => {
+  const { communityNumber, title, content, date } = req.body.communityInfo;
+  const modifyQuery = `
+  UPDATE community
+  SET title = ?, content = ?, date = ?
+  WHERE communityNumber = ?
+`;
+  db.query(
+    modifyQuery,
+    [title, content, date, communityNumber],
+    (err, result) => {
+      if (err) {
+        res.status(500).send('회원가입 실패');
+        throw err;
+      } else {
+        res.send(result);
+      }
+    }
+  );
+});
+
 export default communityRouter;

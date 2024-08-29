@@ -7,7 +7,10 @@ export const CommunityDetailView = () => {
 
   return (
     <div>
-      <CommunityDetail info={location.state.info} />
+      <CommunityDetail
+        info={location.state.info}
+        currentUser={location.state.currentUser}
+      />
     </div>
   );
 };

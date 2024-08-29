@@ -57,15 +57,22 @@ const CommunityDetailWrapper = styled.div`
       padding: 5px 10px;
       border-radius: 5px;
       font-size: 14px;
+      &:first-child {
+        margin-right: 10px;
+      }
     }
   }
 `;
 
 interface CommunityDetailProps {
   info: listType;
+  currentUser: string;
 }
 
-export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info }) => {
+export const CommunityDetail: React.FC<CommunityDetailProps> = ({
+  info,
+  currentUser,
+}) => {
   useEffect(() => {
     axios
       .post('http://localhost:8001/community/hit', {
@@ -99,6 +106,14 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info }) => {
         <p>{info.content}</p>
       </div>
       <div className='detail_btn'>
+        {currentUser === info.nickname && (
+          <Link
+            to={`/community/modify/${info.communityNumber}`}
+            state={{ info: info }}
+          >
+            수정
+          </Link>
+        )}
         <Link to={'/community'}>목록</Link>
       </div>
     </CommunityDetailWrapper>

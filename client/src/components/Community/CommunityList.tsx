@@ -97,7 +97,7 @@ export const CommunityList = () => {
 
   const goToDetail = (info: listType) => {
     navigate(`/community/detail/${info.communityNumber}`, {
-      state: { info: info },
+      state: { info: info, currentUser: currentUser.nickname },
     });
   };
 
