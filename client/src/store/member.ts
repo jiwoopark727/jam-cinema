@@ -1,12 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 interface User {
-  userId: string;
-  userPw: string;
-  userName: string;
-  zipCode: string;
-  addr1: string;
-  addr2: string;
+  userId: number;
+  email: string;
+  emoji: string;
+  nickname: string;
 }
 
 const memberSlice = createSlice({
@@ -16,15 +14,12 @@ const memberSlice = createSlice({
   },
   reducers: {
     userLogin(state, action) {
-      const { userId, userPw, userName, zipCode, addr1, addr2 } =
-        action.payload;
+      const { userId, email, emoji, nickname } = action.payload;
       state.user = {
         userId,
-        userPw,
-        userName,
-        zipCode,
-        addr1,
-        addr2,
+        email,
+        emoji,
+        nickname,
       } as User;
       localStorage.loging = JSON.stringify({ userId: userId });
       console.log(state.user);
