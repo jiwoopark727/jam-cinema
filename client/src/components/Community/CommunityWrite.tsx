@@ -103,6 +103,10 @@ export const CommunityWrite = () => {
       });
   };
 
+  const cancel = () => {
+    navigate(-1);
+  };
+
   return (
     <CommunityWriteWrapper className='row'>
       <CommunityTopTitle title={'커뮤니티 작성'} />
@@ -127,7 +131,9 @@ export const CommunityWrite = () => {
           {contentErr && <p className='err_msg'>{contentErr}</p>}
         </div>
         <div className='write_btn'>
-          <button type='button'>취소</button>
+          <button type='button' onClick={cancel}>
+            취소
+          </button>
           <button type='submit'>등록</button>
         </div>
       </form>
