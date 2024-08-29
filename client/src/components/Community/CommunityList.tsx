@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
 
 const CommunityListWrapper = styled.div`
   .write_btn {
@@ -46,12 +48,15 @@ const CommunityListWrapper = styled.div`
 `;
 
 export const CommunityList = () => {
+  const currentUser = useSelector((state: RootState) => state.members.user);
   return (
     <CommunityListWrapper className='row'>
       <CommunityTopTitle title={'커뮤니티'} />
-      <div className='write_btn'>
-        <Link to='/community/write'>글 작성</Link>
-      </div>
+      {Object.keys(currentUser).length !== 0 && (
+        <div className='write_btn'>
+          <Link to='/community/write'>글 작성</Link>
+        </div>
+      )}
       <ul className='list_content'>
         <li>번호</li>
         <li>제목</li>
