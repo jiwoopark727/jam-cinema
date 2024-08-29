@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { listType } from './CommunityList';
@@ -51,7 +51,8 @@ const CommunityDetailWrapper = styled.div`
   .detail_btn {
     text-align: right;
     margin-right: 20px;
-    a {
+    a,
+    button {
       background: #4939fc;
       color: #fff;
       padding: 5px 10px;
@@ -60,6 +61,9 @@ const CommunityDetailWrapper = styled.div`
       &:first-child {
         margin-right: 10px;
       }
+    }
+    button {
+      margin-right: 10px;
     }
   }
 `;
@@ -73,6 +77,24 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
   info,
   currentUser,
 }) => {
+  const navigate = useNavigate();
+
+  const deleteCommunity = (communityNumber: number) => {
+    if (confirm('정말 삭제하시겠습니까?')) {
+      axios
+        .delete('http://localhost:8001/community/delete', {
+          data: { communityNumber: communityNumber },
+        })
+        .then((res) => {
+          if (res.data.affectedRows) {
+            alert('삭제가 완료되었습니다.');
+            navigate('/community');
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
   useEffect(() => {
     axios
       .post('http://localhost:8001/community/hit', {
@@ -107,12 +129,20 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
       </div>
       <div className='detail_btn'>
         {currentUser === info.nickname && (
-          <Link
-            to={`/community/modify/${info.communityNumber}`}
-            state={{ info: info }}
-          >
-            수정
-          </Link>
+          <>
+            <Link
+              to={`/community/modify/${info.communityNumber}`}
+              state={{ info: info }}
+            >
+              수정
+            </Link>
+            <button
+              type='button'
+              onClick={() => deleteCommunity(info.communityNumber)}
+            >
+              삭제
+            </button>
+          </>
         )}
         <Link to={'/community'}>목록</Link>
       </div>
