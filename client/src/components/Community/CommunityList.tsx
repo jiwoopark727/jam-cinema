@@ -126,7 +126,7 @@ export const CommunityList = () => {
       <ul className='list_content'>
         {list?.map((val, idx) => (
           <li key={idx} onClick={() => goToDetail(val)}>
-            <div>{val.communityNumber}</div>
+            <div>{list.length - idx}</div>
             <div>{val.title}</div>
             <div>{val.nickname}</div>
             <div>{dayjs(val.date).format('YYYY-MM-DD')}</div>
