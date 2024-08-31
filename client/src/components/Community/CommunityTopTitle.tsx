@@ -8,8 +8,9 @@ interface CommunityTopTitleProps {
 const CommunityTopTitleWrapper = styled.div`
   display: flex;
   justify-content: center;
+  margin: 20px;
   h2 {
-    border-top: 2px solid #000;
+    /* border-top: 2px solid #000; */
   }
 `;
 

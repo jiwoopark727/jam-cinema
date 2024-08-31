@@ -23,13 +23,14 @@ const CommunityListWrapper = styled.div`
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    margin-top: 20px;
+    margin-top: 40px;
     border-top: 2px solid #000;
+    border-bottom: 1px solid #000;
     li {
       text-align: center;
       font-weight: bold;
       padding: 20px 0;
-      background: #afafaf;
+      background: inherit;
       &:nth-child(1) {
         flex: 0 0 10%;
       }
