@@ -6,11 +6,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import Pagination from '../Pagination/Pagination';
 
 const CommunityListWrapper = styled.div`
   .write_btn {
     display: flex;
     justify-content: right;
+    margin-bottom: -30px;
     a {
       padding: 6px 10px;
       background: #4939fc;
@@ -49,6 +51,7 @@ const CommunityListWrapper = styled.div`
     }
   }
   .list_content {
+    margin-bottom: 60px;
     li {
       width: 100%;
       display: flex;
@@ -95,11 +98,17 @@ export const CommunityList = () => {
   const navigate = useNavigate();
 
   const [list, setList] = useState<listType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5;
 
   const goToDetail = (info: listType) => {
     navigate(`/community/detail/${info.communityNumber}`, {
       state: { info: info, currentUser: currentUser.nickname },
     });
+  };
+
+  const pageMove = (page: number) => {
+    setCurrentPage(page);
   };
 
   useEffect(() => {
@@ -125,16 +134,24 @@ export const CommunityList = () => {
         <li>조회수</li>
       </ul>
       <ul className='list_content'>
-        {list?.map((val, idx) => (
-          <li key={idx} onClick={() => goToDetail(val)}>
-            <div>{list.length - idx}</div>
-            <div>{val.title}</div>
-            <div>{val.nickname}</div>
-            <div>{dayjs(val.date).format('YYYY-MM-DD')}</div>
-            <div>{val.hit}</div>
-          </li>
-        ))}
+        {list
+          ?.slice(itemsPerPage * (currentPage - 1), itemsPerPage * currentPage)
+          .map((val, idx) => (
+            <li key={idx} onClick={() => goToDetail(val)}>
+              <div>{list.length - idx - (currentPage - 1) * itemsPerPage}</div>
+              <div>{val.title}</div>
+              <div>{val.nickname}</div>
+              <div>{dayjs(val.date).format('YYYY-MM-DD')}</div>
+              <div>{val.hit}</div>
+            </li>
+          ))}
       </ul>
+      <Pagination
+        currentPage={currentPage}
+        totalItems={list.length}
+        itemsPerPage={itemsPerPage}
+        pageMove={pageMove}
+      />
     </CommunityListWrapper>
   );
 };

@@ -7,13 +7,13 @@ const PaginationBlock = styled.div`
   margin-top: -30px;
   margin-bottom: 20px;
   .pagination__wrapper {
-    border: 1px solid #669933;
+    border: 1px solid #4939fc;
     border-radius: 50px;
-    padding: 3px;
+    padding: 5px;
   }
   .goend {
     background: none;
-    color: #669933;
+    color: #4939fc;
     padding: 5px 13px;
     margin: 0 5px;
   }
@@ -23,18 +23,32 @@ const PageBlock = styled.span`
   button {
     background: #fff;
     margin: 0 2px;
-    border-radius: 2px;
+    border-radius: 50%;
+    border: 1px solid #4939fc;
     width: 30px;
     height: 30px;
+    line-height: 20px;
     &.on {
-      background: #669933;
+      background: #4939fc;
       color: #fff;
       border-radius: 50%;
     }
   }
 `;
 
-const Pagination = ({ currentPage, totalItems, itemsPerPage, onClick }) => {
+interface pageType {
+  currentPage: number;
+  totalItems: number;
+  itemsPerPage: number;
+  pageMove: Function;
+}
+
+const Pagination = ({
+  currentPage,
+  totalItems,
+  itemsPerPage,
+  pageMove,
+}: pageType) => {
   const pageList = [];
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startPage = Math.max(1, currentPage - 5);
@@ -45,15 +59,15 @@ const Pagination = ({ currentPage, totalItems, itemsPerPage, onClick }) => {
   }
 
   const prevPage = () => {
-    onClick(currentPage - 1);
+    pageMove(currentPage - 1);
   };
 
   const nextPage = () => {
-    onClick(currentPage + 1);
+    pageMove(currentPage + 1);
   };
 
-  const goToPage = (pageNum) => {
-    onClick(pageNum);
+  const goToPage = (pageNum: number) => {
+    pageMove(pageNum);
   };
 
   return (
