@@ -9,7 +9,9 @@ communityRouter.get('/list', (req, res) => {
       res.status(500).send('커뮤니티 리스트 불러오기 실패');
       throw err;
     } else {
-      res.send(result);
+      res.send(
+        result.sort((a: any, b: any) => b.communityNumber - a.communityNumber)
+      );
     }
   });
 });
