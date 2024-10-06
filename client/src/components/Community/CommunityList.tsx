@@ -118,6 +118,24 @@ export const CommunityList = () => {
       .catch((err) => console.log(err));
   }, []);
 
+  const options = {
+    method: 'GET',
+    url: 'https://api.themoviedb.org/3/movie/popular',
+    params: { language: 'ko', page: '1' },
+    headers: {
+      accept: 'application/json',
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI4NzhmZjkwOWU5ZjYzZDZiYjNiODU3YzA0Nzk4MTZlNSIsIm5iZiI6MTcyNTYxNDExNi45NDY3MzksInN1YiI6IjY1ZTdkMDZlZWE0MjYzMDE3YjIxOGVkOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.0Yni4SNifcsb_G93C-6G_wFWW7SyWULY_m_krg7DaJg',
+    },
+  };
+
+  useEffect(() => {
+    axios
+      .request(options)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <CommunityListWrapper className='row'>
       <CommunityTopTitle title={'커뮤니티'} />
