@@ -1,5 +1,5 @@
-import { faUser } from '@fortawesome/free-regular-svg-icons';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faSun, faUser } from '@fortawesome/free-regular-svg-icons';
+import { faMagnifyingGlass, faStar } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
@@ -16,6 +16,7 @@ const HeaderWrapper = styled.div`
   align-items: center;
   .logo {
     display: flex;
+    align-items: center;
     margin-left: 20vh;
     img {
       width: 131px;
@@ -61,8 +62,46 @@ const HeaderWrapper = styled.div`
   }
 `;
 
+const DarkMode = styled.button`
+  position: relative;
+  height: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  div {
+    span {
+      position: relative;
+      z-index: 12;
+      margin: 0 30px;
+      transition: all 0.3s;
+      &.light_mode {
+        color: white;
+      }
+    }
+  }
+`;
+
+const OnDarkMode = styled.div`
+  position: absolute;
+  width: 50%;
+  height: 30px;
+  top: 0;
+  left: 0;
+  border-radius: 15px;
+  background-color: #4939fc;
+  /* z-index: 0; */
+  transition: all 0.3s;
+  &.light_mode {
+    left: 50%;
+  }
+`;
+
 export const Header = () => {
   const [userMenu, setUserMenu] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const navigate = useNavigate();
 
@@ -86,6 +125,10 @@ export const Header = () => {
     setUserMenu(false);
   };
 
+  const changeDark = () => {
+    setIsDark((prev) => !prev);
+  };
+
   // useEffect(() => {
   //   axios
   //     .get(
@@ -103,10 +146,21 @@ export const Header = () => {
     <HeaderWrapper>
       <div className='logo'>
         <img src='../../images/logo.png' alt='logo' onClick={clickLogo} />
-        <div className='dark_mode'>
-          <p>다크</p>
-          <p>라이트</p>
-        </div>
+        <DarkMode onClick={changeDark}>
+          <div>
+            {/* <FontAwesomeIcon
+              className={isDark ? '' : 'light_mode'}
+              icon={faStar}
+            />
+            <FontAwesomeIcon
+              className={isDark ? 'light_mode' : ''}
+              icon={faSun}
+            /> */}
+            <span className={isDark ? 'light_mode' : ''}>다크</span>
+            <span className={isDark ? '' : 'light_mode'}>라이트</span>
+          </div>
+          <OnDarkMode className={isDark ? '' : 'light_mode'}></OnDarkMode>
+        </DarkMode>
       </div>
       <ul className='menu'>
         <li onClick={goToNews}>뉴스</li>
