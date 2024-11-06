@@ -1,6 +1,6 @@
-import React from 'react'
+import React from 'react';
 import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components'
+import styled, { keyframes } from 'styled-components';
 
 // const MovieHoverAnimation = keyframes`
 //   from{
@@ -24,15 +24,14 @@ import styled, { keyframes } from 'styled-components'
 
 `; */
 
-
-const RMCWrapper = styled.div`
+const RMSWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  .tab{
+  .tab {
     margin-top: 30px;
   }
 
-  .tab_button{
+  .tab_button {
     margin-left: 10px;
     background-color: white;
     color: black;
@@ -44,7 +43,7 @@ const RMCWrapper = styled.div`
     margin-bottom: 15px;
     border-radius: 10px;
     transition: 0.2s;
-    &:hover{
+    &:hover {
       background-color: #4939fc;
       color: white;
     }
@@ -56,50 +55,51 @@ const MovieContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  .movie_frame{
+  .movie_frame {
     overflow: hidden;
     border-radius: 20px;
     box-shadow: 10px;
   }
-  .movie_poster{
+  .movie_poster {
     width: 100%;
     display: block;
     transition: 0.5s;
-    &:hover{
+    &:hover {
       transform: scale(1.03);
       cursor: pointer;
     }
   }
 `;
 
-
-
-const movieCount = [1,2,3,4,5,6,7,8];
+const movieCount = [1, 2, 3, 4, 5, 6, 7, 8];
 
 export const RecentMovieSection = () => {
   return (
-    <RMCWrapper>
+    <RMSWrapper>
       <div className='tab'>
         <button className='tab_button'>현재 상영중인 영화</button>
         <button className='tab_button'>개봉 예정 영화</button>
         <button className='tab_button'>에디터 추천★ 영화</button>
       </div>
       <MovieContainer>
-      {
-        movieCount.map(function(item){
-          return(
-            <Link className='movie_frame' 
-                  to={'/movie/' + item} 
-                  state={item} 
-                  onClick={()=>{console.log('영화 클릭')}}>
-                <img className='movie_poster' src='../../images/movie_poster_test.jpg'>
-                </img>
+        {movieCount.map(function (item, idx) {
+          return (
+            <Link
+              className='movie_frame'
+              to={'/movie/' + item}
+              state={item}
+              onClick={() => {
+                console.log('영화 클릭');
+              }}
+            >
+              <img
+                className='movie_poster'
+                src={`../../images/poster${idx + 1}.png`}
+              ></img>
             </Link>
-          )
-        })
-      }
+          );
+        })}
       </MovieContainer>
-
-    </RMCWrapper>
-  )
-}
+    </RMSWrapper>
+  );
+};
