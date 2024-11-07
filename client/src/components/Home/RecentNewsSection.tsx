@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const RNSWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  padding-top: 69px;
+  padding-top: 39px;
 `;
 
 const HeaderContainer = styled.div`

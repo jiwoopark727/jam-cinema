@@ -8,7 +8,7 @@ const blinkAnimation = keyframes`
 const COMWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  padding-top: 69px;
+  padding-top: 39px;
 `;
 
 const HeaderContainer = styled.div`
@@ -34,7 +34,7 @@ const COMCotainer = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 3rem;
-  padding-top: 45px;
+  padding-top: 30px;
 
   .sub_title {
     padding-bottom: 20px;
