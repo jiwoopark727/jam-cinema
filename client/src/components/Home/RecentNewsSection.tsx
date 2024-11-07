@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 const RNSWrapper = styled.div`
@@ -11,16 +10,16 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-
+  padding-top: 20px;
   .title {
     font-size: 32px;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .more {
-    font-size: 18px;
-    margin-top: 8px; /* 더보기를 약간 아래로 조정 */
-    cursor: pointer; /* 클릭 가능한 손 모양 */
+    font-size: 16px;
+    margin-top: 20px;
+    cursor: pointer;
   }
 `;
 
@@ -88,7 +87,7 @@ export const RecentNewsSection = () => {
                 }}
               ></div>
               <div className='news_text'>
-                <div className='news_source'>`${val}`</div>
+                <div className='news_source'>{val[1]}</div>
                 <div>
                   트럼프가 총알을 맞을 뻔 했는데 살아서 차기 대통령 당선 확률
                   급증

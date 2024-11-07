@@ -35,7 +35,8 @@ const RMSWrapper = styled.div`
     margin-left: 10px;
     background-color: white;
     color: black;
-    font-size: 12px;
+    font-size: 15px;
+    font-weight: 500;
     padding-left: 15px;
     padding-right: 15px;
     padding-top: 9px;
