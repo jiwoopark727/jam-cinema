@@ -1,4 +1,9 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const blinkAnimation = keyframes`
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+`;
 
 const COMWrapper = styled.div`
   width: 1200px;
@@ -44,12 +49,51 @@ const COMCotainer = styled.div`
   .post_box {
     background-color: white;
     width: 584px;
-    height: 405px;
+    height: 305px;
     border-radius: 15px;
+    padding: 20px;
+  }
+
+  .post {
+    padding-top: 14px;
+    padding-bottom: 15px;
+    border-bottom: 1px black solid;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .post_title {
+    text-align: start;
+  }
+
+  .post_viewCount {
+    font-size: 14px;
+    color: gray;
+  }
+
+  .hot_text {
+    color: red;
+    font-size: 12px;
+    padding-left: 5px;
+    animation: ${blinkAnimation} 0.7s infinite;
+  }
+
+  .new_text {
+    color: red;
+    font-size: 12px;
+    padding-left: 5px;
+    animation: ${blinkAnimation} 0.7s infinite;
   }
 `;
 
 export const CommunitySection = () => {
+  const newsArray = [
+    ['별이 지는 하늘, 영화가 뜨는 바다', 12943],
+    ['나의 과거를 반성합니다', 11245],
+    ['어쩌라고 난 피자가 먹고 싶은데', 9299],
+    ['롤드컵 T1 V5, 대상혁', 7822],
+    ['커플링이 오고 있대요', 6234],
+  ];
   return (
     <COMWrapper>
       <HeaderContainer>
@@ -60,12 +104,36 @@ export const CommunitySection = () => {
         <div className='sub_title'>
           <span>인기 게시글 👀</span>
           <hr className='under_line' />
-          <div className='post_box'></div>
+          <div className='post_box'>
+            {newsArray.map((val, idx) => {
+              return (
+                <div className='post'>
+                  <span className='post_title'>
+                    <span>{val[0]}</span>
+                    <span className='hot_text'>HOT</span>
+                  </span>
+                  <span className='post_viewCount'>{val[1]}회</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
         <div className='sub_title'>
           <span>최근 게시글 🔥</span>
           <hr className='under_line' />
-          <div className='post_box'></div>
+          <div className='post_box'>
+            {newsArray.map((val, idx) => {
+              return (
+                <div className='post'>
+                  <span className='post_title'>
+                    <span>{val[0]}</span>
+                    <span className='new_text'>NEW</span>
+                  </span>
+                  <span className='post_viewCount'>{val[1]}회</span>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </COMCotainer>
     </COMWrapper>
