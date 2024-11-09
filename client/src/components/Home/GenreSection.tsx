@@ -107,7 +107,7 @@ export const GenreSection = () => {
     slidesToScroll: 3,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 2000,
     pauseOnHover: true,
     beforeChange: (oldIndex: number, newIndex: number) =>
       setCurrentSlide(newIndex),
