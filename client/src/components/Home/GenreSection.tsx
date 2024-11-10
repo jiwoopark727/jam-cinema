@@ -142,7 +142,10 @@ export const GenreSection = () => {
       </HeaderContainer>
       <StyledSlider {...settings}>
         {genres.map((genre, index) => (
-          <GenreBox key={index}>{genre}</GenreBox>
+          <GenreBox key={index}>
+            {genre}
+            <div>이미지</div>
+          </GenreBox>
         ))}
       </StyledSlider>
     </GENREWrapper>
