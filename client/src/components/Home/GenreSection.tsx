@@ -144,7 +144,9 @@ export const GenreSection = () => {
         {genres.map((genre, index) => (
           <GenreBox key={index}>
             {genre}
-            <div>이미지</div>
+            <div>
+              <img src='../../images/poster1.png' alt='' />
+            </div>
           </GenreBox>
         ))}
       </StyledSlider>
