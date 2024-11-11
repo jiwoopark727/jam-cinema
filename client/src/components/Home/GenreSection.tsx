@@ -1,48 +1,3 @@
-// import styled from 'styled-components';
-
-// const GENREWrapper = styled.div`
-//   width: 1200px;
-//   margin: auto;
-//   padding-top: 39px;
-// `;
-
-// const HeaderContainer = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding-top: 20px;
-
-//   .title {
-//     font-size: 27px;
-//     font-weight: 400;
-//   }
-
-//   .more {
-//     font-size: 16px;
-//     margin-top: 20px;
-//     cursor: pointer;
-//   }
-// `;
-
-// const GENREContainer = styled.div`
-//   display: grid;
-// `;
-
-// export const GenreSection = () => {
-//   return (
-//     <GENREWrapper>
-//       <HeaderContainer>
-//         <span className='title'>장르별 영화, 다양한 콘텐츠를 만나보세요</span>
-//       </HeaderContainer>
-//       <GENREContainer>
-//         <div>
-
-//         </div>
-//       </GENREContainer>
-//     </GENREWrapper>
-//   );
-// };
-
 import styled from 'styled-components';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
@@ -107,7 +62,7 @@ export const GenreSection = () => {
     slidesToScroll: 3,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 1000,
+    autoplaySpeed: 2000,
     pauseOnHover: true,
     beforeChange: (oldIndex: number, newIndex: number) =>
       setCurrentSlide(newIndex),
@@ -187,7 +142,12 @@ export const GenreSection = () => {
       </HeaderContainer>
       <StyledSlider {...settings}>
         {genres.map((genre, index) => (
-          <GenreBox key={index}>{genre}</GenreBox>
+          <GenreBox key={index}>
+            {genre}
+            <div>
+              <img src='../../images/poster1.png' alt='' />
+            </div>
+          </GenreBox>
         ))}
       </StyledSlider>
     </GENREWrapper>
