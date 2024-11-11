@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import memberReducer from './member';
+import searchReducer from './search';
 
 const store = configureStore({
   reducer: {
     members: memberReducer,
+    search: searchReducer,
   },
 });
 

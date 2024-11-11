@@ -1,11 +1,19 @@
 import { faSun, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faMagnifyingGlass, faStar } from '@fortawesome/free-solid-svg-icons';
+import {
+  faMagnifyingGlass,
+  faStar,
+  faXmark,
+} from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserIcon } from './UserIcon';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store';
+import { useDispatch } from 'react-redux';
+import { searchOnOff } from '../../store/search';
 
 const HeaderWrapper = styled.div`
   position: relative;
@@ -53,6 +61,9 @@ const HeaderWrapper = styled.div`
     font-size: 18px;
     .search {
       margin-right: 30px;
+      svg {
+        cursor: pointer;
+      }
     }
     .my {
       svg {
@@ -104,6 +115,9 @@ export const Header = () => {
   const [isDark, setIsDark] = useState(true);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const searchBoolean = useSelector((state: RootState) => state.search.search);
 
   const clickLogo = () => {
     navigate('/');
@@ -127,6 +141,10 @@ export const Header = () => {
 
   const changeDark = () => {
     setIsDark((prev) => !prev);
+  };
+
+  const clickSearch = () => {
+    dispatch(searchOnOff(!searchBoolean));
   };
 
   // useEffect(() => {
@@ -169,7 +187,11 @@ export const Header = () => {
       </ul>
       <div className='search_my'>
         <div className='search'>
-          <FontAwesomeIcon icon={faMagnifyingGlass} />
+          {searchBoolean ? (
+            <FontAwesomeIcon icon={faXmark} onClick={clickSearch} />
+          ) : (
+            <FontAwesomeIcon icon={faMagnifyingGlass} onClick={clickSearch} />
+          )}
         </div>
         <div className='my'>
           <FontAwesomeIcon icon={faUser} onClick={clickUserMenu} />
