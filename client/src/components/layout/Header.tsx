@@ -66,6 +66,7 @@ const HeaderWrapper = styled.div`
       }
     }
     .my {
+      font-weight: 600;
       svg {
         cursor: pointer;
       }
