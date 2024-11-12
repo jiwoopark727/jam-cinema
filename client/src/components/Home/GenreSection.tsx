@@ -57,12 +57,12 @@ export const GenreSection = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 900,
+    speed: 1500,
     slidesToShow: 3,
     slidesToScroll: 3,
     arrows: false,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3000,
     pauseOnHover: true,
     beforeChange: (oldIndex: number, newIndex: number) =>
       setCurrentSlide(newIndex),
@@ -84,7 +84,7 @@ export const GenreSection = () => {
             width: '12px',
             height: '12px',
             borderRadius: '50%',
-            backgroundColor: i === currentSlide ? '#0019ff' : 'gray',
+            backgroundColor: i * 3 === currentSlide ? '#0019ff' : 'gray',
           }}
         />
       </div>
@@ -144,9 +144,7 @@ export const GenreSection = () => {
         {genres.map((genre, index) => (
           <GenreBox key={index}>
             {genre}
-            <div>
-              <img src='../../images/poster1.png' alt='' />
-            </div>
+            <div></div>
           </GenreBox>
         ))}
       </StyledSlider>
