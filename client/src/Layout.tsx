@@ -4,7 +4,7 @@ import { Outlet } from 'react-router';
 import styled from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
-import SearchSection from './components/Search/SearchSection';
+import SearchView from './views/SearchView';
 
 const LayoutWrapper = styled.div`
   background: #e4e4e4;
@@ -18,7 +18,7 @@ export const Layout = () => {
   return (
     <LayoutWrapper>
       <Header />
-      <main>{searchBoolean ? <SearchSection /> : <Outlet />}</main>
+      <main>{searchBoolean ? <SearchView /> : <Outlet />}</main>
       <Footer />
     </LayoutWrapper>
   );
