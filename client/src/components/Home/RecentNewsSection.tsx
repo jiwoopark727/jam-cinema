@@ -78,11 +78,13 @@ export const RecentNewsSection = () => {
       <NewsCotainer>
         {newsArray.map((val, idx) => {
           return (
-            <div className='news_box'>
+            <div className='news_box' key={idx}>
               <div
                 className='news_image'
                 style={{
-                  backgroundImage: `url('../../images/poster${idx + 1}.png')`,
+                  backgroundImage: `url('../../images/examplePoster/poster${
+                    idx + 1
+                  }.png')`,
                   objectFit: 'cover',
                 }}
               ></div>
