@@ -1,11 +1,12 @@
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store';
 import { searchOnOff } from '../../store/search';
+import { useNavigate } from 'react-router';
 
 const SearchWrapper = styled.div`
   display: flex;
@@ -87,18 +88,26 @@ const Relate = styled.div`
 `;
 
 const SearchSection = () => {
+  const [keyword, setKeyword] = useState('');
+
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchBoolean = useSelector((state: RootState) => state.search.search);
 
   const searchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(searchOnOff(!searchBoolean));
+    navigate(`/results?search_query=${keyword}`);
+  };
+
+  const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setKeyword(e.target.value);
   };
 
   return (
     <SearchWrapper>
       <SearchForm onSubmit={searchSubmit}>
-        <input type='text' />
+        <input type='text' value={keyword} onChange={changeKeyword} />
         <button type='submit'>
           <FontAwesomeIcon icon={faMagnifyingGlass} />
         </button>

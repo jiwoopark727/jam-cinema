@@ -8,6 +8,7 @@ import { CommunityWriteView } from './views/CommunityWriteView';
 import { CommunityModifyView } from './views/CommunityModifyView';
 import { CommunityDetailView } from './views/CommunityDetailView';
 import SearchView from './views/SearchView';
+import ResultSection from './components/Search/ResultSection';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path='/community/modify/:id' element={<CommunityModifyView />} />
         <Route path='/community/detail/:id' element={<CommunityDetailView />} />
         <Route path='/search' element={<SearchView />} />
+        <Route path='/results' element={<ResultSection />} />
       </Route>
     </Routes>
   );
