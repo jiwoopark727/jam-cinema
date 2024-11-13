@@ -39,21 +39,42 @@ const StyledSlider = styled(Slider)`
 `;
 
 const GenreBox = styled.div`
-  background-color: black;
-  width: 380px !important; /* 강제 너비 적용 */
+  width: 380px !important;
   height: 300px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   border-radius: 15px;
   font-size: 14px;
   color: white;
+  background-color: ${(props) => props.color || 'black'};
+  padding: 20px;
+
+  .g_content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .g_img {
+    width: 120px;
+    height: 100px;
+    object-fit: contain;
+    margin-left: 20px;
+    margin-right: 40px;
+  }
 
   .g_tit {
-    display: grid;
+    font-size: 32px;
+    font-weight: bold;
   }
 
   .g_des {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size: 24px;
   }
 `;
 
@@ -131,15 +152,60 @@ export const GenreSection = () => {
   };
 
   const genres = [
-    ['드라마', '가슴이 뭉클, 눈가가 촉촉💦 우리의 심금을 울리는 영화들'],
-    ['로맨스', '연애 세포 뿜뿜!💞 연애 욕구를 자극 시켜 우리도 솔로 탈출!'],
-    ['코미디', ''],
-    ['스릴러', ''],
-    ['액션', ''],
-    ['SF', ''],
-    ['판타지', ''],
-    ['애니메이션', ''],
-    ['다큐', ''],
+    [
+      '드라마',
+      '가슴이 뭉클, 눈가가 촉촉💦 우리의 심금을 울리는 영화들',
+      '../../public/images/exampleGenre/drama.png',
+      '#38D37F',
+    ],
+    [
+      '로맨스',
+      '연애 세포 뿜뿜!💞 연애 욕구를 자극 시켜 우리도 솔로 탈출!',
+      '../../public/images/exampleGenre/romance.png',
+      '#235AE9',
+    ],
+    [
+      '코미디',
+      '웃음 폭발! 😂 하루의 스트레스를 시원하게 날려줄 코미디 영화!',
+      '../../public/images/exampleGenre/comedy.png',
+      '#FF8383',
+    ],
+    [
+      '스릴러',
+      '긴장감 최고! 😱 손에 땀을 쥐게 하는 스릴 넘치는 영화들',
+      '../../public/images/exampleGenre/thriller.png',
+      '#38D37F',
+    ],
+    [
+      '액션',
+      '짜릿한 쾌감! 💥 숨막히는 액션과 함께 아드레날린을 폭발시켜요!',
+      '../../public/images/exampleGenre/action.png',
+      '#38D37F',
+    ],
+    [
+      'SF',
+      '상상 그 이상의 세계 🌌 미래와 우주를 탐험하는 SF 영화들',
+      '../../public/images/exampleGenre/sf.png',
+      '#38D37F',
+    ],
+    [
+      '판타지',
+      '환상적인 모험! 🧚‍♀️ 동화 속 세상으로 빠져드는 판타지 영화!',
+      '../../public/images/exampleGenre/fantasy.png',
+      '#38D37F',
+    ],
+    [
+      '애니메이션',
+      '아이와 어른 모두를 위한 🎨 생동감 넘치는 애니메이션 영화!',
+      '../../public/images/exampleGenre/animation.png',
+      '#38D37F',
+    ],
+    [
+      '다큐',
+      '현실의 이야기 🌍 사실과 감동이 어우러진 다큐멘터리 영화들',
+      '../../public/images/exampleGenre/documentary.png',
+      '#38D37F',
+    ],
   ];
 
   return (
@@ -148,15 +214,28 @@ export const GenreSection = () => {
         <span className='title'>장르별 영화, 다양한 콘텐츠를 만나보세요</span>
       </HeaderContainer>
       <StyledSlider {...settings}>
-        {genres.map((genre, index) => (
-          <GenreBox key={index}>
-            <div className='g_des'>{genre[1]}</div>
-            <p>
-              <img src='../../public/images/drama.png' alt='' />
-              <span className='g_tit'>{genre[0]}</span>
-            </p>
-          </GenreBox>
-        ))}
+        {genres.map((genre, index) => {
+          const [beforeEmoji, emoji, afterEmoji] = genre[1].split(
+            /(💦|💞|😂|😱|💥|🌌|🧚‍♀️|🎨|🌍)/
+          );
+
+          return (
+            <GenreBox key={index} color={genre[3]}>
+              <div className='g_des'>
+                <span>
+                  {beforeEmoji}
+                  {emoji}
+                </span>
+                <br />
+                <span>{afterEmoji}</span>
+              </div>
+              <div className='g_content'>
+                <img className='g_img' src={genre[2]} alt={genre[0]} />
+                <span className='g_tit'>{genre[0]}</span>
+              </div>
+            </GenreBox>
+          );
+        })}
       </StyledSlider>
     </GENREWrapper>
   );

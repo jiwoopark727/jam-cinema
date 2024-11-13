@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 
 // const MovieHoverAnimation = keyframes`
 //   from{
@@ -86,6 +86,7 @@ export const RecentMovieSection = () => {
         {movieCount.map(function (item, idx) {
           return (
             <Link
+              key={idx}
               className='movie_frame'
               to={'/movie/' + item}
               state={item}
@@ -95,7 +96,7 @@ export const RecentMovieSection = () => {
             >
               <img
                 className='movie_poster'
-                src={`../../images/poster${idx + 1}.png`}
+                src={`../../images/examplePoster/poster${idx + 1}.png`}
               ></img>
             </Link>
           );

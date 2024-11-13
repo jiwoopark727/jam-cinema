@@ -107,7 +107,7 @@ export const CommunitySection = () => {
           <div className='post_box'>
             {newsArray.map((val, idx) => {
               return (
-                <div className='post'>
+                <div className='post' key={idx}>
                   <span className='post_title'>
                     <span>{val[0]}</span>
                     <span className='hot_text'>HOT</span>
@@ -124,7 +124,7 @@ export const CommunitySection = () => {
           <div className='post_box'>
             {newsArray.map((val, idx) => {
               return (
-                <div className='post'>
+                <div className='post' key={idx}>
                   <span className='post_title'>
                     <span>{val[0]}</span>
                     <span className='new_text'>NEW</span>
