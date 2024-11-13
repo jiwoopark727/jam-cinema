@@ -48,6 +48,13 @@ const GenreBox = styled.div`
   border-radius: 15px;
   font-size: 14px;
   color: white;
+
+  .g_tit {
+    display: grid;
+  }
+
+  .g_des {
+  }
 `;
 
 export const GenreSection = () => {
@@ -61,7 +68,7 @@ export const GenreSection = () => {
     slidesToShow: 3,
     slidesToScroll: 3,
     arrows: false,
-    autoplay: true,
+    // autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
     beforeChange: (oldIndex: number, newIndex: number) =>
@@ -124,15 +131,15 @@ export const GenreSection = () => {
   };
 
   const genres = [
-    '액션',
-    '로맨스',
-    '코미디',
-    '스릴러',
-    '드라마',
-    'SF',
-    '판타지',
-    '애니메이션',
-    '다큐',
+    ['드라마', '가슴이 뭉클, 눈가가 촉촉💦 우리의 심금을 울리는 영화들'],
+    ['로맨스', '연애 세포 뿜뿜!💞 연애 욕구를 자극 시켜 우리도 솔로 탈출!'],
+    ['코미디', ''],
+    ['스릴러', ''],
+    ['액션', ''],
+    ['SF', ''],
+    ['판타지', ''],
+    ['애니메이션', ''],
+    ['다큐', ''],
   ];
 
   return (
@@ -143,8 +150,11 @@ export const GenreSection = () => {
       <StyledSlider {...settings}>
         {genres.map((genre, index) => (
           <GenreBox key={index}>
-            {genre}
-            <div></div>
+            <div className='g_des'>{genre[1]}</div>
+            <p>
+              <img src='../../public/images/drama.png' alt='' />
+              <span className='g_tit'>{genre[0]}</span>
+            </p>
           </GenreBox>
         ))}
       </StyledSlider>
