@@ -59,7 +59,7 @@ const ResultData = styled.div<{ bg_photo: string }>`
   background-image: url(${(props) => props.bg_photo});
   background-size: cover;
   background-position: center center;
-  height: 300px;
+  height: 330px;
   border-radius: 10px;
   cursor: pointer;
   &:hover {
