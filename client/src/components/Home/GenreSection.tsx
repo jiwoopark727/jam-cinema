@@ -58,23 +58,23 @@ const GenreBox = styled.div`
   }
 
   .g_img {
-    width: 120px;
-    height: 100px;
+    width: 144px;
+    height: 120px;
     object-fit: contain;
     margin-left: 20px;
     margin-right: 40px;
   }
 
   .g_tit {
-    font-size: 32px;
+    font-size: 26px;
     font-weight: bold;
   }
 
   .g_des {
     text-align: center;
     margin-top: 10px;
-    margin-bottom: 30px;
-    font-size: 24px;
+    margin-bottom: 40px;
+    font-size: 22px;
   }
 `;
 
@@ -160,51 +160,51 @@ export const GenreSection = () => {
     ],
     [
       '로맨스',
-      '연애 세포 뿜뿜!💞 연애 욕구를 자극 시켜 우리도 솔로 탈출!',
+      '연애 세포 뿜뿜!💞 연애 욕구를 마구 자극!!',
       '../../public/images/exampleGenre/romance.png',
       '#235AE9',
     ],
     [
       '코미디',
-      '웃음 폭발! 😂 하루의 스트레스를 시원하게 날려줄 코미디 영화!',
+      '웃음 폭발! 😂 하루의 스트레스를 시원하게 날리자!!',
       '../../public/images/exampleGenre/comedy.png',
       '#FF8383',
     ],
     [
       '스릴러',
-      '긴장감 최고! 😱 손에 땀을 쥐게 하는 스릴 넘치는 영화들',
+      '긴장감 최고! 😱 손에 땀을 쥐게 하는 박진감!!',
       '../../public/images/exampleGenre/thriller.png',
-      '#38D37F',
+      '#4A4A73',
     ],
     [
       '액션',
-      '짜릿한 쾌감! 💥 숨막히는 액션과 함께 아드레날린을 폭발시켜요!',
+      '짜릿한 쾌감! 💥 숨막히는 액션, 폭발하는 아드레날린!',
       '../../public/images/exampleGenre/action.png',
-      '#38D37F',
+      '#4CAF50',
     ],
     [
       'SF',
-      '상상 그 이상의 세계 🌌 미래와 우주를 탐험하는 SF 영화들',
+      '상상 그 이상의 세계 🌌 미래와 우주를 탐험하는 SF 영화들!!',
       '../../public/images/exampleGenre/sf.png',
-      '#38D37F',
+      '#00BCD4',
     ],
     [
       '판타지',
-      '환상적인 모험! 🧚‍♀️ 동화 속 세상으로 빠져드는 판타지 영화!',
+      '환상적인 모험! 🧚‍♀️ 동화 속 세상으로 빠져보자!!',
       '../../public/images/exampleGenre/fantasy.png',
-      '#38D37F',
+      '#9C27B0',
     ],
     [
       '애니메이션',
-      '아이와 어른 모두를 위한 🎨 생동감 넘치는 애니메이션 영화!',
+      '아이와 어른 모두를 위한 🎨 생동감 넘치는 애니메이션 영화!!',
       '../../public/images/exampleGenre/animation.png',
-      '#38D37F',
+      '#FFC107',
     ],
     [
       '다큐',
-      '현실의 이야기 🌍 사실과 감동이 어우러진 다큐멘터리 영화들',
+      '현실의 이야기 🌍 팩트와 감동으로 이루어진 이야기들!!',
       '../../public/images/exampleGenre/documentary.png',
-      '#38D37F',
+      '#8E8E93',
     ],
   ];
 
