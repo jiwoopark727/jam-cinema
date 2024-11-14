@@ -9,6 +9,7 @@ import { CommunityModifyView } from './views/CommunityModifyView';
 import { CommunityDetailView } from './views/CommunityDetailView';
 import SearchView from './views/SearchView';
 import ResultsView from './views/ResultsView';
+import DetailView from './views/DetailView';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path='/community/detail/:id' element={<CommunityDetailView />} />
         <Route path='/search' element={<SearchView />} />
         <Route path='/results' element={<ResultsView />} />
+        <Route path='/detail/:id' element={<DetailView />} />
       </Route>
     </Routes>
   );

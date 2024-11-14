@@ -2,7 +2,7 @@ import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import NoResult from './NoResult';
 
@@ -70,9 +70,14 @@ const ResultData = styled.div<{ bg_photo: string }>`
 
 const ResultSection = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   // console.log(location.search.split('=')[1]);
 
   const [movieData, setMovieData] = useState<IResultData[]>([]);
+
+  const clickPoster = (data: IResultData) => {
+    navigate(`/detail/${data.id}`);
+  };
 
   useEffect(() => {
     axios
@@ -96,11 +101,7 @@ const ResultSection = () => {
         <>
           <ResultTitle>
             <h3>
-              '
-              <span>{`${decodeURIComponent(
-                location.search.split('=')[1]
-              )}`}</span>
-              ' 관련된 영화
+              '<span>{`${decodeURIComponent(location.search.split('=')[1])}`}</span>' 관련된 영화
             </h3>
             <div>
               <span>
@@ -118,6 +119,7 @@ const ResultSection = () => {
             {movieData?.map((data) => (
               <ResultData
                 bg_photo={`https://image.tmdb.org/t/p/w300${data.poster_path}`}
+                onClick={() => clickPoster(data)}
               ></ResultData>
             ))}
           </ResultList>{' '}
