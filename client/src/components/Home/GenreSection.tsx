@@ -101,7 +101,7 @@ export const GenreSection = () => {
         style={{
           width: '50px',
           borderRadius: '15px',
-          paddingTop: '5px',
+          paddingTop: '6px',
           height: '23px',
           display: 'flex',
           backgroundColor: 'white',
