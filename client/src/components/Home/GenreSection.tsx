@@ -3,6 +3,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faVideoCamera } from '@fortawesome/free-solid-svg-icons';
 
 const GENREWrapper = styled.div`
   width: 1200px;
@@ -89,7 +91,7 @@ export const GenreSection = () => {
     slidesToShow: 3,
     slidesToScroll: 3,
     arrows: false,
-    // autoplay: true,
+    autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
     beforeChange: (oldIndex: number, newIndex: number) =>
@@ -211,7 +213,10 @@ export const GenreSection = () => {
   return (
     <GENREWrapper>
       <HeaderContainer>
-        <span className='title'>장르별 영화, 다양한 콘텐츠를 만나보세요</span>
+        <span className='title'>
+          장르별 영화, 다양한 콘텐츠를 만나보세요!{' '}
+          <FontAwesomeIcon icon={faVideoCamera} />
+        </span>
       </HeaderContainer>
       <StyledSlider {...settings}>
         {genres.map((genre, index) => {

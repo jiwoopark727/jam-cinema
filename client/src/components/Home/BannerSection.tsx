@@ -14,6 +14,7 @@ const BannerSectionWrapper = styled.div`
   .sub_banner {
     font-size: 32px;
     font-weight: 500;
+    padding-bottom: 20px;
   }
 `;
 

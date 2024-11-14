@@ -1,3 +1,5 @@
+import { faGlobe } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled, { keyframes } from 'styled-components';
 
 const blinkAnimation = keyframes`
@@ -18,7 +20,7 @@ const HeaderContainer = styled.div`
   padding-top: 20px;
 
   .title {
-    font-size: 32px;
+    font-size: 27px;
     font-weight: 400;
   }
 
@@ -97,7 +99,9 @@ export const CommunitySection = () => {
   return (
     <COMWrapper>
       <HeaderContainer>
-        <span className='title'>커뮤니티</span>
+        <span className='title'>
+          커뮤니티 <FontAwesomeIcon icon={faGlobe} />
+        </span>
         <span className='more'>더보기 +</span>
       </HeaderContainer>
       <COMCotainer>
