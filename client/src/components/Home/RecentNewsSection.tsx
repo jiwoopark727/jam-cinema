@@ -1,5 +1,6 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-
+import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 const RNSWrapper = styled.div`
   width: 1200px;
   margin: auto;
@@ -12,7 +13,7 @@ const HeaderContainer = styled.div`
   align-items: center;
   padding-top: 20px;
   .title {
-    font-size: 32px;
+    font-size: 27px;
     font-weight: 400;
   }
 
@@ -72,7 +73,10 @@ export const RecentNewsSection = () => {
   return (
     <RNSWrapper>
       <HeaderContainer>
-        <span className='title'>최신 영화 뉴스</span>
+        <span className='title'>
+          최신 영화 뉴스
+          <FontAwesomeIcon style={{ marginLeft: '7px' }} icon={faNewspaper} />
+        </span>
         <span className='more'>더보기 +</span>
       </HeaderContainer>
       <NewsCotainer>
