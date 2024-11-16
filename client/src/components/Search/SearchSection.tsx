@@ -79,6 +79,13 @@ const SearchWord = styled.div`
 
 const Recent = styled.div`
   width: 50%;
+  .need_login {
+    p {
+      margin-top: 10px;
+      color: #666666;
+      cursor: pointer;
+    }
+  }
 `;
 
 const DivideLine = styled.div`
@@ -143,6 +150,11 @@ const SearchSection = () => {
     setRecentKeywordList((prevList) => prevList.filter((item) => item.word !== word));
   };
 
+  const goToLogin = () => {
+    navigate('/login');
+    dispatch(searchOnOff(!searchBoolean));
+  };
+
   useEffect(() => {
     axios
       .get(`http://localhost:8001/search/list?userId=${userId}`)
@@ -163,20 +175,33 @@ const SearchSection = () => {
       </SearchForm>
       <SearchWord>
         <Recent>
-          <div className='title'>
-            <h3>최근 검색어</h3>
-            <span onClick={allDeleteRecent}>
-              모두 지우기 <FontAwesomeIcon icon={faXmark} />
-            </span>
-          </div>
-          <div className='list'>
-            {recentKeywordList?.map((data) => (
-              <p>
-                {data.word}{' '}
-                <FontAwesomeIcon icon={faXmark} onClick={() => deleteRecent(data.word)} />
-              </p>
-            ))}
-          </div>
+          {userId ? (
+            <>
+              <div className='title'>
+                <h3>최근 검색어</h3>
+                {userId ? (
+                  <span onClick={allDeleteRecent}>
+                    모두 지우기 <FontAwesomeIcon icon={faXmark} />
+                  </span>
+                ) : (
+                  ''
+                )}
+              </div>
+              <div className='list'>
+                {recentKeywordList?.map((data) => (
+                  <p>
+                    {data.word}{' '}
+                    <FontAwesomeIcon icon={faXmark} onClick={() => deleteRecent(data.word)} />
+                  </p>
+                ))}
+              </div>
+            </>
+          ) : (
+            <div className='need_login'>
+              <h3>최근 검색어</h3>
+              <p onClick={goToLogin}>로그인을 해주세요.</p>
+            </div>
+          )}
         </Recent>
         <DivideLine>
           <div></div>

@@ -5,6 +5,7 @@ import { RootState } from '../../store';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { userLogout } from '../../store/member';
+import { searchOnOff } from '../../store/search';
 
 const UserIconWrapper = styled.div`
   position: absolute;
@@ -29,6 +30,7 @@ export const UserIcon = ({ closeUserMenu }: UserIconProps) => {
   const goToLogin = () => {
     navigate('/login');
     closeUserMenu();
+    dispatch(searchOnOff(false));
   };
 
   const goToMyPage = () => {

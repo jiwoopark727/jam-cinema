@@ -1,9 +1,5 @@
 import { faSun, faUser } from '@fortawesome/free-regular-svg-icons';
-import {
-  faMagnifyingGlass,
-  faStar,
-  faXmark,
-} from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faStar, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
@@ -122,14 +118,17 @@ export const Header = () => {
 
   const clickLogo = () => {
     navigate('/');
+    dispatch(searchOnOff(false));
   };
 
   const goToNews = () => {
     navigate('/news');
+    dispatch(searchOnOff(false));
   };
 
   const goToCommunity = () => {
     navigate('/community');
+    dispatch(searchOnOff(false));
   };
 
   const clickUserMenu = () => {
