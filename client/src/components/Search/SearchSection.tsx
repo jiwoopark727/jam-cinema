@@ -1,12 +1,20 @@
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store';
 import { searchOnOff } from '../../store/search';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import dayjs from 'dayjs';
+
+interface IRecent {
+  userId: number;
+  word: string;
+  date: string;
+}
 
 const SearchWrapper = styled.div`
   display: flex;
@@ -89,20 +97,61 @@ const Relate = styled.div`
 
 const SearchSection = () => {
   const [keyword, setKeyword] = useState('');
+  const [recentKeywordList, setRecentKeywordList] = useState<IRecent[]>([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const searchBoolean = useSelector((state: RootState) => state.search.search);
+  const userId = useSelector((state: RootState) => state.members.user.userId);
 
   const searchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     dispatch(searchOnOff(!searchBoolean));
     navigate(`/results?search_query=${keyword}`);
+    const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    axios
+      .post('http://localhost:8001/search/add', {
+        keyword: keyword,
+        userId: userId,
+        date: date,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
   };
 
   const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
   };
+
+  const allDeleteRecent = () => {
+    console.log('모두 지우기 클릭');
+    axios
+      .delete(`http://localhost:8001/search/allDelete?userId=${userId}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    setRecentKeywordList([]);
+  };
+
+  const deleteRecent = (word: string) => {
+    console.log('하나 지우기 클릭');
+    axios
+      .delete(`http://localhost:8001/search/delete?userId=${userId}&word=${word}`)
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+    setRecentKeywordList((prevList) => prevList.filter((item) => item.word !== word));
+  };
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8001/search/list?userId=${userId}`)
+      .then((res) => {
+        console.log(res);
+        setRecentKeywordList(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   return (
     <SearchWrapper>
@@ -116,26 +165,17 @@ const SearchSection = () => {
         <Recent>
           <div className='title'>
             <h3>최근 검색어</h3>
-            <span>
+            <span onClick={allDeleteRecent}>
               모두 지우기 <FontAwesomeIcon icon={faXmark} />
             </span>
           </div>
           <div className='list'>
-            <p>
-              검색어1 <FontAwesomeIcon icon={faXmark} />
-            </p>
-            <p>
-              검색어1 <FontAwesomeIcon icon={faXmark} />
-            </p>
-            <p>
-              검색어1 <FontAwesomeIcon icon={faXmark} />
-            </p>
-            <p>
-              검색어1 <FontAwesomeIcon icon={faXmark} />
-            </p>
-            <p>
-              검색어1 <FontAwesomeIcon icon={faXmark} />
-            </p>
+            {recentKeywordList?.map((data) => (
+              <p>
+                {data.word}{' '}
+                <FontAwesomeIcon icon={faXmark} onClick={() => deleteRecent(data.word)} />
+              </p>
+            ))}
           </div>
         </Recent>
         <DivideLine>
