@@ -4,6 +4,8 @@ import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ProductionCompany from './ProductionCompany';
 import RelatedVid from './RelatedVid';
+import Actor from './Actor';
+import ProductionCrew from './ProductionCrew';
 
 interface IGenre {
   id: number;
@@ -15,14 +17,14 @@ export interface IProductionCompany {
   name: string;
 }
 
-interface ICast {
+export interface ICast {
   character: string;
   name: string;
   original_name: string;
   profile_path: string;
 }
 
-interface ICrew {
+export interface ICrew {
   job: string;
   name: string;
   original_name: string;
@@ -132,7 +134,7 @@ const MovieDetail = () => {
   const params = useParams();
   console.log(params.id);
 
-  const allMenu = ['관련 영상', '제작사'];
+  const allMenu = ['관련 영상', '제작사', '배우', '제작진'];
 
   const [detailData, setDetailData] = useState<IDetailData>();
   const [menuName, setMenuName] = useState('관련 영상');
@@ -205,8 +207,14 @@ const MovieDetail = () => {
         <div>
           {menuName === '관련 영상' ? (
             <RelatedVid vidUrl={params.id} />
-          ) : (
+          ) : menuName === '제작사' ? (
             <ProductionCompany company={detailData?.production_companies} />
+          ) : menuName === '배우' ? (
+            <Actor actor={detailData?.credits.cast} />
+          ) : menuName === '제작진' ? (
+            <ProductionCrew crew={detailData?.credits.crew} />
+          ) : (
+            ''
           )}
         </div>
       </AddInfo>
