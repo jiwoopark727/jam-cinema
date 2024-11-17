@@ -66,6 +66,10 @@ const ResultData = styled.div<{ bg_photo: string }>`
     transform: scale(1.1);
     transition: 0.5s;
   }
+  &.size_cover {
+    background-size: auto;
+    background-repeat: no-repeat;
+  }
 `;
 
 const ResultSection = () => {
@@ -74,6 +78,17 @@ const ResultSection = () => {
   // console.log(location.search.split('=')[1]);
 
   const [movieData, setMovieData] = useState<IResultData[]>([]);
+
+  const upToDate = () => {
+    setMovieData((prev) =>
+      [...prev].sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
+    );
+  };
+
+  const alphabet = () => {
+    setMovieData((prev) => [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title)));
+    console.log(movieData);
+  };
 
   const clickPoster = (data: IResultData) => {
     navigate(`/detail/${data.id}`);
@@ -104,12 +119,12 @@ const ResultSection = () => {
               '<span>{`${decodeURIComponent(location.search.split('=')[1])}`}</span>' 관련된 영화
             </h3>
             <div>
-              <span>
+              <span onClick={upToDate}>
                 최신순
                 <FontAwesomeIcon icon={faArrowDown} />
               </span>{' '}
               |{' '}
-              <span>
+              <span onClick={alphabet}>
                 가나다순
                 <FontAwesomeIcon icon={faArrowUp} />
               </span>
@@ -118,7 +133,12 @@ const ResultSection = () => {
           <ResultList>
             {movieData?.map((data) => (
               <ResultData
-                bg_photo={`https://image.tmdb.org/t/p/w300${data.poster_path}`}
+                className={data.poster_path ? '' : 'size_cover'}
+                bg_photo={
+                  data.poster_path
+                    ? `https://image.tmdb.org/t/p/w300${data.poster_path}`
+                    : '/images/noImage.png'
+                }
                 onClick={() => clickPoster(data)}
               ></ResultData>
             ))}
