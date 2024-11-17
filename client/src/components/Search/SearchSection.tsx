@@ -9,6 +9,7 @@ import { searchOnOff } from '../../store/search';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { IResultData } from './ResultSection';
 
 interface IRecent {
   userId: number;
@@ -21,31 +22,6 @@ const SearchWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  .title {
-    display: flex;
-    margin-bottom: 10px;
-    align-items: center;
-    h3 {
-      margin-right: 15px;
-    }
-    span {
-      font-size: 14px;
-      color: #8d8d8d;
-      cursor: pointer;
-    }
-  }
-  .list {
-    margin-left: 7px;
-    p {
-      margin-bottom: 5px;
-      svg {
-        font-size: 14px;
-        color: #8d8d8d;
-        cursor: pointer;
-        margin-left: 5px;
-      }
-    }
-  }
 `;
 
 const SearchForm = styled.form`
@@ -79,6 +55,39 @@ const SearchWord = styled.div`
 
 const Recent = styled.div`
   width: 50%;
+  .title {
+    display: flex;
+    margin-bottom: 10px;
+    align-items: center;
+    h3 {
+      margin-right: 15px;
+    }
+    span {
+      font-size: 14px;
+      color: #8d8d8d;
+      cursor: pointer;
+    }
+  }
+  .list {
+    margin-left: 7px;
+    p {
+      margin-bottom: 5px;
+      & > span {
+        cursor: pointer;
+        transition: all 0.3s;
+        color: #8f8e8e;
+        &:hover {
+          color: #4939fc;
+        }
+      }
+      svg {
+        font-size: 14px;
+        color: #8d8d8d;
+        cursor: pointer;
+        margin-left: 5px;
+      }
+    }
+  }
   .need_login {
     p {
       margin-top: 10px;
@@ -100,11 +109,30 @@ const DivideLine = styled.div`
 const Relate = styled.div`
   width: 49%;
   padding-left: 35px;
+  .title {
+    margin-bottom: 10px;
+  }
+  .list {
+    display: grid;
+    gap: 15px;
+    row-gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+`;
+
+const RelatedImg = styled.div<{ img: string }>`
+  background-image: url(${(props) => props.img});
+  background-size: cover;
+  background-position: center center;
+  height: 200px;
+  border-radius: 10px;
+  cursor: pointer;
 `;
 
 const SearchSection = () => {
   const [keyword, setKeyword] = useState('');
   const [recentKeywordList, setRecentKeywordList] = useState<IRecent[]>([]);
+  const [relatedWord, setRelatedWord] = useState<IResultData[]>([]);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -113,7 +141,23 @@ const SearchSection = () => {
 
   const searchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(searchOnOff(!searchBoolean));
+    dispatch(searchOnOff(false));
+    navigate(`/results?search_query=${keyword}`);
+    const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
+    axios
+      .post('http://localhost:8001/search/add', {
+        keyword: keyword,
+        userId: userId,
+        date: date,
+      })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const clickRecent = (keyword: string) => {
+    dispatch(searchOnOff(false));
     navigate(`/results?search_query=${keyword}`);
     const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
     axios
@@ -130,6 +174,15 @@ const SearchSection = () => {
 
   const changeKeyword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(e.target.value);
+    axios
+      .get(
+        `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&api_key=878ff909e9f63d6bb3b857c0479816e5&include_adult=false&language=ko-KR&page=1`
+      )
+      .then((res) => {
+        console.log(res);
+        setRelatedWord(res.data.results);
+      })
+      .catch((err) => console.log(err));
   };
 
   const allDeleteRecent = () => {
@@ -153,6 +206,11 @@ const SearchSection = () => {
   const goToLogin = () => {
     navigate('/login');
     dispatch(searchOnOff(!searchBoolean));
+  };
+
+  const clickRelated = (data: IResultData) => {
+    navigate(`/detail/${data.id}`);
+    dispatch(searchOnOff(false));
   };
 
   useEffect(() => {
@@ -190,7 +248,7 @@ const SearchSection = () => {
               <div className='list'>
                 {recentKeywordList?.map((data) => (
                   <p>
-                    {data.word}{' '}
+                    <span onClick={() => clickRecent(data.word)}>{data.word} </span>
                     <FontAwesomeIcon icon={faXmark} onClick={() => deleteRecent(data.word)} />
                   </p>
                 ))}
@@ -211,11 +269,12 @@ const SearchSection = () => {
             <h3>연관 검색어</h3>
           </div>
           <div className='list'>
-            <p>검색어2</p>
-            <p>검색어2</p>
-            <p>검색어2</p>
-            <p>검색어2</p>
-            <p>검색어2</p>
+            {relatedWord?.slice(0, 6).map((data) => (
+              <div onClick={() => clickRelated(data)}>
+                <RelatedImg img={`https://image.tmdb.org/t/p/w200${data.poster_path}`}></RelatedImg>
+                <p>{data.title}</p>
+              </div>
+            ))}
           </div>
         </Relate>
       </SearchWord>

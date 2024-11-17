@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import NoResult from './NoResult';
 
-interface IResultData {
+export interface IResultData {
   id: number;
   backdrop_path: string;
   poster_path: string;
