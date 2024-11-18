@@ -10,6 +10,7 @@ import { CommunityDetailView } from './views/CommunityDetailView';
 import SearchView from './views/SearchView';
 import ResultsView from './views/ResultsView';
 import DetailView from './views/DetailView';
+import GenreView from './views/GenreView';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path='/search' element={<SearchView />} />
         <Route path='/results' element={<ResultsView />} />
         <Route path='/detail/:id' element={<DetailView />} />
+        <Route path='/genre/:genreId' element={<GenreView />} />
       </Route>
     </Routes>
   );
