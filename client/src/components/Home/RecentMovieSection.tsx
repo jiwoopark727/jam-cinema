@@ -91,12 +91,7 @@ interface IMovie {
 }
 
 export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
-  // const [tabColor, setTabColor] = useState(0);
   const [tabNum, setTabNum] = useState(0);
-
-  // const handleTabColor = (val: number) => {
-  //   setTabColor(val);
-  // };
 
   const handleTabNum = (val: number) => {
     setTabNum(val);
@@ -159,7 +154,6 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         <button
           className={`tab_button ${tabNum === 0 ? 'clicked' : ''}`}
           onClick={() => {
-            // handleTabColor(0);
             handleTabNum(0);
           }}
         >
@@ -168,7 +162,6 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         <button
           className={`tab_button ${tabNum === 1 ? 'clicked' : ''}`}
           onClick={() => {
-            // handleTabColor(1);
             handleTabNum(1);
           }}
         >
