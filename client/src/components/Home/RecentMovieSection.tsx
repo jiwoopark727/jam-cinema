@@ -1,4 +1,5 @@
-import React from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -31,9 +32,9 @@ interface RMSProps {
 const RMSWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  .tab {
+  /* .tab {
     margin-top: 30px;
-  }
+  } */
 
   .tab_button {
     margin-left: 10px;
@@ -52,7 +53,16 @@ const RMSWrapper = styled.div`
       background-color: #4939fc;
       color: white;
     }
+
+    &.clicked {
+      background-color: #4939fc;
+      color: white;
+    }
   }
+`;
+
+const Tab = styled.div`
+  margin-top: 30px;
 `;
 
 const MovieContainer = styled.div`
@@ -76,25 +86,89 @@ const MovieContainer = styled.div`
   }
 `;
 
-const movieCount = [1, 2, 3, 4, 5, 6, 7, 8];
+interface INowPlayingMovie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 
 export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
+  const [tabNum, setTabNum] = useState(0);
+
+  const handleTabNum = (val: number) => {
+    setTabNum(val);
+  };
+
+  const [nowPlayingMovie, setNowPlayingMovie] = useState<INowPlayingMovie[]>();
+
+  useEffect(() => {
+    // 요청 옵션 정의
+    const options: AxiosRequestConfig = {
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
+      params: { language: 'ko-KR', page: '1' },
+      headers: {
+        accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzNkNWQ4NWQ0MjI5NDE4OGRjODg4OGRkYWRmYzIxZSIsIm5iZiI6MTczMjAwMjU0NS4xMTI5Mjk2LCJzdWIiOiI2NmNlOTA1ZDI1YTZhMmM2MzRjZDk2NDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.6Uk5mT4s2nWTdH6MAepa1CKYPpeFds5dWJVVxVhPDG4',
+      },
+    };
+
+    axios
+      .request(options)
+      .then((res) => {
+        console.log(res);
+        setNowPlayingMovie(res.data.results);
+        console.log(nowPlayingMovie);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <RMSWrapper>
-      <div className='tab'>
-        <button className='tab_button'>현재 상영중인 영화</button>
-        <button className='tab_button'>개봉 예정 영화</button>
-        <button className='tab_button' onClick={onScrollToEPS}>
+      <Tab>
+        <button
+          className={`tab_button ${tabNum === 0 ? 'clicked' : ''}`}
+          onClick={() => handleTabNum(0)}
+        >
+          현재 상영중인 영화
+        </button>
+        <button
+          className={`tab_button ${tabNum === 1 ? 'clicked' : ''}`}
+          onClick={() => handleTabNum(1)}
+        >
+          개봉 예정 영화
+        </button>
+        <button
+          className={`tab_button ${tabNum === 2 ? 'clicked' : ''}`}
+          onClick={() => {
+            onScrollToEPS();
+            handleTabNum(2);
+          }}
+        >
           에디터 추천★ 영화
         </button>
-      </div>
+      </Tab>
       <MovieContainer>
-        {movieCount.map(function (item, idx) {
+        {nowPlayingMovie?.map(function (item, idx) {
           return (
             <Link
               key={idx}
               className='movie_frame'
-              to={'/movie/' + item}
+              to={'/detail/' + item.id}
               state={item}
               onClick={() => {
                 console.log('영화 클릭');
@@ -102,7 +176,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
             >
               <img
                 className='movie_poster'
-                src={`../../images/examplePoster/poster${idx + 1}.png`}
+                src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
               ></img>
             </Link>
           );

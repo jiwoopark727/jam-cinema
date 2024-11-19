@@ -10,7 +10,7 @@ import styled from 'styled-components';
 const HomeViewWrapper = styled.div``;
 
 export const HomeView: React.FC = () => {
-  const EPSRef = useRef<HTMLDivElement>(null); // 아래 컴포넌트의 위치를 참조
+  const EPSRef = useRef<HTMLDivElement>(null); // 에디터 픽 섹션 컴포넌트의 위치를 참조
 
   const onScrollToEPS = () => {
     if (EPSRef.current) {
