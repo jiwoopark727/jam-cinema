@@ -9,12 +9,11 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { CustomArrowProps } from 'react-slick';
+import { forwardRef } from 'react';
 
 const EPSWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  padding-top: 70px;
-
   .custom-arrow {
     position: absolute;
     top: 50%;
@@ -105,7 +104,7 @@ const CustomNextArrow: React.FC<CustomArrowProps> = (props) => {
   );
 };
 
-export const EditorPickSection = () => {
+export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
   // 슬라이드 설정 옵션
   const settings = {
     dots: false,
@@ -190,7 +189,7 @@ export const EditorPickSection = () => {
   ];
 
   return (
-    <EPSWrapper>
+    <EPSWrapper ref={ref}>
       <HeaderContainer>
         <span className='title'>
           에디터 PICK
@@ -246,4 +245,4 @@ export const EditorPickSection = () => {
       </StyledSlider>
     </EPSWrapper>
   );
-};
+});
