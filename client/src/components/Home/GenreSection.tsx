@@ -10,6 +10,7 @@ const GENREWrapper = styled.div`
   width: 1200px;
   margin: auto;
   padding-top: 39px;
+  padding-bottom: 70px;
 `;
 
 const HeaderContainer = styled.div`

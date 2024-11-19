@@ -2,6 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
+interface RMSProps {
+  onScrollToEPS: () => void; // 스크롤 함수 전달
+}
+
 // const MovieHoverAnimation = keyframes`
 //   from{
 //     transform: scale(1);
@@ -74,13 +78,15 @@ const MovieContainer = styled.div`
 
 const movieCount = [1, 2, 3, 4, 5, 6, 7, 8];
 
-export const RecentMovieSection = () => {
+export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
   return (
     <RMSWrapper>
       <div className='tab'>
         <button className='tab_button'>현재 상영중인 영화</button>
         <button className='tab_button'>개봉 예정 영화</button>
-        <button className='tab_button'>에디터 추천★ 영화</button>
+        <button className='tab_button' onClick={onScrollToEPS}>
+          에디터 추천★ 영화
+        </button>
       </div>
       <MovieContainer>
         {movieCount.map(function (item, idx) {
