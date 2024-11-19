@@ -7,17 +7,6 @@ interface RMSProps {
   onScrollToEPS: () => void; // 스크롤 함수 전달
 }
 
-// const MovieHoverAnimation = keyframes`
-//   from{
-//     transform: scale(1);
-//   }
-//   to{
-//     transform: scale(1.05);
-//     cursor: pointer;
-//   }
-
-// `;
-
 /* const TabHoverAnimation = keyframes`
   from{
     transform: scale(1);
@@ -32,9 +21,6 @@ interface RMSProps {
 const RMSWrapper = styled.div`
   width: 1200px;
   margin: auto;
-  /* .tab {
-    margin-top: 30px;
-  } */
 
   .tab_button {
     margin-left: 10px;
@@ -79,14 +65,15 @@ const MovieContainer = styled.div`
     width: 100%;
     display: block;
     transition: 0.5s;
+    transform: scale(1.1);
     &:hover {
-      transform: scale(1.03);
+      transform: scale(1.16);
       cursor: pointer;
     }
   }
 `;
 
-interface INowPlayingMovie {
+interface IMovie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: number[];
@@ -110,11 +97,12 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     setTabNum(val);
   };
 
-  const [nowPlayingMovie, setNowPlayingMovie] = useState<INowPlayingMovie[]>();
+  const [nowPlayingMovie, setNowPlayingMovie] = useState<IMovie[]>();
+  const [upcomingMovie, setUpcomingMovie] = useState<IMovie[]>();
 
   useEffect(() => {
-    // 요청 옵션 정의
-    const options: AxiosRequestConfig = {
+    // 현재 상영 영화 요청 옵션 정의
+    const NPMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
       params: { language: 'ko-KR', page: '1' },
@@ -126,11 +114,34 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     };
 
     axios
-      .request(options)
+      .request(NPMoptions)
+      .then((res) => {
+        /* console.log(res); */
+        setNowPlayingMovie(res.data.results);
+        /* console.log(nowPlayingMovie); */
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // 개봉 예정 영화 요청 옵션 정의
+    const UMoptions: AxiosRequestConfig = {
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=033d5d85d42294188dc8888ddadfc21e',
+      params: { language: 'ko-KR', page: '1' },
+      headers: {
+        accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzNkNWQ4NWQ0MjI5NDE4OGRjODg4OGRkYWRmYzIxZSIsIm5iZiI6MTczMjAwMjU0NS4xMTI5Mjk2LCJzdWIiOiI2NmNlOTA1ZDI1YTZhMmM2MzRjZDk2NDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.6Uk5mT4s2nWTdH6MAepa1CKYPpeFds5dWJVVxVhPDG4',
+      },
+    };
+
+    axios
+      .request(UMoptions)
       .then((res) => {
         console.log(res);
-        setNowPlayingMovie(res.data.results);
-        console.log(nowPlayingMovie);
+        setUpcomingMovie(res.data.results);
+        console.log(upcomingMovie);
       })
       .catch((err) => {
         console.log(err);
@@ -142,45 +153,68 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
       <Tab>
         <button
           className={`tab_button ${tabNum === 0 ? 'clicked' : ''}`}
-          onClick={() => handleTabNum(0)}
+          onClick={() => {
+            handleTabNum(0);
+          }}
         >
           현재 상영중인 영화
         </button>
         <button
           className={`tab_button ${tabNum === 1 ? 'clicked' : ''}`}
-          onClick={() => handleTabNum(1)}
+          onClick={() => {
+            handleTabNum(1);
+          }}
         >
           개봉 예정 영화
         </button>
         <button
-          className={`tab_button ${tabNum === 2 ? 'clicked' : ''}`}
+          className='tab_button'
           onClick={() => {
             onScrollToEPS();
-            handleTabNum(2);
           }}
         >
           에디터 추천★ 영화
         </button>
       </Tab>
       <MovieContainer>
-        {nowPlayingMovie?.map(function (item, idx) {
-          return (
-            <Link
-              key={idx}
-              className='movie_frame'
-              to={'/detail/' + item.id}
-              state={item}
-              onClick={() => {
-                console.log('영화 클릭');
-              }}
-            >
-              <img
-                className='movie_poster'
-                src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-              ></img>
-            </Link>
-          );
-        })}
+        {tabNum === 0 &&
+          nowPlayingMovie?.map(function (item, idx) {
+            return (
+              <Link
+                key={idx}
+                className='movie_frame'
+                to={'/detail/' + item.id}
+                state={item}
+                onClick={() => {
+                  console.log('영화 클릭');
+                }}
+              >
+                <img
+                  className='movie_poster'
+                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                ></img>
+              </Link>
+            );
+          })}
+        {tabNum === 1 &&
+          upcomingMovie?.map(function (item, idx) {
+            return (
+              <Link
+                key={idx}
+                className='movie_frame'
+                to={'/detail/' + item.id}
+                state={item}
+                onClick={() => {
+                  console.log('영화 클릭');
+                }}
+              >
+                <img
+                  className='movie_poster'
+                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
+                ></img>
+              </Link>
+            );
+          })}
       </MovieContainer>
     </RMSWrapper>
   );
