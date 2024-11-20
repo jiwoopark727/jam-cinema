@@ -63,8 +63,8 @@ const HeaderWrapper = styled.div`
     }
     .my {
       font-weight: 600;
+      cursor: pointer;
       svg {
-        cursor: pointer;
       }
     }
   }
@@ -114,6 +114,7 @@ export const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const loginInfo = useSelector((state: RootState) => state.members.user);
   const searchBoolean = useSelector((state: RootState) => state.search.search);
 
   const clickLogo = () => {
@@ -193,8 +194,8 @@ export const Header = () => {
             <FontAwesomeIcon icon={faMagnifyingGlass} onClick={clickSearch} />
           )}
         </div>
-        <div className='my'>
-          <FontAwesomeIcon icon={faUser} onClick={clickUserMenu} />
+        <div className='my' onClick={clickUserMenu}>
+          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         {userMenu && <UserIcon closeUserMenu={closeUserMenu} />}
       </div>
