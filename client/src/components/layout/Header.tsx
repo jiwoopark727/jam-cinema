@@ -120,16 +120,19 @@ export const Header = () => {
   const clickLogo = () => {
     navigate('/');
     dispatch(searchOnOff(false));
+    closeUserMenu();
   };
 
   const goToNews = () => {
     navigate('/news');
     dispatch(searchOnOff(false));
+    closeUserMenu();
   };
 
   const goToCommunity = () => {
     navigate('/community');
     dispatch(searchOnOff(false));
+    closeUserMenu();
   };
 
   const clickUserMenu = () => {
@@ -146,6 +149,7 @@ export const Header = () => {
 
   const clickSearch = () => {
     dispatch(searchOnOff(!searchBoolean));
+    closeUserMenu();
   };
 
   // useEffect(() => {
@@ -197,7 +201,7 @@ export const Header = () => {
         <div className='my' onClick={clickUserMenu}>
           {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
-        {userMenu && <UserIcon closeUserMenu={closeUserMenu} />}
+        <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
       </div>
     </HeaderWrapper>
   );
