@@ -117,7 +117,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
       .request(NPMoptions)
       .then((res) => {
         console.log('현재 상영 영화');
-        setNowPlayingMovie(res.data.results);
+        setNowPlayingMovie(res.data.results.slice(0, 12));
         console.log(nowPlayingMovie);
       })
       .catch((err) => {
@@ -140,18 +140,13 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
       .request(UMoptions)
       .then((res) => {
         console.log('개봉예정영화');
-        setUpcomingMovie(res.data.results);
+        setUpcomingMovie(res.data.results.slice(0, 12));
         console.log(upcomingMovie);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
-
-  useEffect(() => {
-    setNowPlayingMovie(nowPlayingMovie?.slice(0, 12));
-    setUpcomingMovie(upcomingMovie?.slice(0, 12));
-  }, [upcomingMovie, nowPlayingMovie]);
 
   return (
     <RMSWrapper>
