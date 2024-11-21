@@ -105,7 +105,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     const NPMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
-      params: { language: 'ko-KR', page: '1' },
+      params: { language: 'ko-KR', page: '1', region: 'KR' },
       headers: {
         accept: 'application/json',
         Authorization:
@@ -116,9 +116,9 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     axios
       .request(NPMoptions)
       .then((res) => {
-        /* console.log(res); */
+        console.log('현재 상영 영화');
         setNowPlayingMovie(res.data.results);
-        /* console.log(nowPlayingMovie); */
+        console.log(nowPlayingMovie);
       })
       .catch((err) => {
         console.log(err);
@@ -128,7 +128,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     const UMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=033d5d85d42294188dc8888ddadfc21e',
-      params: { language: 'ko-KR', page: '1' },
+      params: { language: 'ko-KR', page: '1', region: 'KR' },
       headers: {
         accept: 'application/json',
         Authorization:
@@ -139,7 +139,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     axios
       .request(UMoptions)
       .then((res) => {
-        console.log(res);
+        console.log('개봉예정영화');
         setUpcomingMovie(res.data.results);
         console.log(upcomingMovie);
       })
@@ -147,6 +147,11 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    setNowPlayingMovie(nowPlayingMovie?.slice(0, 12));
+    setUpcomingMovie(upcomingMovie?.slice(0, 12));
+  }, [upcomingMovie, nowPlayingMovie]);
 
   return (
     <RMSWrapper>
