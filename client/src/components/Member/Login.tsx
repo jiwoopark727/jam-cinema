@@ -36,9 +36,13 @@ const LoginWrapper = styled.div`
         display: flex;
         align-items: center;
         margin: 10px 0 0 5px;
+        cursor: pointer;
         svg {
           color: #aeaeae;
           margin-right: 5px;
+          &.checked {
+            color: #4939fc;
+          }
         }
       }
       .err_msg {
@@ -84,6 +88,7 @@ export const Login = () => {
   const [userId, setUserId] = useState('');
   const [userPw, setUserPw] = useState('');
   const [errMessage, setErrMessage] = useState('');
+  const [keepLogged, setKeepLogged] = useState(false);
 
   const userIdRef = useRef<HTMLInputElement>(null);
 
@@ -92,6 +97,10 @@ export const Login = () => {
 
   const closeBtn = () => {
     navigate(-1);
+  };
+
+  const checkKeepLogged = () => {
+    setKeepLogged((prev) => !prev);
   };
 
   const loginSubmit = (e: React.FormEvent) => {
@@ -138,8 +147,8 @@ export const Login = () => {
               onChange={(e) => setUserPw(e.target.value)}
             />
           </div>
-          <div className='login_keep'>
-            <FontAwesomeIcon icon={faSquareCheck} />
+          <div className='login_keep' onClick={checkKeepLogged}>
+            <FontAwesomeIcon icon={faSquareCheck} className={keepLogged ? 'checked' : ''} />
             <p>로그인 상태 유지</p>
           </div>
           {errMessage && (
