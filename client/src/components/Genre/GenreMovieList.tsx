@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import { IResultData } from '../Search/ResultSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import PaginationNoSlice from '../Pagination/PaginationNoSlice';
 
 interface IGenre {
   genre: string;
@@ -68,6 +69,8 @@ const GenreMovieList = ({ genre }: IGenre) => {
   console.log(params.genreId);
 
   const [genreList, setGenreList] = useState<IResultData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allPage, setAllPage] = useState(0);
 
   const upToDate = () => {
     setGenreList((prev) =>
@@ -84,17 +87,22 @@ const GenreMovieList = ({ genre }: IGenre) => {
     navigate(`/detail/${data.id}`);
   };
 
+  const pageMove = (page: number) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     axios
       .get(
-        `https://api.themoviedb.org/3/discover/movie?api_key=878ff909e9f63d6bb3b857c0479816e5&with_genres=${params.genreId}&language=ko&page=1`
+        `https://api.themoviedb.org/3/discover/movie?api_key=878ff909e9f63d6bb3b857c0479816e5&with_genres=${params.genreId}&language=ko&page=${currentPage}`
       )
       .then((res) => {
         console.log(res);
         setGenreList(res.data.results);
+        setAllPage(res.data.total_pages);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [currentPage]);
 
   return (
     <GenreWrapper>
@@ -126,6 +134,7 @@ const GenreMovieList = ({ genre }: IGenre) => {
           ></GenreData>
         ))}
       </GenreList>
+      <PaginationNoSlice currentPage={currentPage} pageMove={pageMove} allPage={allPage} />
     </GenreWrapper>
   );
 };
