@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import NoResult from './NoResult';
+import PaginationNoSlice from '../Pagination/PaginationNoSlice';
 
 export interface IResultData {
   id: number;
@@ -78,6 +79,8 @@ const ResultSection = () => {
   // console.log(location.search.split('=')[1]);
 
   const [movieData, setMovieData] = useState<IResultData[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [allPage, setAllPage] = useState(0);
 
   const upToDate = () => {
     setMovieData((prev) =>
@@ -94,21 +97,26 @@ const ResultSection = () => {
     navigate(`/detail/${data.id}`);
   };
 
+  const pageMove = (page: number) => {
+    setCurrentPage(page);
+  };
+
   useEffect(() => {
     axios
       .get(
         `https://api.themoviedb.org/3/search/movie?query=${
           location.search.split('=')[1]
-        }&api_key=878ff909e9f63d6bb3b857c0479816e5&include_adult=false&language=ko-KR&page=1`
+        }&api_key=878ff909e9f63d6bb3b857c0479816e5&include_adult=false&language=ko-KR&page=${currentPage}`
       )
       .then((res) => {
         console.log(res.data.results);
         setMovieData(res.data.results);
+        setAllPage(res.data.total_pages);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [currentPage]);
 
   return (
     <ResultWrapper>
@@ -147,6 +155,7 @@ const ResultSection = () => {
       ) : (
         <NoResult title={decodeURIComponent(location.search.split('=')[1])} />
       )}
+      <PaginationNoSlice currentPage={currentPage} pageMove={pageMove} allPage={allPage} />
     </ResultWrapper>
   );
 };
