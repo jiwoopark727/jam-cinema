@@ -9,7 +9,8 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { CustomArrowProps } from 'react-slick';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect, useState } from 'react';
+import axios, { AxiosRequestConfig } from 'axios';
 
 const EPSWrapper = styled.div`
   width: 1200px;
@@ -40,6 +41,14 @@ const EPSWrapper = styled.div`
   .next-arrow {
     right: -45px;
   }
+
+  .g-title {
+    padding-left: 55px;
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    /* color: #4939fc; */
+  }
 `;
 
 const HeaderContainer = styled.div`
@@ -47,6 +56,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
+  padding-bottom: 40px;
   .title {
     font-size: 27px;
     font-weight: 400;
@@ -54,14 +64,13 @@ const HeaderContainer = styled.div`
 `;
 
 const StyledSlider = styled(Slider)`
-  padding-top: 30px;
   margin-right: 40px;
   margin-left: 40px;
+  margin-bottom: 50px;
 
   .slick-slide {
     display: flex;
     justify-content: center;
-    padding: 10px;
   }
 `;
 
@@ -103,6 +112,23 @@ const CustomNextArrow: React.FC<CustomArrowProps> = (props) => {
     </div>
   );
 };
+
+interface IMovie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
+  id: number;
+  original_language: string;
+  original_title: string;
+  overview: string;
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
 
 export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
   // 슬라이드 설정 옵션
@@ -188,10 +214,37 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     ],
   ];
 
+  const [popularMovie, setPopularMovie] = useState<IMovie[]>();
+
+  useEffect(() => {
+    // 현재 상영 영화 요청 옵션 정의
+    const NPMoptions: AxiosRequestConfig = {
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
+      params: { language: 'ko-KR', page: '1', region: 'KR' },
+      headers: {
+        accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzNkNWQ4NWQ0MjI5NDE4OGRjODg4OGRkYWRmYzIxZSIsIm5iZiI6MTczMjAwMjU0NS4xMTI5Mjk2LCJzdWIiOiI2NmNlOTA1ZDI1YTZhMmM2MzRjZDk2NDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.6Uk5mT4s2nWTdH6MAepa1CKYPpeFds5dWJVVxVhPDG4',
+      },
+    };
+
+    axios
+      .request(NPMoptions)
+      .then((res) => {
+        console.log('에디터픽부분영화');
+        setPopularMovie(res.data.results);
+        console.log(popularMovie);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <EPSWrapper ref={ref}>
       <HeaderContainer>
-        <span className='title'>
+        <div className='title'>
           에디터 PICK
           <FontAwesomeIcon
             style={{
@@ -201,9 +254,10 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
             }}
             icon={faWandMagicSparkles}
           />
-        </span>
+        </div>
       </HeaderContainer>
       {/* 1번째 장르 */}
+      <div className='g-title'>드라마</div>
       <StyledSlider {...settings}>
         {genres.map((genre, idx) => {
           return (
@@ -214,6 +268,7 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
         })}
       </StyledSlider>
       {/* 2번째 장르 */}
+      <div className='g-title'>액션</div>
       <StyledSlider {...settings}>
         {genres.map((genre, idx) => {
           return (
@@ -224,16 +279,7 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
         })}
       </StyledSlider>
       {/* 3번째 장르 */}
-      <StyledSlider {...settings}>
-        {genres.map((genre, idx) => {
-          return (
-            <MovieBox key={idx}>
-              <img className='m_img' src={genre[2]} alt='' />
-            </MovieBox>
-          );
-        })}
-      </StyledSlider>
-      {/* 4번째 장르 */}
+      <div className='g-title'>코미디</div>
       <StyledSlider {...settings}>
         {genres.map((genre, idx) => {
           return (
