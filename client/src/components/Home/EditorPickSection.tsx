@@ -11,6 +11,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { CustomArrowProps } from 'react-slick';
 import { forwardRef, useEffect, useState } from 'react';
 import axios, { AxiosRequestConfig } from 'axios';
+import { useNavigate } from 'react-router';
 
 const EPSWrapper = styled.div`
   width: 1200px;
@@ -43,11 +44,10 @@ const EPSWrapper = styled.div`
   }
 
   .g-title {
-    padding-left: 55px;
-    padding-bottom: 10px;
+    padding-left: 60px;
+    padding-bottom: 13px;
     font-size: 18px;
     font-weight: 600;
-    /* color: #4939fc; */
   }
 `;
 
@@ -55,8 +55,8 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 20px;
-  padding-bottom: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   .title {
     font-size: 27px;
     font-weight: 400;
@@ -86,6 +86,7 @@ const MovieBox = styled.div`
   font-size: 14px;
   color: white;
   background-color: ${(props) => props.color || 'black'};
+  cursor: pointer;
 
   .m_img {
     width: 100%;
@@ -214,13 +215,14 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     ],
   ];
 
-  const [popularMovie, setPopularMovie] = useState<IMovie[]>();
+  const [topRatedMovie, setTopRatedMovie] = useState<IMovie[]>();
+  const [trendingMovie, setTrendingMovie] = useState<IMovie[]>();
 
   useEffect(() => {
-    // 현재 상영 영화 요청 옵션 정의
-    const NPMoptions: AxiosRequestConfig = {
+    // 탑레이트영화 영화 요청 옵션 정의
+    const TRMoptions: AxiosRequestConfig = {
       method: 'GET',
-      url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
+      url: 'https://api.themoviedb.org/3/movie/top_rated?api_key=033d5d85d42294188dc8888ddadfc21e',
       params: { language: 'ko-KR', page: '1', region: 'KR' },
       headers: {
         accept: 'application/json',
@@ -230,16 +232,41 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     };
 
     axios
-      .request(NPMoptions)
+      .request(TRMoptions)
       .then((res) => {
-        console.log('에디터픽부분영화');
-        setPopularMovie(res.data.results);
-        console.log(popularMovie);
+        console.log('탑레이트영화');
+        setTopRatedMovie(res.data.results);
+        console.log(topRatedMovie);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    // 주간트렌드 영화 요청 옵션 정의
+    const WTMoptions: AxiosRequestConfig = {
+      method: 'GET',
+      url: 'https://api.themoviedb.org/3/trending/movie/week?api_key=033d5d85d42294188dc8888ddadfc21e',
+      params: { language: 'ko-KR' },
+      headers: {
+        accept: 'application/json',
+        Authorization:
+          'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIwMzNkNWQ4NWQ0MjI5NDE4OGRjODg4OGRkYWRmYzIxZSIsIm5iZiI6MTczMjAwMjU0NS4xMTI5Mjk2LCJzdWIiOiI2NmNlOTA1ZDI1YTZhMmM2MzRjZDk2NDkiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.6Uk5mT4s2nWTdH6MAepa1CKYPpeFds5dWJVVxVhPDG4',
+      },
+    };
+
+    axios
+      .request(WTMoptions)
+      .then((res) => {
+        console.log('주간트렌드영화');
+        setTrendingMovie(res.data.results);
+        console.log(trendingMovie);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  const navigate = useNavigate();
 
   return (
     <EPSWrapper ref={ref}>
@@ -257,34 +284,31 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
         </div>
       </HeaderContainer>
       {/* 1번째 장르 */}
-      <div className='g-title'>드라마</div>
+      <div className='g-title'>주간 인기 영화 🔥🔥 </div>
       <StyledSlider {...settings}>
-        {genres.map((genre, idx) => {
+        {trendingMovie?.map((movie, idx) => {
           return (
-            <MovieBox key={idx}>
-              <img className='m_img' src={genre[2]} alt='' />
+            <MovieBox key={idx} onClick={() => navigate(`/detail/${movie.id}`)}>
+              <img
+                className='m_img'
+                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                alt=''
+              />
             </MovieBox>
           );
         })}
       </StyledSlider>
       {/* 2번째 장르 */}
-      <div className='g-title'>액션</div>
+      <div className='g-title'>평점 높은 영화 ★★★★★</div>
       <StyledSlider {...settings}>
-        {genres.map((genre, idx) => {
+        {topRatedMovie?.map((movie, idx) => {
           return (
-            <MovieBox key={idx}>
-              <img className='m_img' src={genre[2]} alt='' />
-            </MovieBox>
-          );
-        })}
-      </StyledSlider>
-      {/* 3번째 장르 */}
-      <div className='g-title'>코미디</div>
-      <StyledSlider {...settings}>
-        {genres.map((genre, idx) => {
-          return (
-            <MovieBox key={idx}>
-              <img className='m_img' src={genre[2]} alt='' />
+            <MovieBox key={idx} onClick={() => navigate(`/detail/${movie.id}`)}>
+              <img
+                className='m_img'
+                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
+                alt=''
+              />
             </MovieBox>
           );
         })}
