@@ -6,6 +6,10 @@ import { IResultData } from '../Search/ResultSection';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 
+interface IGenre {
+  genre: string;
+}
+
 const GenreWrapper = styled.div`
   width: 1200px;
   min-height: 100vh;
@@ -16,11 +20,10 @@ const GenreTitle = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 35px;
+  margin-bottom: 20px;
   h3 {
-    font-size: 24px;
+    font-size: 28px;
     span {
-      color: #3863ff;
     }
   }
   div {
@@ -59,7 +62,7 @@ const GenreData = styled.div<{ bg_photo: string }>`
   }
 `;
 
-const GenreMovieList = () => {
+const GenreMovieList = ({ genre }: IGenre) => {
   const params = useParams();
   const navigate = useNavigate();
   console.log(params.genreId);
@@ -97,7 +100,7 @@ const GenreMovieList = () => {
     <GenreWrapper>
       <GenreTitle>
         <h3>
-          '<span>{`${decodeURIComponent(location.search.split('=')[1])}`}</span>' 관련된 영화
+          <span>{genre}</span>
         </h3>
         <div>
           <span onClick={upToDate}>
