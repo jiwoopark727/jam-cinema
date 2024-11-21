@@ -103,8 +103,9 @@ export const Login = () => {
         userPw: userPw,
       })
       .then((res) => {
-        if (res.data[0]) {
-          dispatch(userLogin(res.data[0]));
+        console.log(res.data);
+        if (res.data.message === '로그인 성공') {
+          dispatch(userLogin(res.data.user));
           navigate('/');
         } else {
           setErrMessage('아이디 또는 비밀번호를 다시 확인해주세요.');
