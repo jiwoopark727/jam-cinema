@@ -5,6 +5,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVideoCamera } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router';
 
 const GENREWrapper = styled.div`
   width: 1200px;
@@ -53,6 +54,7 @@ const GenreBox = styled.div`
   color: white;
   background-color: ${(props) => props.color || 'black'};
   padding: 20px;
+  cursor: pointer;
 
   .g_content {
     display: flex;
@@ -82,6 +84,8 @@ const GenreBox = styled.div`
 `;
 
 export const GenreSection = () => {
+  const navigate = useNavigate();
+
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // 캐러셀 설정 옵션
@@ -160,54 +164,63 @@ export const GenreSection = () => {
       '가슴이 뭉클, 눈가가 촉촉💦 우리의 심금을 울리는 영화들',
       '../../public/images/exampleGenre/drama.png',
       '#38D37F',
+      '18',
     ],
     [
       '로맨스',
       '연애 세포 뿜뿜!💞 연애 욕구를 마구 자극!!',
       '../../public/images/exampleGenre/romance.png',
       '#235AE9',
+      '10749',
     ],
     [
       '코미디',
       '웃음 폭발! 😂 하루의 스트레스를 시원하게 날리자!!',
       '../../public/images/exampleGenre/comedy.png',
       '#FF8383',
+      '35',
     ],
     [
       '스릴러',
       '긴장감 최고! 😱 손에 땀을 쥐게 하는 박진감!!',
       '../../public/images/exampleGenre/thriller.png',
       '#4A4A73',
+      '53',
     ],
     [
       '액션',
       '짜릿한 쾌감! 💥 숨막히는 액션, 폭발하는 아드레날린!',
       '../../public/images/exampleGenre/action.png',
       '#4CAF50',
+      '28',
     ],
     [
       'SF',
       '상상 그 이상의 세계 🌌 미래와 우주를 탐험하는 SF 영화들!!',
       '../../public/images/exampleGenre/sf.png',
       '#00BCD4',
+      '878',
     ],
     [
       '판타지',
       '환상적인 모험! 🧚‍♀️ 동화 속 세상으로 빠져보자!!',
       '../../public/images/exampleGenre/fantasy.png',
       '#9C27B0',
+      '14',
     ],
     [
       '애니메이션',
       '아이와 어른 모두를 위한 🎨 생동감 넘치는 애니메이션 영화!!',
       '../../public/images/exampleGenre/animation.png',
       '#FFC107',
+      '16',
     ],
     [
       '다큐',
       '현실의 이야기 🌍 팩트와 감동으로 이루어진 이야기들!!',
       '../../public/images/exampleGenre/documentary.png',
       '#8E8E93',
+      '99',
     ],
   ];
 
@@ -224,9 +237,14 @@ export const GenreSection = () => {
           const [beforeEmoji, emoji, afterEmoji] = genre[1].split(
             /(💦|💞|😂|😱|💥|🌌|🧚‍♀️|🎨|🌍)/
           );
-
           return (
-            <GenreBox key={index} color={genre[3]}>
+            <GenreBox
+              key={index}
+              color={genre[3]}
+              onClick={() =>
+                navigate(`/genre/${genre[4]}`, { state: genre[0] })
+              }
+            >
               <div className='g_des'>
                 <span>
                   {beforeEmoji}
