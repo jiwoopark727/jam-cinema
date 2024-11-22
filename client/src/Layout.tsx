@@ -12,12 +12,16 @@ const LayoutWrapper = styled.div`
   }
 `;
 
-export const Layout = () => {
+interface LayoutProps {
+  onScrollToGS: () => void;
+}
+
+export const Layout: React.FC<LayoutProps> = ({ onScrollToGS }) => {
   const searchBoolean = useSelector((state: RootState) => state.search.search);
 
   return (
     <LayoutWrapper>
-      <Header />
+      <Header onScrollToGS={onScrollToGS} />
       <main>{searchBoolean ? <SearchView /> : <Outlet />}</main>
       <Footer />
     </LayoutWrapper>

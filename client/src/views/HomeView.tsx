@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { BannerSection } from '../components/Home/BannerSection';
 import { RecentMovieSection } from '../components/Home/RecentMovieSection';
 import { RecentNewsSection } from '../components/Home/RecentNewsSection';
@@ -9,7 +9,7 @@ import styled from 'styled-components';
 
 const HomeViewWrapper = styled.div``;
 
-export const HomeView: React.FC = () => {
+export const HomeView = forwardRef<HTMLDivElement>((_, GSRef) => {
   const EPSRef = useRef<HTMLDivElement>(null); // 에디터 픽 섹션 컴포넌트의 위치를 참조
 
   const onScrollToEPS = () => {
@@ -17,14 +17,15 @@ export const HomeView: React.FC = () => {
       EPSRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
   return (
     <HomeViewWrapper>
       <BannerSection />
       <RecentMovieSection onScrollToEPS={onScrollToEPS} />
       <RecentNewsSection />
       <CommunitySection />
-      <GenreSection />
+      <GenreSection ref={GSRef} />
       <EditorPickSection ref={EPSRef} />
     </HomeViewWrapper>
   );
-};
+});
