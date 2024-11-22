@@ -11,12 +11,21 @@ import SearchView from './views/SearchView';
 import ResultsView from './views/ResultsView';
 import DetailView from './views/DetailView';
 import GenreView from './views/GenreView';
+import { useRef } from 'react';
 
 function App() {
+  const GSRef = useRef<HTMLDivElement>(null); // 에디터 픽 섹션 컴포넌트의 위치를 참조
+
+  const onScrollToGS = () => {
+    if (GSRef.current) {
+      GSRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <Routes>
-      <Route path='/' element={<Layout />}>
-        <Route index element={<HomeView />} />
+      <Route path='/' element={<Layout onScrollToGS={onScrollToGS} />}>
+        <Route index element={<HomeView ref={GSRef} />} />
         <Route path='/join' element={<JoinView />} />
         <Route path='/login' element={<LoginView />} />
         <Route path='/community' element={<CommunityView />} />

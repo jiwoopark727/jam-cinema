@@ -1,11 +1,10 @@
-import { faSun, faUser } from '@fortawesome/free-regular-svg-icons';
-import { faMagnifyingGlass, faStar, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserIcon } from './UserIcon';
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
@@ -107,7 +106,11 @@ const OnDarkMode = styled.div`
   }
 `;
 
-export const Header = () => {
+interface HeaderProps {
+  onScrollToGS: () => void;
+}
+
+export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   const [userMenu, setUserMenu] = useState(false);
   const [isDark, setIsDark] = useState(true);
 
@@ -152,33 +155,12 @@ export const Header = () => {
     closeUserMenu();
   };
 
-  // useEffect(() => {
-  //   axios
-  //     .get(
-  //       'http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&releaseDts=20240801&nation=대한민국&listCount=20&ServiceKey=0WNF03ALRTCN83536BN5'
-  //     )
-  //     .then((res) => {
-  //       console.log(res.data.Data[0].Result);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // }, []);
-
   return (
     <HeaderWrapper>
       <div className='logo'>
         <img src='../../images/logo.png' alt='logo' onClick={clickLogo} />
         <DarkMode onClick={changeDark}>
           <div>
-            {/* <FontAwesomeIcon
-              className={isDark ? '' : 'light_mode'}
-              icon={faStar}
-            />
-            <FontAwesomeIcon
-              className={isDark ? 'light_mode' : ''}
-              icon={faSun}
-            /> */}
             <span className={isDark ? 'light_mode' : ''}>다크</span>
             <span className={isDark ? '' : 'light_mode'}>라이트</span>
           </div>
@@ -188,7 +170,7 @@ export const Header = () => {
       <ul className='menu'>
         <li onClick={goToNews}>뉴스</li>
         <li onClick={goToCommunity}>커뮤니티</li>
-        <li>장르별 영화</li>
+        <li onClick={onScrollToGS}>장르별 영화</li>
       </ul>
       <div className='search_my'>
         <div className='search'>
@@ -199,7 +181,11 @@ export const Header = () => {
           )}
         </div>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+          {Object.keys(loginInfo).length ? (
+            loginInfo.emoji
+          ) : (
+            <FontAwesomeIcon icon={faUser} />
+          )}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
       </div>

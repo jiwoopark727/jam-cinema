@@ -164,57 +164,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     ],
   };
 
-  const genres = [
-    [
-      '드라마',
-      '가슴이 뭉클, 눈가가 촉촉💦 우리의 심금을 울리는 영화들',
-      '../../public/images/examplePoster/poster1.png',
-      '#38D37F',
-    ],
-    [
-      '로맨스',
-      '연애 세포 뿜뿜!💞 연애 욕구를 마구 자극!!',
-      '../../public/images/examplePoster/poster2.png',
-      '#235AE9',
-    ],
-    [
-      '코미디',
-      '웃음 폭발! 😂 하루의 스트레스를 시원하게 날리자!!',
-      '../../public/images/examplePoster/poster3.png',
-      '#FF8383',
-    ],
-    [
-      '스릴러',
-      '긴장감 최고! 😱 손에 땀을 쥐게 하는 박진감!!',
-      '../../public/images/examplePoster/poster4.png',
-      '#4A4A73',
-    ],
-    [
-      '액션',
-      '짜릿한 쾌감! 💥 숨막히는 액션, 폭발하는 아드레날린!',
-      '../../public/images/examplePoster/poster5.png',
-      '#4CAF50',
-    ],
-    [
-      'SF',
-      '상상 그 이상의 세계 🌌 미래와 우주를 탐험하는 SF 영화들!!',
-      '../../public/images/examplePoster/poster6.png',
-      '#00BCD4',
-    ],
-    [
-      '판타지',
-      '환상적인 모험! 🧚‍♀️ 동화 속 세상으로 빠져보자!!',
-      '../../public/images/examplePoster/poster7.png',
-      '#9C27B0',
-    ],
-    [
-      '애니메이션',
-      '아이와 어른 모두를 위한 🎨 생동감 넘치는 애니메이션 영화!!',
-      '../../public/images/examplePoster/poster8.png',
-      '#FFC107',
-    ],
-  ];
-
   const [topRatedMovie, setTopRatedMovie] = useState<IMovie[]>();
   const [trendingMovie, setTrendingMovie] = useState<IMovie[]>();
 
