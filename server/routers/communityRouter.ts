@@ -9,9 +9,7 @@ communityRouter.get('/list', (req, res) => {
       res.status(500).send('커뮤니티 리스트 불러오기 실패');
       throw err;
     } else {
-      res.send(
-        result.sort((a: any, b: any) => b.communityNumber - a.communityNumber)
-      );
+      res.send(result.sort((a: any, b: any) => b.communityNumber - a.communityNumber));
     }
   });
 });
@@ -55,18 +53,14 @@ communityRouter.post('/modify', (req, res) => {
   SET title = ?, content = ?, date = ?
   WHERE communityNumber = ?
 `;
-  db.query(
-    modifyQuery,
-    [title, content, date, communityNumber],
-    (err, result) => {
-      if (err) {
-        res.status(500).send('커뮤니티 수정 실패');
-        throw err;
-      } else {
-        res.send(result);
-      }
+  db.query(modifyQuery, [title, content, date, communityNumber], (err, result) => {
+    if (err) {
+      res.status(500).send('커뮤니티 수정 실패');
+      throw err;
+    } else {
+      res.send(result);
     }
-  );
+  });
 });
 
 communityRouter.delete('/delete', (req, res) => {
@@ -75,6 +69,28 @@ communityRouter.delete('/delete', (req, res) => {
   db.query(deleteQuery, [communityNumber], (err, result) => {
     if (err) {
       res.status(500).send('커뮤니티 삭제 실패');
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+communityRouter.get('/list/popular', (req, res) => {
+  db.query('SELECT * FROM community ORDER BY hit DESC LIMIT 5', [], (err, result) => {
+    if (err) {
+      res.status(500).send('커뮤니티 리스트 불러오기 실패');
+      throw err;
+    } else {
+      res.send(result);
+    }
+  });
+});
+
+communityRouter.get('/list/recent', (req, res) => {
+  db.query('SELECT * FROM community ORDER BY date DESC LIMIT 5', [], (err, result) => {
+    if (err) {
+      res.status(500).send('커뮤니티 리스트 불러오기 실패');
       throw err;
     } else {
       res.send(result);
