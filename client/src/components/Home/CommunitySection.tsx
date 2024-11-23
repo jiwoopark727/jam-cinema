@@ -2,8 +2,11 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled, { keyframes } from 'styled-components';
+import { RootState } from '../../store';
+import dayjs from 'dayjs';
 
 const blinkAnimation = keyframes`
   0%, 100% { opacity: 1; }
@@ -103,8 +106,41 @@ interface IPost {
 export const CommunitySection = () => {
   const navigate = useNavigate();
 
+  const currentUser = useSelector(
+    (state: RootState) => state.members.user.nickname
+  );
+
   const [popularPost, setPopularPost] = useState<IPost[]>();
   const [recentPost, setRecentPost] = useState<IPost[]>();
+  const [timeStamps, setTimeStamps] = useState<string[]>([]);
+
+  const formatTimeDifference = (postTime: string) => {
+    const postDate = new Date(postTime);
+    const currentDate = new Date();
+
+    // console.log(postTime);
+    // console.log(postDate.getTime());
+    // console.log(currentDate.getTime());
+
+    const diff = currentDate.getTime() - postDate.getTime();
+    // console.log(diff);
+    // console.log(dayjs(postDate).format('YYYY-MM-DD'));
+    const diffMinutes = Math.floor(diff / (1000 * 60));
+    const diffHours = Math.floor(diff / (1000 * 60 * 60));
+    const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    if (diffMinutes < 1) {
+      return '방금 전';
+    } else if (diffMinutes < 60) {
+      return `${diffMinutes}분 전`;
+    } else if (diffHours < 24) {
+      return `${diffHours}시간 전`;
+    } else if (diffDays < 7) {
+      return `${diffDays}일 전`;
+    } else {
+      return `${dayjs(postDate).format('YYYY-MM-DD')}`;
+    }
+  };
 
   useEffect(() => {
     axios
@@ -112,7 +148,6 @@ export const CommunitySection = () => {
       .then((res) => {
         // console.log(res.data);
         setRecentPost(res.data);
-        console.log(recentPost);
       })
       .catch((err) => console.log(err));
 
@@ -121,10 +156,28 @@ export const CommunitySection = () => {
       .then((res) => {
         // console.log(res.data);
         setPopularPost(res.data);
-        console.log(popularPost);
       })
       .catch((err) => console.log(err));
   }, []);
+
+  useEffect(() => {
+    if (recentPost) {
+      setTimeStamps(recentPost.map((post) => formatTimeDifference(post.date)));
+    }
+  }, [recentPost]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 여기서 1분마다 timeStamps를 업데이트
+      if (recentPost) {
+        setTimeStamps(
+          recentPost.map((post) => formatTimeDifference(post.date))
+        );
+      }
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [recentPost]);
+
   return (
     <COMWrapper>
       <HeaderContainer>
@@ -145,7 +198,7 @@ export const CommunitySection = () => {
                   key={idx}
                   onClick={() =>
                     navigate('/community/detail/' + `${post.communityNumber}`, {
-                      state: { info: post, currentUser: 'jiwoo' },
+                      state: { info: post, currentUser: currentUser },
                     })
                   }
                 >
@@ -170,7 +223,7 @@ export const CommunitySection = () => {
                   key={idx}
                   onClick={() =>
                     navigate('/community/detail/' + `${post.communityNumber}`, {
-                      state: { info: post, currentUser: 'jiwoo' },
+                      state: { info: post, currentUser: currentUser },
                     })
                   }
                 >
@@ -178,7 +231,10 @@ export const CommunitySection = () => {
                     <span>{post.title}</span>
                     <span className='new_text'>NEW</span>
                   </span>
-                  <span className='post_viewCount'>{post.hit}회</span>
+                  <span className='post_viewCount'>
+                    {/* {formatTimeDifference(post.date)} */}
+                    {timeStamps[idx]}
+                  </span>
                 </div>
               );
             })}
