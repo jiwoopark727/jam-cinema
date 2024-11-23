@@ -112,38 +112,19 @@ export const CommunitySection = () => {
 
   const [popularPost, setPopularPost] = useState<IPost[]>();
   const [recentPost, setRecentPost] = useState<IPost[]>();
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:8001/community/list/recent')
-      .then((res) => {
-        // console.log(res.data);
-        setRecentPost(res.data);
-        console.log(recentPost);
-      })
-      .catch((err) => console.log(err));
-
-    axios
-      .get('http://localhost:8001/community/list/popular')
-      .then((res) => {
-        // console.log(res.data);
-        setPopularPost(res.data);
-        console.log(popularPost);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+  const [timeStamps, setTimeStamps] = useState<string[]>([]);
 
   const formatTimeDifference = (postTime: string) => {
     const postDate = new Date(postTime);
     const currentDate = new Date();
 
-    console.log(postTime);
-    console.log(postDate.getTime());
-    console.log(currentDate.getTime());
+    // console.log(postTime);
+    // console.log(postDate.getTime());
+    // console.log(currentDate.getTime());
 
     const diff = currentDate.getTime() - postDate.getTime();
-    console.log(diff);
-    console.log(dayjs(postDate).format('YYYY-MM-DD'));
+    // console.log(diff);
+    // console.log(dayjs(postDate).format('YYYY-MM-DD'));
     const diffMinutes = Math.floor(diff / (1000 * 60));
     const diffHours = Math.floor(diff / (1000 * 60 * 60));
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -157,13 +138,45 @@ export const CommunitySection = () => {
     } else if (diffDays < 7) {
       return `${diffDays}일 전`;
     } else {
-      return postDate.toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      return `${dayjs(postDate).format('YYYY-MM-DD')}`;
     }
   };
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8001/community/list/recent')
+      .then((res) => {
+        // console.log(res.data);
+        setRecentPost(res.data);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:8001/community/list/popular')
+      .then((res) => {
+        // console.log(res.data);
+        setPopularPost(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
+  useEffect(() => {
+    if (recentPost) {
+      setTimeStamps(recentPost.map((post) => formatTimeDifference(post.date)));
+    }
+  }, [recentPost]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      // 여기서 1분마다 timeStamps를 업데이트
+      if (recentPost) {
+        setTimeStamps(
+          recentPost.map((post) => formatTimeDifference(post.date))
+        );
+      }
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [recentPost]);
 
   return (
     <COMWrapper>
@@ -219,7 +232,8 @@ export const CommunitySection = () => {
                     <span className='new_text'>NEW</span>
                   </span>
                   <span className='post_viewCount'>
-                    {formatTimeDifference(post.date)}
+                    {/* {formatTimeDifference(post.date)} */}
+                    {timeStamps[idx]}
                   </span>
                 </div>
               );
