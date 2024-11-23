@@ -1,5 +1,8 @@
 import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import styled, { keyframes } from 'styled-components';
 
 const blinkAnimation = keyframes`
@@ -62,6 +65,7 @@ const COMCotainer = styled.div`
     border-bottom: 1px black solid;
     display: flex;
     justify-content: space-between;
+    cursor: pointer;
   }
 
   .post_title {
@@ -88,14 +92,39 @@ const COMCotainer = styled.div`
   }
 `;
 
+interface IPost {
+  communityNumber: number;
+  title: string;
+  nickname: string;
+  date: string;
+  hit: number;
+}
+
 export const CommunitySection = () => {
-  const newsArray = [
-    ['별이 지는 하늘, 영화가 뜨는 바다', 12943],
-    ['나의 과거를 반성합니다', 11245],
-    ['어쩌라고 난 피자가 먹고 싶은데', 9299],
-    ['롤드컵 T1 V5, 대상혁', 7822],
-    ['커플링이 오고 있대요', 6234],
-  ];
+  const navigate = useNavigate();
+
+  const [popularPost, setPopularPost] = useState<IPost[]>();
+  const [recentPost, setRecentPost] = useState<IPost[]>();
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8001/community/list/recent')
+      .then((res) => {
+        // console.log(res.data);
+        setRecentPost(res.data);
+        console.log(recentPost);
+      })
+      .catch((err) => console.log(err));
+
+    axios
+      .get('http://localhost:8001/community/list/popular')
+      .then((res) => {
+        // console.log(res.data);
+        setPopularPost(res.data);
+        console.log(popularPost);
+      })
+      .catch((err) => console.log(err));
+  }, []);
   return (
     <COMWrapper>
       <HeaderContainer>
@@ -109,14 +138,22 @@ export const CommunitySection = () => {
           <span>인기 게시글 👀</span>
           <hr className='under_line' />
           <div className='post_box'>
-            {newsArray.map((val, idx) => {
+            {popularPost?.map((post, idx) => {
               return (
-                <div className='post' key={idx}>
+                <div
+                  className='post'
+                  key={idx}
+                  onClick={() =>
+                    navigate('/community/detail/' + `${post.communityNumber}`, {
+                      state: { info: post, currentUser: 'jiwoo' },
+                    })
+                  }
+                >
                   <span className='post_title'>
-                    <span>{val[0]}</span>
+                    <span>{post.title}</span>
                     <span className='hot_text'>HOT</span>
                   </span>
-                  <span className='post_viewCount'>{val[1]}회</span>
+                  <span className='post_viewCount'>{post.hit}회</span>
                 </div>
               );
             })}
@@ -126,14 +163,22 @@ export const CommunitySection = () => {
           <span>최근 게시글 🔥</span>
           <hr className='under_line' />
           <div className='post_box'>
-            {newsArray.map((val, idx) => {
+            {recentPost?.map((post, idx) => {
               return (
-                <div className='post' key={idx}>
+                <div
+                  className='post'
+                  key={idx}
+                  onClick={() =>
+                    navigate('/community/detail/' + `${post.communityNumber}`, {
+                      state: { info: post, currentUser: 'jiwoo' },
+                    })
+                  }
+                >
                   <span className='post_title'>
-                    <span>{val[0]}</span>
+                    <span>{post.title}</span>
                     <span className='new_text'>NEW</span>
                   </span>
-                  <span className='post_viewCount'>{val[1]}회</span>
+                  <span className='post_viewCount'>{post.hit}회</span>
                 </div>
               );
             })}
