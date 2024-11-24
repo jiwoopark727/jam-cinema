@@ -11,6 +11,7 @@ import SearchView from './views/SearchView';
 import ResultsView from './views/ResultsView';
 import DetailView from './views/DetailView';
 import GenreView from './views/GenreView';
+import { MyPageView } from './views/MyPageView';
 import { useRef } from 'react';
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
         <Route index element={<HomeView ref={GSRef} />} />
         <Route path='/join' element={<JoinView />} />
         <Route path='/login' element={<LoginView />} />
+        <Route path='/mypage' element={<MyPageView />} />
         <Route path='/community' element={<CommunityView />} />
         <Route path='/community/write' element={<CommunityWriteView />} />
         <Route path='/community/modify/:id' element={<CommunityModifyView />} />
