@@ -54,7 +54,7 @@ export const UserIcon = ({ closeUserMenu, userMenu }: UserIconProps) => {
 
   const goToMyPage = () => {
     // 경로 추가 예정
-    navigate('/');
+    navigate('/mypage');
     closeUserMenu();
   };
 
