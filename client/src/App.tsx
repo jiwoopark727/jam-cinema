@@ -12,9 +12,13 @@ import ResultsView from './views/ResultsView';
 import DetailView from './views/DetailView';
 import GenreView from './views/GenreView';
 import { MyPageView } from './views/MyPageView';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { userLogin, userLogout } from './store/member';
 
 function App() {
+  const dispatch = useDispatch();
   const GSRef = useRef<HTMLDivElement>(null); // 에디터 픽 섹션 컴포넌트의 위치를 참조
 
   const onScrollToGS = () => {
@@ -22,6 +26,29 @@ function App() {
       GSRef.current.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  useEffect(() => {
+    // 페이지 로드 시 localStorage에서 토큰을 읽어서 인증 처리
+    const accessToken =
+      localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+
+    if (accessToken) {
+      // Access Token을 사용하여 유효한 로그인 세션을 확인
+      axios
+        .get('http://localhost:8001/auth/api/protected', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+        .then((response) => {
+          // 로그인된 사용자 정보 저장
+          dispatch(userLogin(response.data.user)); // 로그인 상태 업데이트 (Redux)
+        })
+        .catch((error) => {
+          console.error('Token verification failed', error);
+          localStorage.removeItem('accessToken'); // 토큰이 만료된 경우 로그아웃 처리
+          dispatch(userLogout({})); // Redux 상태 업데이트 (로그아웃)
+        });
+    }
+  }, [dispatch]); // 앱 시작 시 한 번 실행
 
   return (
     <Routes>

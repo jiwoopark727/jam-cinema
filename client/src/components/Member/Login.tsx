@@ -1,7 +1,7 @@
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import axios, { AxiosError } from 'axios';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -110,10 +110,16 @@ export const Login = () => {
       .post('http://localhost:8001/auth/login', {
         userId: userId,
         userPw: userPw,
+        keepLogged: keepLogged,
       })
       .then((res) => {
         console.log(res.data);
         if (res.data.message === '로그인 성공') {
+          if (keepLogged) {
+            localStorage.setItem('accessToken', res.data.accessToken); // 로그인 상태 유지
+          } else {
+            sessionStorage.setItem('accessToken', res.data.accessToken); // 세션 동안만 유지
+          }
           dispatch(userLogin(res.data.user));
           navigate('/');
         } else {
