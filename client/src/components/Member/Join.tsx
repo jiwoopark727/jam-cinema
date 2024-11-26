@@ -71,21 +71,6 @@ const InfoBox = styled.form`
       p {
         margin: 0 0 0 3px;
       }
-      .length {
-        display: flex;
-        align-items: center;
-        margin-right: 15px;
-      }
-      .number {
-        display: flex;
-        align-items: center;
-        margin-right: 15px;
-      }
-      .eng {
-        display: flex;
-        align-items: center;
-        margin-right: 15px;
-      }
     }
   }
   .pw_ok {
@@ -127,6 +112,15 @@ const InfoBox = styled.form`
   }
 `;
 
+const PwStandard = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 15px;
+  &.check {
+    color: #3949fc;
+  }
+`;
+
 export const Join = () => {
   const navigate = useNavigate();
 
@@ -143,30 +137,32 @@ export const Join = () => {
   const [pwErrMsg, setPwErrMsg] = useState('');
   const [pwOkErrMsg, setPwOkErrMsg] = useState('');
   const [joinComplete, setJoinComplete] = useState(false);
+  const [pwLength, setPwLength] = useState(false);
+  const [pwNum, setPwNum] = useState(false);
+  const [pwEng, setPwEng] = useState(false);
 
   const userEmailRef = useRef<HTMLInputElement>(null);
   const userNicknameRef = useRef<HTMLInputElement>(null);
   const userPwRef = useRef<HTMLInputElement>(null);
   const userPwOkRef = useRef<HTMLInputElement>(null);
 
-  const animalEmoji = [
-    '🐶',
-    '🐷',
-    '🐯',
-    '🐰',
-    '🐱',
-    '🐻',
-    '🐹',
-    '🐼',
-    '🐮',
-    '🦊',
-    '🐵',
-    '🦁',
-  ];
+  const animalEmoji = ['🐶', '🐷', '🐯', '🐰', '🐱', '🐻', '🐹', '🐼', '🐮', '🦊', '🐵', '🦁'];
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
+    console.log(value, name);
     setUserInfo((userInfo) => ({ ...userInfo, [name]: value }));
+  };
+
+  const pwChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const pw = e.target.value;
+    const numCheck = /^(?=.*\d).+$/;
+    const engCheck = /^(?=.*[a-zA-Z]).+$/;
+    pw.length >= 8 ? setPwLength(true) : '';
+    numCheck.test(pw) ? setPwNum(true) : setPwNum(false);
+    engCheck.test(pw) ? setPwEng(true) : setPwEng(false);
+    setUserInfo((userInfo) => ({ ...userInfo, userPw: pw }));
+    console.log(userInfo);
   };
 
   const emojiChange = (emo: string) => {
@@ -195,6 +191,11 @@ export const Join = () => {
       userNicknameRef.current!.focus();
       return;
     }
+    if (!pwLength || !pwNum || !pwEng) {
+      setPwErrMsg('8자 이상의 영문, 숫자를 사용해 주세요.');
+      userPwRef.current!.focus();
+      return;
+    }
     if (!userInfo.userPw) {
       setPwErrMsg('비밀번호를 입력해 주세요.');
       userPwRef.current!.focus();
@@ -211,9 +212,7 @@ export const Join = () => {
       return;
     }
     if (emailErrMsg || nicknameErrMsg) {
-      emailErrMsg
-        ? userEmailRef.current!.focus()
-        : userNicknameRef.current!.focus();
+      emailErrMsg ? userEmailRef.current!.focus() : userNicknameRef.current!.focus();
       return;
     }
 
@@ -242,9 +241,7 @@ export const Join = () => {
       ? axios
           .post('http://localhost:8001/auth/emailcheck', { email: email })
           .then((res) => {
-            res.data[0]
-              ? setEmailErrMsg('중복된 이메일입니다.')
-              : setEmailErrMsg('');
+            res.data[0] ? setEmailErrMsg('중복된 이메일입니다.') : setEmailErrMsg('');
           })
           .catch((err) => console.log(err))
       : setEmailErrMsg('이메일을 입력해 주세요.');
@@ -257,9 +254,7 @@ export const Join = () => {
             nickname: nickname,
           })
           .then((res) => {
-            res.data[0]
-              ? setNicknameErrMsg('중복된 닉네임입니다.')
-              : setNicknameErrMsg('');
+            res.data[0] ? setNicknameErrMsg('중복된 닉네임입니다.') : setNicknameErrMsg('');
           })
           .catch((err) => console.log(err))
       : setNicknameErrMsg('닉네임을 입력해 주세요.');
@@ -328,29 +323,27 @@ export const Join = () => {
                 type='password'
                 placeholder='비밀번호를 입력해 주세요.'
                 name='userPw'
-                onChange={handleChange}
+                onChange={pwChange}
                 ref={userPwRef}
                 onBlur={() =>
-                  userInfo.userPw
-                    ? setPwErrMsg('')
-                    : setPwErrMsg('비밀번호를 입력해 주세요.')
+                  userInfo.userPw ? setPwErrMsg('') : setPwErrMsg('비밀번호를 입력해 주세요.')
                 }
                 className={pwErrMsg ? 'err' : ''}
               />
               <div className='err_msg'>{pwErrMsg}</div>
               <div className='standard_check'>
-                <div className='length'>
+                <PwStandard className={pwLength ? 'check' : ''}>
                   <FontAwesomeIcon icon={faCircleCheck} />
                   <p>8자리 이상</p>
-                </div>
-                <div className='number'>
+                </PwStandard>
+                <PwStandard className={pwNum ? 'check' : ''}>
                   <FontAwesomeIcon icon={faCircleCheck} />
                   <p>숫자 포함</p>
-                </div>
-                <div className='eng'>
+                </PwStandard>
+                <PwStandard className={pwEng ? 'check' : ''}>
                   <FontAwesomeIcon icon={faCircleCheck} />
                   <p>영문 포함</p>
-                </div>
+                </PwStandard>
               </div>
             </div>
             <div className='pw_ok'>
@@ -362,9 +355,7 @@ export const Join = () => {
                 onChange={handleChange}
                 ref={userPwOkRef}
                 onBlur={() =>
-                  userInfo.userPwOk
-                    ? setPwOkErrMsg('')
-                    : setPwOkErrMsg('비밀번호를 입력해 주세요.')
+                  userInfo.userPwOk ? setPwOkErrMsg('') : setPwOkErrMsg('비밀번호를 입력해 주세요.')
                 }
                 className={pwOkErrMsg ? 'err' : ''}
               />
