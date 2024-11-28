@@ -41,7 +41,7 @@ const HeaderWrapper = styled.div`
     transform: translate(-50%, -50%);
     display: flex;
     li {
-      font-weight: bold;
+      font-weight: semibold;
       cursor: pointer;
       &:nth-child(2) {
         margin: 0 50px;
