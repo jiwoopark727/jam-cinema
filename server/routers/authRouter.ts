@@ -19,7 +19,6 @@ authRouter.post('/join', async (req, res) => {
   const { email, emoji, nickname, password } = req.body.addMember;
   const salt = await bcrypt.genSalt(10);
   const hashed = await bcrypt.hash(password, salt);
-  console.log(hashed);
 
   db.query(
     'INSERT INTO users (email, emoji, nickname, password) VALUES (?, ?, ?, ?)',
@@ -71,7 +70,6 @@ authRouter.post('/login', async (req, res) => {
     if (result.length === 0) {
       return res.status(404).send('존재하지 않는 사용자입니다.');
     }
-    console.log(result);
     const user = result[0];
 
     try {
@@ -79,7 +77,7 @@ authRouter.post('/login', async (req, res) => {
 
       if (validPassword) {
         const accessToken = jwt.sign(
-          { id: user.id, email: user.email, emoji: user.emoji, nickname: user.nickname },
+          { userId: user.userId, email: user.email, emoji: user.emoji, nickname: user.nickname },
           ACCESS_TOKEN_SECRET,
           {
             expiresIn: '1h',
@@ -88,7 +86,7 @@ authRouter.post('/login', async (req, res) => {
 
         // Refresh Token 발급 (7일 유효)
         const refreshToken = jwt.sign(
-          { id: user.id, email: user.email, emoji: user.emoji, nickname: user.nickname },
+          { userId: user.userId, email: user.email, emoji: user.emoji, nickname: user.nickname },
           REFRESH_TOKEN_SECRET,
           {
             expiresIn: '7d',
@@ -137,7 +135,7 @@ authRouter.post('/refresh-token', (req, res) => {
 
       // 새로운 Access Token 발급
       const newAccessToken = jwt.sign(
-        { id: user.userId, email: user.email, nickname: user.nickname, emoji: user.emoji },
+        { userId: user.userId, email: user.email, nickname: user.nickname, emoji: user.emoji },
         ACCESS_TOKEN_SECRET,
         {
           expiresIn: '1h',
@@ -164,7 +162,6 @@ const authenticateToken = (
     ACCESS_TOKEN_SECRET,
     (err: VerifyErrors | null, decoded: JwtPayload | string | undefined) => {
       if (err) return res.status(403).send('유효하지 않은 토큰');
-      console.log(decoded);
       req.user = decoded as CustomJwtPayload; // 유효한 토큰이면 user 정보를 요청 객체에 저장
       next(); // 인증 성공시 요청 처리 계속 진행
     }
@@ -172,11 +169,78 @@ const authenticateToken = (
 };
 
 authRouter.get('/api/protected', authenticateToken, (req, res) => {
-  console.log(req.user);
   // 인증된 사용자의 정보 반환
   res.status(200).send({
     message: '인증된 사용자입니다.',
     user: req.user, // JWT에서 가져온 사용자 정보
+  });
+});
+
+authRouter.patch('/modify', async (req, res) => {
+  const { userId, emoji, nickname, password } = req.body.modifyMember;
+
+  if (!userId) {
+    return res.status(400).send('userId는 필수입니다.');
+  }
+
+  const updates = [];
+  const params = [];
+
+  if (emoji) {
+    updates.push('emoji = ?');
+    params.push(emoji);
+  }
+
+  if (nickname) {
+    updates.push('nickname = ?');
+    params.push(nickname);
+  }
+
+  if (password) {
+    const salt = await bcrypt.genSalt(10);
+    const hashed = await bcrypt.hash(password, salt);
+    updates.push('password = ?');
+    params.push(hashed);
+  }
+
+  if (updates.length === 0) {
+    return res.status(400).send('수정할 데이터가 없습니다.');
+  }
+
+  const modifyQuery = `UPDATE users SET ${updates.join(', ')} WHERE userId = ?`;
+  params.push(userId);
+
+  db.query(modifyQuery, params, (err, result) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).send('정보 수정에 실패했습니다.');
+    }
+    const selectQuery = `SELECT * FROM users WHERE userId = ?`;
+    db.query(selectQuery, [userId], (err, rows) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).send('수정된 데이터를 가져오는 데 실패했습니다.');
+      }
+
+      res.send({
+        success: true,
+        message: '정보가 성공적으로 수정되었습니다.',
+        data: rows[0],
+      });
+    });
+  });
+});
+
+authRouter.post('/pwCheck', async (req, res) => {
+  const { currentPw, userId } = req.body;
+  db.query('SELECT password FROM users WHERE userId=?', [userId], (err, result) => {
+    bcrypt.compare(currentPw, result[0].password, function (err, ans) {
+      if (!ans) {
+        res.send(false);
+      } else {
+        res.send(true);
+      }
+    });
   });
 });
 
