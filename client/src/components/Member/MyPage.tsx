@@ -215,44 +215,44 @@ const MyPage = () => {
         if (!res.data) {
           setPwCheck(false);
           alert('현재 비밀번호를 확인해주세요.');
-          window.location.reload();
+          // window.location.reload();
+        } else {
+          if (nicknameErrMsg) {
+            userNicknameRef.current!.focus();
+            return;
+          }
+
+          if (userInfo.userPw && (!pwLength || !pwNum || !pwEng)) {
+            setPwErrMsg('8자 이상의 영문, 숫자를 사용해 주세요.');
+            userPwRef.current!.focus();
+            return;
+          } else {
+            setPwErrMsg('');
+          }
+
+          if (userInfo.userPw !== userInfo.userPwOk) {
+            setPwOkErrMsg('비밀번호가 일치하지 않습니다.');
+            userPwOkRef.current!.focus();
+            return;
+          }
+
+          const modifyMember = {
+            userId: currentUserInfo.userId,
+            emoji: userInfo.userEmoji,
+            nickname: userInfo.userNickName,
+            password: userInfo.userPw,
+          };
+
+          axios
+            .patch('http://localhost:8001/auth/modify', { modifyMember })
+            .then((res) => {
+              console.log(res.data.data);
+              dispatch(userLogin(res.data.data));
+              alert(res.data.message);
+              navigate('/');
+            })
+            .catch((err) => console.log(err));
         }
-      })
-      .catch((err) => console.log(err));
-
-    if (nicknameErrMsg) {
-      userNicknameRef.current!.focus();
-      return;
-    }
-
-    if (userInfo.userPw && (!pwLength || !pwNum || !pwEng)) {
-      setPwErrMsg('8자 이상의 영문, 숫자를 사용해 주세요.');
-      userPwRef.current!.focus();
-      return;
-    } else {
-      setPwErrMsg('');
-    }
-
-    if (userInfo.userPw !== userInfo.userPwOk) {
-      setPwOkErrMsg('비밀번호가 일치하지 않습니다.');
-      userPwOkRef.current!.focus();
-      return;
-    }
-
-    const modifyMember = {
-      userId: currentUserInfo.userId,
-      emoji: userInfo.userEmoji,
-      nickname: userInfo.userNickName,
-      password: userInfo.userPw,
-    };
-
-    axios
-      .patch('http://localhost:8001/auth/modify', { modifyMember })
-      .then((res) => {
-        console.log(res.data.data);
-        dispatch(userLogin(res.data.data));
-        alert(res.data.message);
-        navigate('/');
       })
       .catch((err) => console.log(err));
   };
