@@ -17,6 +17,9 @@ searchRouter.get('/list', (req, res) => {
 
 searchRouter.post('/add', (req, res) => {
   const { userId, keyword, date } = req.body;
+  if (!userId || !keyword || !date) {
+    return res.status(400).send('잘못된 요청');
+  }
   db.query(
     'INSERT INTO recent_search_word (userId, word, date) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE date = VALUES(date)',
     [userId, keyword, date],
