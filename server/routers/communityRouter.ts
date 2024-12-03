@@ -99,15 +99,18 @@ communityRouter.get('/list/recent', (req, res) => {
 });
 
 communityRouter.get('/list/my', (req, res) => {
-  const userId = req.query.userId;
-  db.query('SELECT * FROM community WHERE userId = ?', [userId], (err, result) => {
-    if (err) {
-      res.status(500).send('내가 쓴 글을 불러오지 못했습니다.');
-      throw err;
-    } else {
-      res.send(result);
-    }
-  });
+  const nickname = req.query.nickname;
+  console.log(req.query, req.query.nickname, nickname);
+  if (nickname) {
+    db.query('SELECT * FROM community WHERE nickname = ?', [nickname], (err, result) => {
+      if (err) {
+        res.status(500).send('내가 쓴 글을 불러오지 못했습니다.');
+        throw err;
+      } else {
+        res.send(result);
+      }
+    });
+  }
 });
 
 export default communityRouter;
