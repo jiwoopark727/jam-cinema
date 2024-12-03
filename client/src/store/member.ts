@@ -30,6 +30,7 @@ const memberSlice = createSlice({
     userLogout(state, action) {
       state.user = {} as User;
       localStorage.clear();
+      sessionStorage.clear();
       console.log(state.user);
     },
   },
