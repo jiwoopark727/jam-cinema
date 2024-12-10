@@ -7,9 +7,11 @@ import axios from 'axios';
 import { listType } from './CommunityList';
 
 const CommunityDetailWrapper = styled.div`
+  color: ${(props) => props.theme.textColor};
   .detail_title {
     margin-top: 40px;
     border-top: 1px solid #000;
+    border-color: ${(props) => props.theme.textColor};
     p {
       margin: 30px 0;
       text-align: center;
@@ -33,17 +35,33 @@ const CommunityDetailWrapper = styled.div`
     }
     .info_name {
       flex: 0 0 40%;
+      & > span {
+        &:first-child {
+          color: #000;
+        }
+      }
     }
     .info_date {
       flex: 0 0 40%;
+      & > span {
+        &:first-child {
+          color: #000;
+        }
+      }
     }
     .info_hit {
       flex: 0 0 20%;
+      & > span {
+        &:first-child {
+          color: #000;
+        }
+      }
     }
   }
   .detail_content {
     margin: 20px 10px;
     border-bottom: 1px solid #000;
+    border-color: ${(props) => props.theme.textColor};
     p {
       margin-bottom: 30px;
     }
@@ -73,10 +91,7 @@ interface CommunityDetailProps {
   currentUser: string;
 }
 
-export const CommunityDetail: React.FC<CommunityDetailProps> = ({
-  info,
-  currentUser,
-}) => {
+export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info, currentUser }) => {
   const navigate = useNavigate();
 
   const deleteCommunity = (communityNumber: number) => {
@@ -130,16 +145,10 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({
       <div className='detail_btn'>
         {currentUser === info.nickname && (
           <>
-            <Link
-              to={`/community/modify/${info.communityNumber}`}
-              state={{ info: info }}
-            >
+            <Link to={`/community/modify/${info.communityNumber}`} state={{ info: info }}>
               수정
             </Link>
-            <button
-              type='button'
-              onClick={() => deleteCommunity(info.communityNumber)}
-            >
+            <button type='button' onClick={() => deleteCommunity(info.communityNumber)}>
               삭제
             </button>
           </>

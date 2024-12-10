@@ -7,15 +7,17 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 
 const CommunityModifyWrapper = styled.div`
+  color: ${(props) => props.theme.textColor};
   input,
   textarea {
     width: 100%;
     background: inherit;
-    color: #000;
     border: 1px solid #797979;
     border-radius: 5px;
     margin: 10px 0 20px;
     padding: 10px 0 10px 10px;
+    color: ${(props) => props.theme.textColor};
+    border-color: ${(props) => props.theme.textColor};
   }
   .write_title {
     margin-top: 20px;

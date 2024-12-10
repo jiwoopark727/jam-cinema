@@ -13,7 +13,7 @@ const PaginationBlock = styled.div`
   }
   .goend {
     background: none;
-    color: #4939fc;
+    color: ${(props) => props.theme.textColor};
     padding: 5px 13px;
     margin: 0 5px;
   }

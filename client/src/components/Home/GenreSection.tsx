@@ -23,6 +23,7 @@ const HeaderContainer = styled.div`
   .title {
     font-size: 27px;
     font-weight: 400;
+    color: ${(props) => props.theme.textColor};
   }
 
   .more {
@@ -99,8 +100,7 @@ export const GenreSection = forwardRef<HTMLDivElement>((_, GSRef) => {
     autoplay: true,
     autoplaySpeed: 3000,
     pauseOnHover: true,
-    beforeChange: (oldIndex: number, newIndex: number) =>
-      setCurrentSlide(newIndex),
+    beforeChange: (oldIndex: number, newIndex: number) => setCurrentSlide(newIndex),
     customPaging: (i: number) => (
       <div
         style={{
@@ -228,22 +228,17 @@ export const GenreSection = forwardRef<HTMLDivElement>((_, GSRef) => {
     <GENREWrapper>
       <HeaderContainer ref={GSRef}>
         <span className='title'>
-          장르별 영화, 다양한 콘텐츠를 만나보세요!{' '}
-          <FontAwesomeIcon icon={faVideoCamera} />
+          장르별 영화, 다양한 콘텐츠를 만나보세요! <FontAwesomeIcon icon={faVideoCamera} />
         </span>
       </HeaderContainer>
       <StyledSlider {...settings}>
         {genres.map((genre, index) => {
-          const [beforeEmoji, emoji, afterEmoji] = genre[1].split(
-            /(💦|💞|😂|😱|💥|🌌|🧚‍♀️|🎨|🌍)/
-          );
+          const [beforeEmoji, emoji, afterEmoji] = genre[1].split(/(💦|💞|😂|😱|💥|🌌|🧚‍♀️|🎨|🌍)/);
           return (
             <GenreBox
               key={index}
               color={genre[3]}
-              onClick={() =>
-                navigate(`/genre/${genre[4]}`, { state: genre[0] })
-              }
+              onClick={() => navigate(`/genre/${genre[4]}`, { state: genre[0] })}
             >
               <div className='g_des'>
                 <span>

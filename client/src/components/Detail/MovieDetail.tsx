@@ -58,6 +58,7 @@ const DetailWrapper = styled.div`
   min-height: 100vh;
   width: 1200px;
   margin-top: 50px;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const BasicInfo = styled.div`
@@ -116,7 +117,7 @@ const InfoMenu = styled.div`
       &:first-child {
         cursor: pointer;
         &.clicked {
-          color: #4939fc;
+          color: ${(props) => props.theme.SignatureColor};
         }
       }
     }

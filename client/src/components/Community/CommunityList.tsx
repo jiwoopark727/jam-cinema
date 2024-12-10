@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import Pagination from '../Pagination/Pagination';
 
 const CommunityListWrapper = styled.div`
+  color: ${(props) => props.theme.textColor};
   .write_btn {
     display: flex;
     justify-content: right;
@@ -28,6 +29,7 @@ const CommunityListWrapper = styled.div`
     margin-top: 40px;
     border-top: 2px solid #000;
     border-bottom: 1px solid #000;
+    border-color: ${(props) => props.theme.textColor};
     li {
       text-align: center;
       font-weight: bold;

@@ -24,6 +24,7 @@ const ResultWrapper = styled.div`
   width: 1200px;
   min-height: 100vh;
   margin-top: 70px;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const ResultTitle = styled.div`

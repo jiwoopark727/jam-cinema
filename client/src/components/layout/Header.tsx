@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
 import { searchOnOff } from '../../store/search';
+import { switchDarkLight } from '../../store/darkMode';
 
 const HeaderWrapper = styled.div`
   position: relative;
@@ -40,6 +41,7 @@ const HeaderWrapper = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
+    color: ${(props) => props.theme.textColor};
     li {
       font-weight: semibold;
       cursor: pointer;
@@ -56,12 +58,14 @@ const HeaderWrapper = styled.div`
     font-size: 18px;
     .search {
       margin-right: 30px;
+      color: ${(props) => props.theme.textColor};
       svg {
         cursor: pointer;
       }
     }
     .my {
       font-weight: 600;
+      color: ${(props) => props.theme.textColor};
       cursor: pointer;
       svg {
       }
@@ -111,8 +115,10 @@ interface HeaderProps {
 }
 
 export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
+  const isDark = useSelector((state: RootState) => state.darkMode.dark);
+
   const [userMenu, setUserMenu] = useState(false);
-  const [isDark, setIsDark] = useState(true);
+  // const [isDark, setIsDark] = useState(true);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -147,7 +153,8 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   };
 
   const changeDark = () => {
-    setIsDark((prev) => !prev);
+    // setIsDark((prev) => !prev);
+    dispatch(switchDarkLight(!isDark));
   };
 
   const clickSearch = () => {
@@ -181,11 +188,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
           )}
         </div>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? (
-            loginInfo.emoji
-          ) : (
-            <FontAwesomeIcon icon={faUser} />
-          )}
+          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
       </div>

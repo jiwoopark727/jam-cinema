@@ -19,6 +19,7 @@ const MPTitle = styled.div`
   justify-content: center;
   display: flex;
   padding-top: 40px;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const MPContainer = styled.div`
@@ -68,7 +69,8 @@ const MPCBox = styled.form`
   }
 `;
 
-const Label = styled.div`
+const Label = styled.label`
+  display: block;
   font-size: 17px;
   font-weight: bold;
   padding: 10px;

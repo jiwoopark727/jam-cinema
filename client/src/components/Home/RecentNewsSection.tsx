@@ -12,6 +12,8 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
+  color: ${(props) => props.theme.textColor};
+
   .title {
     font-size: 27px;
     font-weight: 400;
@@ -86,18 +88,13 @@ export const RecentNewsSection = () => {
               <div
                 className='news_image'
                 style={{
-                  backgroundImage: `url('../../images/examplePoster/poster${
-                    idx + 1
-                  }.png')`,
+                  backgroundImage: `url('../../images/examplePoster/poster${idx + 1}.png')`,
                   objectFit: 'cover',
                 }}
               ></div>
               <div className='news_text'>
                 <div className='news_source'>{val[1]}</div>
-                <div>
-                  트럼프가 총알을 맞을 뻔 했는데 살아서 차기 대통령 당선 확률
-                  급증
-                </div>
+                <div>트럼프가 총알을 맞을 뻔 했는데 살아서 차기 대통령 당선 확률 급증</div>
               </div>
             </div>
           );

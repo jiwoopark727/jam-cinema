@@ -16,6 +16,7 @@ import { useNavigate } from 'react-router';
 const EPSWrapper = styled.div`
   width: 1200px;
   margin: auto;
+  color: ${(props) => props.theme.textColor};
   .custom-arrow {
     position: absolute;
     top: 50%;
@@ -23,17 +24,10 @@ const EPSWrapper = styled.div`
     cursor: pointer;
     z-index: 1;
     font-size: 24px;
-    color: black;
-    /* background: rgba(255, 255, 255, 1); */
     padding: 10px;
     border-radius: 50%;
     transition: background 0.3s ease;
   }
-
-  /* .custom-arrow:hover {
-    background: black;
-    color: white;
-  } */
 
   .prev-arrow {
     left: -45px;

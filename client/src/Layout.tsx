@@ -7,7 +7,7 @@ import { RootState } from './store';
 import SearchView from './views/SearchView';
 
 const LayoutWrapper = styled.div`
-  background: #e4e4e4;
+  background: ${(props) => props.theme.bgColor};
   main {
   }
 `;

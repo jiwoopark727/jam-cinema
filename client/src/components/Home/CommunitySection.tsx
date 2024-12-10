@@ -24,6 +24,7 @@ const HeaderContainer = styled.div`
   justify-content: space-between;
   align-items: center;
   padding-top: 20px;
+  color: ${(props) => props.theme.textColor};
 
   .title {
     font-size: 27px;
@@ -43,6 +44,9 @@ const COMCotainer = styled.div`
   grid-template-columns: repeat(2, 1fr);
   gap: 3rem;
   padding-top: 30px;
+  .top_title {
+    color: ${(props) => props.theme.textColor};
+  }
 
   .sub_title {
     padding-bottom: 20px;
@@ -52,10 +56,11 @@ const COMCotainer = styled.div`
     margin-top: 10px;
     margin-bottom: 22px;
     border: 1.3px black solid;
+    border-color: ${(props) => props.theme.textColor};
   }
 
   .post_box {
-    background-color: white;
+    background-color: ${(props) => props.theme.cardBgColor};
     width: 584px;
     height: 305px;
     border-radius: 15px;
@@ -106,9 +111,7 @@ interface IPost {
 export const CommunitySection = () => {
   const navigate = useNavigate();
 
-  const currentUser = useSelector(
-    (state: RootState) => state.members.user.nickname
-  );
+  const currentUser = useSelector((state: RootState) => state.members.user.nickname);
 
   const [popularPost, setPopularPost] = useState<IPost[]>();
   const [recentPost, setRecentPost] = useState<IPost[]>();
@@ -170,9 +173,7 @@ export const CommunitySection = () => {
     const interval = setInterval(() => {
       // 여기서 1분마다 timeStamps를 업데이트
       if (recentPost) {
-        setTimeStamps(
-          recentPost.map((post) => formatTimeDifference(post.date))
-        );
+        setTimeStamps(recentPost.map((post) => formatTimeDifference(post.date)));
       }
     }, 60000);
     return () => clearInterval(interval);
@@ -188,7 +189,7 @@ export const CommunitySection = () => {
       </HeaderContainer>
       <COMCotainer>
         <div className='sub_title'>
-          <span>인기 게시글 👀</span>
+          <span className='top_title'>인기 게시글 👀</span>
           <hr className='under_line' />
           <div className='post_box'>
             {popularPost?.map((post, idx) => {
@@ -213,7 +214,7 @@ export const CommunitySection = () => {
           </div>
         </div>
         <div className='sub_title'>
-          <span>최근 게시글 🔥</span>
+          <span className='top_title'>최근 게시글 🔥</span>
           <hr className='under_line' />
           <div className='post_box'>
             {recentPost?.map((post, idx) => {

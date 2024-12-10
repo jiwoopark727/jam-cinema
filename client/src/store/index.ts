@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit';
 import memberReducer from './member';
 import searchReducer from './search';
+import darkModeReducer from './darkMode';
 
 const store = configureStore({
   reducer: {
     members: memberReducer,
     search: searchReducer,
+    darkMode: darkModeReducer,
   },
 });
 

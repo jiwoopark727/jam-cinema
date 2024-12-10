@@ -47,17 +47,6 @@ const Actor = ({ actor }: IActor) => {
   return (
     <ActorWrapper>
       {actor?.map((data) => (
-        // <div>
-        //   <ActorImg
-        //     act_img={
-        //       data.profile_path
-        //         ? `https://image.tmdb.org/t/p/w200/${data.profile_path}`
-        //         : '/images/noImage.png'
-        //     }
-        //   />
-        //   {data.original_name}
-        //   <p>{data.character}역</p>
-        // </div>
         <Card style={{ width: '200px' }}>
           <CardWrapper>
             <Card.Img

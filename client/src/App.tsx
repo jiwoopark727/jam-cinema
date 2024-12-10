@@ -16,6 +16,10 @@ import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import { userLogin, userLogout } from './store/member';
+import { ThemeProvider } from 'styled-components';
+import { useSelector } from 'react-redux';
+import { RootState } from './store';
+import { darkTheme, lightTheme } from './theme';
 
 function App() {
   const dispatch = useDispatch();
@@ -50,23 +54,27 @@ function App() {
     }
   }, [dispatch]); // 앱 시작 시 한 번 실행
 
+  const isDark = useSelector((state: RootState) => state.darkMode.dark);
+
   return (
-    <Routes>
-      <Route path='/' element={<Layout onScrollToGS={onScrollToGS} />}>
-        <Route index element={<HomeView ref={GSRef} />} />
-        <Route path='/join' element={<JoinView />} />
-        <Route path='/login' element={<LoginView />} />
-        <Route path='/mypage' element={<MyPageView />} />
-        <Route path='/community' element={<CommunityView />} />
-        <Route path='/community/write' element={<CommunityWriteView />} />
-        <Route path='/community/modify/:id' element={<CommunityModifyView />} />
-        <Route path='/community/detail/:id' element={<CommunityDetailView />} />
-        <Route path='/search' element={<SearchView />} />
-        <Route path='/results' element={<ResultsView />} />
-        <Route path='/detail/:id' element={<DetailView />} />
-        <Route path='/genre/:genreId' element={<GenreView />} />
-      </Route>
-    </Routes>
+    <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+      <Routes>
+        <Route path='/' element={<Layout onScrollToGS={onScrollToGS} />}>
+          <Route index element={<HomeView ref={GSRef} />} />
+          <Route path='/join' element={<JoinView />} />
+          <Route path='/login' element={<LoginView />} />
+          <Route path='/mypage' element={<MyPageView />} />
+          <Route path='/community' element={<CommunityView />} />
+          <Route path='/community/write' element={<CommunityWriteView />} />
+          <Route path='/community/modify/:id' element={<CommunityModifyView />} />
+          <Route path='/community/detail/:id' element={<CommunityDetailView />} />
+          <Route path='/search' element={<SearchView />} />
+          <Route path='/results' element={<ResultsView />} />
+          <Route path='/detail/:id' element={<DetailView />} />
+          <Route path='/genre/:genreId' element={<GenreView />} />
+        </Route>
+      </Routes>
+    </ThemeProvider>
   );
 }
 

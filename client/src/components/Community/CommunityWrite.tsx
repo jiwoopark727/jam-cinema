@@ -8,15 +8,16 @@ import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
 
 const CommunityWriteWrapper = styled.div`
+  color: ${(props) => props.theme.textColor};
   input,
   textarea {
     width: 100%;
     background: inherit;
-    color: #000;
     border: 1px solid #797979;
     border-radius: 5px;
     margin: 10px 0 20px;
     padding: 10px 0 10px 10px;
+    border-color: ${(props) => props.theme.textColor};
   }
   .write_title {
     margin-top: 20px;
@@ -47,9 +48,7 @@ const CommunityWriteWrapper = styled.div`
 export const CommunityWrite = () => {
   const navigate = useNavigate();
 
-  const currentUser = useSelector(
-    (state: RootState) => state.members.user.nickname
-  );
+  const currentUser = useSelector((state: RootState) => state.members.user.nickname);
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
@@ -123,11 +122,7 @@ export const CommunityWrite = () => {
         </div>
         <div className='write_content'>
           <p>내용</p>
-          <textarea
-            placeholder='내용을 입력하세요.'
-            ref={contentRef}
-            onChange={contentChange}
-          />
+          <textarea placeholder='내용을 입력하세요.' ref={contentRef} onChange={contentChange} />
           {contentErr && <p className='err_msg'>{contentErr}</p>}
         </div>
         <div className='write_btn'>

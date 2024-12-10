@@ -9,12 +9,13 @@ const BannerSectionWrapper = styled.div`
     margin-bottom: 5px;
     font-size: 16px;
     font-weight: 500;
-    color: #1100d1;
+    color: ${(props) => props.theme.SignatureColor};
   }
   .sub_banner {
     font-size: 32px;
     font-weight: 500;
     padding-bottom: 20px;
+    color: ${(props) => props.theme.textColor};
   }
 `;
 

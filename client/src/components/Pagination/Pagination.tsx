@@ -13,7 +13,7 @@ const PaginationBlock = styled.div`
   }
   .goend {
     background: none;
-    color: #4939fc;
+    color: ${(props) => props.theme.textColor};
     padding: 5px 13px;
     margin: 0 5px;
   }
@@ -43,12 +43,7 @@ interface pageType {
   pageMove: Function;
 }
 
-const Pagination = ({
-  currentPage,
-  totalItems,
-  itemsPerPage,
-  pageMove,
-}: pageType) => {
+const Pagination = ({ currentPage, totalItems, itemsPerPage, pageMove }: pageType) => {
   const pageList = [];
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const startPage = Math.max(1, currentPage - 5);
@@ -73,11 +68,7 @@ const Pagination = ({
   return (
     <PaginationBlock>
       <div className='pagination__wrapper'>
-        <button
-          onClick={prevPage}
-          className='goend'
-          disabled={currentPage == 1}
-        >
+        <button onClick={prevPage} className='goend' disabled={currentPage == 1}>
           이전
         </button>
         <PageBlock>
@@ -92,11 +83,7 @@ const Pagination = ({
             </button>
           ))}
         </PageBlock>
-        <button
-          onClick={nextPage}
-          className='goend'
-          disabled={currentPage == pageList.length}
-        >
+        <button onClick={nextPage} className='goend' disabled={currentPage == pageList.length}>
           다음
         </button>
       </div>

@@ -22,16 +22,20 @@ const SearchWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  color: ${(props) => props.theme.textColor};
 `;
 
 const SearchForm = styled.form`
   position: relative;
   width: 50%;
   margin: 80px 0 60px;
+  color: ${(props) => props.theme.textColor};
   input {
     width: 100%;
     background-color: inherit;
     border-bottom: 1px solid black;
+    border-color: ${(props) => props.theme.textColor};
+    color: ${(props) => props.theme.textColor};
     margin-right: 5px;
     padding: 5px;
     outline: none;
@@ -44,6 +48,7 @@ const SearchForm = styled.form`
     cursor: pointer;
     font-size: 21px;
     background-color: inherit;
+    color: ${(props) => props.theme.textColor};
   }
 `;
 
@@ -64,7 +69,6 @@ const Recent = styled.div`
     }
     span {
       font-size: 14px;
-      color: #8d8d8d;
       cursor: pointer;
     }
   }
@@ -75,14 +79,13 @@ const Recent = styled.div`
       & > span {
         cursor: pointer;
         transition: all 0.3s;
-        color: #8f8e8e;
         &:hover {
           color: #4939fc;
         }
       }
       svg {
         font-size: 14px;
-        color: #8d8d8d;
+        color: ${(props) => props.theme.textColor};
         cursor: pointer;
         margin-left: 5px;
       }
@@ -91,7 +94,6 @@ const Recent = styled.div`
   .need_login {
     p {
       margin-top: 10px;
-      color: #666666;
       cursor: pointer;
     }
   }
