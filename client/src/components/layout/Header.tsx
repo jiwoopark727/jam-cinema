@@ -188,7 +188,11 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
           )}
         </div>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+          {Object.keys(loginInfo).length ? (
+            loginInfo.emoji
+          ) : (
+            <FontAwesomeIcon icon={faUser} />
+          )}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
       </div>
