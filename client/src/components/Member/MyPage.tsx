@@ -1,13 +1,15 @@
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { RootState } from '../../store';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleCheck } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/member';
+import Pagination from '../Pagination/Pagination';
+import dayjs from 'dayjs';
 
 const MPWrapper = styled.div`
   height: 110vh;
@@ -32,9 +34,9 @@ const Tab = styled.div`
   display: flex;
   justify-content: left;
 
-  .modify {
+  .TButton {
     width: 150px;
-    background-color: white;
+    background-color: #e4e4e4;
     font-size: 18px;
     padding: 15px 15px 12px 15px;
     border-top-left-radius: 10px;
@@ -44,13 +46,15 @@ const Tab = styled.div`
     }
   }
 
+  .modify {
+    background-color: white;
+    &:hover {
+      background: white;
+    }
+  }
+
   .post {
-    width: 150px;
-    background: #e4e4e4;
-    font-size: 18px;
-    padding: 12px 15px 12px 10px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
+    background: white;
     &:hover {
       background: white;
     }
@@ -61,7 +65,7 @@ const MPCBox = styled.form`
   background: white;
   width: 1300px;
   height: 800px;
-  padding: 50px 20px 20px 50px;
+  padding: 50px 50px 50px 50px;
   .err_msg {
     color: red;
     font-size: 12px;
@@ -176,6 +180,8 @@ const PwStandard = styled.div`
   }
 `;
 
+const Modify = styled.div``;
+
 const MyPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -186,7 +192,20 @@ const MyPage = () => {
   const userPwOkRef = useRef<HTMLInputElement>(null);
   const currentPwRef = useRef<HTMLInputElement>(null);
 
-  const animalEmoji = ['🐶', '🐷', '🐯', '🐰', '🐱', '🐻', '🐹', '🐼', '🐮', '🦊', '🐵', '🦁'];
+  const animalEmoji = [
+    '🐶',
+    '🐷',
+    '🐯',
+    '🐰',
+    '🐱',
+    '🐻',
+    '🐹',
+    '🐼',
+    '🐮',
+    '🦊',
+    '🐵',
+    '🦁',
+  ];
 
   const [userInfo, setUserInfo] = useState({
     userEmoji: currentUserInfo.emoji,
@@ -204,6 +223,20 @@ const MyPage = () => {
   const [pwNum, setPwNum] = useState(false);
   const [pwEng, setPwEng] = useState(false);
   // const [pwCheck, setPwCheck] = useState(false);
+  const [state, setState] = useState('modify');
+  const [list, setList] = useState<listType[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 7;
+
+  const goToDetail = (info: listType) => {
+    navigate(`/community/detail/${info.communityNumber}`, {
+      state: { info: info, currentUser: currentUserInfo.nickname },
+    });
+  };
+
+  const pageMove = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const modifyInfo = (e: React.FormEvent) => {
     e.preventDefault();
@@ -266,7 +299,9 @@ const MyPage = () => {
             nickname: nickname,
           })
           .then((res) => {
-            res.data[0] ? setNicknameErrMsg('중복된 닉네임입니다.') : setNicknameErrMsg('');
+            res.data[0]
+              ? setNicknameErrMsg('중복된 닉네임입니다.')
+              : setNicknameErrMsg('');
           })
           .catch((err) => console.log(err))
       : setNicknameErrMsg('');
@@ -291,106 +326,239 @@ const MyPage = () => {
     setUserInfo((userInfo) => ({ ...userInfo, userPw: pw }));
   };
 
+  useEffect(() => {
+    if (currentUserInfo.nickname) {
+      axios
+        .get(
+          `http://localhost:8001/community/list/my?nickname=${currentUserInfo?.nickname}`
+        )
+        .then((res) => setList(res.data))
+        .catch((err) => console.log(err));
+    }
+  }, [currentUserInfo]);
+
   return (
     <MPWrapper>
       <MPTitle>마이 페이지</MPTitle>
       <MPContainer>
         <Tab>
-          <button className='modify'>개인 정보 수정</button>
-          <button className='post'>내가 쓴 글</button>
+          <button
+            className={state === 'modify' ? 'modify TButton' : 'TButton'}
+            onClick={() => setState('modify')}
+          >
+            개인 정보 수정
+          </button>
+          <button
+            className={state === 'modify' ? 'TButton' : 'post TButton'}
+            onClick={() => setState('post')}
+          >
+            내가 쓴 글
+          </button>
         </Tab>
         <MPCBox onSubmit={modifyInfo}>
-          <Label>닉네임</Label>
-          <NicknameInput
-            placeholder={currentUserInfo.nickname}
-            onChange={handleChange}
-            maxLength={8}
-            name='userNickName'
-            onBlur={(e) => nicknameCheck(e.target.value)}
-            className={nicknameErrMsg ? 'err' : ''}
-            ref={userNicknameRef}
-          ></NicknameInput>
-          <div className='err_msg'>{nicknameErrMsg}</div>
-          <div>
-            <Label>나만의 캐릭터</Label>
-            <EmojiContainer>
-              {animalEmoji.map((emoji, index) => {
-                return (
-                  <EmojiOption key={index}>
-                    {emoji}
-                    <input
-                      id={emoji}
-                      type='radio'
-                      name='userEmoji'
-                      value={emoji}
-                      onChange={handleChange}
-                      style={{ marginTop: '4px' }}
-                    />
-                  </EmojiOption>
-                );
-              })}
-            </EmojiContainer>
-          </div>
+          {state === 'modify' ? (
+            <Modify>
+              <Label>닉네임</Label>
+              <NicknameInput
+                placeholder={currentUserInfo.nickname}
+                onChange={handleChange}
+                maxLength={8}
+                name='userNickName'
+                onBlur={(e) => nicknameCheck(e.target.value)}
+                className={nicknameErrMsg ? 'err' : ''}
+                ref={userNicknameRef}
+              ></NicknameInput>
+              <div className='err_msg'>{nicknameErrMsg}</div>
+              <div>
+                <Label>나만의 캐릭터</Label>
+                <EmojiContainer>
+                  {animalEmoji.map((emoji, index) => {
+                    return (
+                      <EmojiOption key={index}>
+                        {emoji}
+                        <input
+                          id={emoji}
+                          type='radio'
+                          name='userEmoji'
+                          value={emoji}
+                          onChange={handleChange}
+                          style={{ marginTop: '4px' }}
+                        />
+                      </EmojiOption>
+                    );
+                  })}
+                </EmojiContainer>
+              </div>
 
-          <div>
-            <Label htmlFor='email' style={{ paddingRight: '25.5px' }}>
-              이메일
-            </Label>
-            <UnChangableBox>{currentUserInfo.email}</UnChangableBox>
-          </div>
+              <div>
+                <Label htmlFor='email' style={{ paddingRight: '25.5px' }}>
+                  이메일
+                </Label>
+                <UnChangableBox>{currentUserInfo.email}</UnChangableBox>
+              </div>
 
-          <br />
+              <br />
 
-          <PasswordContainer>
-            <Label htmlFor='password'>비밀번호</Label>
-            <div>
-              <PasswordInput
-                type='password'
-                name='userCurrentPw'
-                placeholder='현재 비밀번호'
-                onChange={userPw}
-                ref={currentPwRef}
-                className={currentPwErrMsg ? 'err' : ''}
-              ></PasswordInput>
-            </div>
-            <div className='err_msg'>{currentPwErrMsg}</div>
-            <PasswordInput
-              type='password'
-              name='userPw'
-              placeholder='새 비밀번호'
-              onChange={pwChange}
-              ref={userPwRef}
-            ></PasswordInput>
-            <div className='err_msg'>{pwErrMsg}</div>
-            <div className='standard_check'>
-              <PwStandard className={pwLength ? 'check' : ''}>
-                <FontAwesomeIcon icon={faCircleCheck} />
-                <p>8자리 이상</p>
-              </PwStandard>
-              <PwStandard className={pwNum ? 'check' : ''}>
-                <FontAwesomeIcon icon={faCircleCheck} />
-                <p>숫자 포함</p>
-              </PwStandard>
-              <PwStandard className={pwEng ? 'check' : ''}>
-                <FontAwesomeIcon icon={faCircleCheck} />
-                <p>영문 포함</p>
-              </PwStandard>
-            </div>
-            <PasswordInput
-              type='password'
-              name='userPwOk'
-              placeholder='새 비밀번호 확인'
-              onChange={handleChange}
-              ref={userPwOkRef}
-              className={pwOkErrMsg ? 'err' : ''}
-            ></PasswordInput>
-            <div className='err_msg'>{pwOkErrMsg}</div>
-          </PasswordContainer>
+              <PasswordContainer>
+                <Label htmlFor='password'>비밀번호</Label>
+                <div>
+                  <PasswordInput
+                    type='password'
+                    name='userCurrentPw'
+                    placeholder='현재 비밀번호'
+                    onChange={userPw}
+                    ref={currentPwRef}
+                    className={currentPwErrMsg ? 'err' : ''}
+                  ></PasswordInput>
+                </div>
+                <div className='err_msg'>{currentPwErrMsg}</div>
+                <PasswordInput
+                  type='password'
+                  name='userPw'
+                  placeholder='새 비밀번호'
+                  onChange={pwChange}
+                  ref={userPwRef}
+                ></PasswordInput>
+                <div className='err_msg'>{pwErrMsg}</div>
+                <div className='standard_check'>
+                  <PwStandard className={pwLength ? 'check' : ''}>
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                    <p>8자리 이상</p>
+                  </PwStandard>
+                  <PwStandard className={pwNum ? 'check' : ''}>
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                    <p>숫자 포함</p>
+                  </PwStandard>
+                  <PwStandard className={pwEng ? 'check' : ''}>
+                    <FontAwesomeIcon icon={faCircleCheck} />
+                    <p>영문 포함</p>
+                  </PwStandard>
+                </div>
+                <PasswordInput
+                  type='password'
+                  name='userPwOk'
+                  placeholder='새 비밀번호 확인'
+                  onChange={handleChange}
+                  ref={userPwOkRef}
+                  className={pwOkErrMsg ? 'err' : ''}
+                ></PasswordInput>
+                <div className='err_msg'>{pwOkErrMsg}</div>
+              </PasswordContainer>
 
-          <SubmitButton type='submit'>수정</SubmitButton>
+              <SubmitButton type='submit'>수정</SubmitButton>
+            </Modify>
+          ) : (
+            <CommunityListWrapper className='row'>
+              <ul className='list_title'>
+                <li>번호</li>
+                <li>제목</li>
+                <li>작성자</li>
+                <li>등록일</li>
+                <li>조회수</li>
+              </ul>
+              <ul className='list_content'>
+                {list
+                  ?.slice(
+                    itemsPerPage * (currentPage - 1),
+                    itemsPerPage * currentPage
+                  )
+                  .map((val, idx) => (
+                    <li key={idx} onClick={() => goToDetail(val)}>
+                      <div>
+                        {list.length - idx - (currentPage - 1) * itemsPerPage}
+                      </div>
+                      <div>{val.title}</div>
+                      <div>{val.nickname}</div>
+                      <div>{dayjs(val.date).format('YYYY-MM-DD')}</div>
+                      <div>{val.hit}</div>
+                    </li>
+                  ))}
+              </ul>
+              <Pagination
+                currentPage={currentPage}
+                totalItems={list.length}
+                itemsPerPage={itemsPerPage}
+                pageMove={pageMove}
+              />
+            </CommunityListWrapper>
+          )}
         </MPCBox>
       </MPContainer>
     </MPWrapper>
   );
 };
 export default MyPage;
+
+const CommunityListWrapper = styled.div`
+  color: ${(props) => props.theme.textColor};
+  .list_title {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #000;
+    border-color: ${(props) => props.theme.textColor};
+    li {
+      text-align: center;
+      font-weight: bold;
+      padding: 20px 0;
+      background: inherit;
+      &:nth-child(1) {
+        flex: 0 0 10%;
+      }
+      &:nth-child(2) {
+        flex: 0 0 40%;
+      }
+      &:nth-child(3) {
+        flex: 0 0 20%;
+      }
+      &:nth-child(4) {
+        flex: 0 0 20%;
+      }
+      &:nth-child(5) {
+        flex: 0 0 10%;
+      }
+    }
+  }
+  .list_content {
+    margin-bottom: 60px;
+    li {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #989898;
+      cursor: pointer;
+      div {
+        text-align: center;
+        padding: 30px 0;
+        &:nth-child(1) {
+          flex: 0 0 10%;
+        }
+        &:nth-child(2) {
+          flex: 0 0 40%;
+        }
+        &:nth-child(3) {
+          flex: 0 0 20%;
+        }
+        &:nth-child(4) {
+          flex: 0 0 20%;
+        }
+        &:nth-child(5) {
+          flex: 0 0 10%;
+        }
+      }
+      &:last-child {
+        margin-bottom: 40px;
+      }
+    }
+  }
+`;
+
+export interface listType {
+  communityNumber: number;
+  title: string;
+  content: string;
+  nickname: string;
+  date: string;
+  hit: number;
+}
