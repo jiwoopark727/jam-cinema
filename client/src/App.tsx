@@ -20,6 +20,7 @@ import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { darkTheme, lightTheme } from './theme';
+import NewsPage from './components/News/NewsPage';
 
 function App() {
   const dispatch = useDispatch();
@@ -34,7 +35,8 @@ function App() {
   useEffect(() => {
     // 페이지 로드 시 localStorage에서 토큰을 읽어서 인증 처리
     const accessToken =
-      localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
+      localStorage.getItem('accessToken') ||
+      sessionStorage.getItem('accessToken');
 
     if (accessToken) {
       // Access Token을 사용하여 유효한 로그인 세션을 확인
@@ -65,9 +67,16 @@ function App() {
           <Route path='/login' element={<LoginView />} />
           <Route path='/mypage' element={<MyPageView />} />
           <Route path='/community' element={<CommunityView />} />
+          <Route path='/news' element={<NewsPage />} />
           <Route path='/community/write' element={<CommunityWriteView />} />
-          <Route path='/community/modify/:id' element={<CommunityModifyView />} />
-          <Route path='/community/detail/:id' element={<CommunityDetailView />} />
+          <Route
+            path='/community/modify/:id'
+            element={<CommunityModifyView />}
+          />
+          <Route
+            path='/community/detail/:id'
+            element={<CommunityDetailView />}
+          />
           <Route path='/search' element={<SearchView />} />
           <Route path='/results' element={<ResultsView />} />
           <Route path='/detail/:id' element={<DetailView />} />
