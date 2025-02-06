@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface INewsData {
@@ -59,10 +60,10 @@ const NewsPage = () => {
               {val.publisher}
               <span style={{ marginLeft: '15px' }}>{formattedDate}</span>
             </NewsPublisher>
-            <a href={val.content_url} target='_blank' rel='news_url'>
+            <StyledLink to={val.content_url} target='_blank' rel='news_url'>
               <NewsTitle className='title'>{val.title}</NewsTitle>
               <NewsContent className='content'>{val.summary}</NewsContent>
-            </a>
+            </StyledLink>
             <NewsImage>
               <img src={val.image_url} alt={val.title} />
             </NewsImage>
@@ -86,8 +87,7 @@ const NewsBox = styled.div`
   margin: auto;
   height: 170px;
   width: 70%;
-  border-bottom: 2px solid gray;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
   padding-bottom: 5px;
 `;
 
@@ -100,8 +100,9 @@ const NewsPublisher = styled.div`
   height: 20px;
 `;
 
+const StyledLink = styled(Link)``;
+
 const NewsTitle = styled.div`
-  /* border: 2px solid black; */
   color: #4939fc;
   font-size: 23px;
   height: 40px;
@@ -109,9 +110,11 @@ const NewsTitle = styled.div`
 
 const NewsContent = styled.div`
   /* border: 2px solid black; */
-  color: black;
+  color: ${(props) => props.theme.textColor};
   font-size: 19px;
-  height: 110px;
+  min-height: 110px; /* 최소 높이 설정 */
+  padding-bottom: 10px; /* 하단 여백 추가 */
+  border-bottom: 2px solid gray;
 `;
 
 const NewsImage = styled.div`
