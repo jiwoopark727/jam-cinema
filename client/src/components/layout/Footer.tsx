@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 
-const FooterWrapper = styled.footer`
+const FooterWrapper = styled.div``;
+
+const FooterContainer = styled.div`
   background-color: #282c34;
   color: white;
   margin-top: 100px;
   padding: 20px 40px;
+  /* position: absolute; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -88,57 +91,59 @@ export const Footer = () => {
   };
   return (
     <FooterWrapper>
-      <FooterTop>
-        <FooterColumn>
-          <h4>제작자</h4>
-          <ul>
-            <li>
-              <p>박지우</p>
-            </li>
-            <li>
-              <p>김광명</p>
-            </li>
-          </ul>
-        </FooterColumn>
-        <FooterColumn>
-          <h4>바로 가기</h4>
-          <ul>
-            <li>
-              <a onClick={handleScrollToTop} style={{ cursor: 'pointer' }}>
-                홈
+      <FooterContainer>
+        <FooterTop>
+          <FooterColumn>
+            <h4>제작자</h4>
+            <ul>
+              <li>
+                <p>박지우</p>
+              </li>
+              <li>
+                <p>김광명</p>
+              </li>
+            </ul>
+          </FooterColumn>
+          <FooterColumn>
+            <h4>바로 가기</h4>
+            <ul>
+              <li>
+                <a onClick={handleScrollToTop} style={{ cursor: 'pointer' }}>
+                  홈
+                </a>
+              </li>
+              <li>
+                <a href='/community'>커뮤니티</a>
+              </li>
+              <li>
+                <a href='/미정'>장르별 영화</a>
+              </li>
+            </ul>
+          </FooterColumn>
+          <FooterColumn>
+            <h4>Connect With Us</h4>
+            <SocialLinks>
+              <a
+                href='https://github.com/jiwoopark727/jam-cinema'
+                target='_blank'
+                rel='github'
+              >
+                <img src='/images/footer/github.png' alt='GitHub Logo' />
               </a>
-            </li>
-            <li>
-              <a href='/community'>커뮤니티</a>
-            </li>
-            <li>
-              <a href='/미정'>장르별 영화</a>
-            </li>
-          </ul>
-        </FooterColumn>
-        <FooterColumn>
-          <h4>Connect With Us</h4>
-          <SocialLinks>
-            <a
-              href='https://github.com/jiwoopark727/jam-cinema'
-              target='_blank'
-              rel='github'
-            >
-              <img src='/images/footer/github.png' alt='GitHub Logo' />
-            </a>
-            <a
-              href='https://www.instagram.com/qkrvvldn'
-              target='_blank'
-              rel='instagram'
-            >
-              <img src='/images/footer/instagram.png' alt='GitHub Logo' />
-            </a>
-          </SocialLinks>
-        </FooterColumn>
-      </FooterTop>
-      <FooterBottom>
-        © {new Date().getFullYear()} Jam Cinema. All Rights Reserved.
-      </FooterBottom>
+              <a
+                href='https://www.instagram.com/qkrvvldn'
+                target='_blank'
+                rel='instagram'
+              >
+                <img src='/images/footer/instagram.png' alt='GitHub Logo' />
+              </a>
+            </SocialLinks>
+          </FooterColumn>
+        </FooterTop>
+        <FooterBottom>
+          © {new Date().getFullYear()} Jam Cinema. All Rights Reserved.
+        </FooterBottom>
+      </FooterContainer>
     </FooterWrapper>
   );
 };

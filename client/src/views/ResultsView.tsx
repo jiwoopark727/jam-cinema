@@ -1,4 +1,3 @@
-import React from 'react';
 import ResultSection from '../components/Search/ResultSection';
 import styled from 'styled-components';
 
