@@ -20,7 +20,7 @@ import { ThemeProvider } from 'styled-components';
 import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { darkTheme, lightTheme } from './theme';
-import NewsPage from './components/News/NewsPage';
+import NewsView from './views/NewsView';
 
 function App() {
   const dispatch = useDispatch();
@@ -67,7 +67,7 @@ function App() {
           <Route path='/login' element={<LoginView />} />
           <Route path='/mypage' element={<MyPageView />} />
           <Route path='/community' element={<CommunityView />} />
-          <Route path='/news' element={<NewsPage />} />
+          <Route path='/news' element={<NewsView />} />
           <Route path='/community/write' element={<CommunityWriteView />} />
           <Route
             path='/community/modify/:id'
