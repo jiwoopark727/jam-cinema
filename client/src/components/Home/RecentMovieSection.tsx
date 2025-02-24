@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 interface RMSProps {
@@ -52,24 +51,42 @@ const Tab = styled.div`
 `;
 
 const MovieContainer = styled.div`
-  text-align: center;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2rem;
-  .movie_frame {
-    overflow: hidden;
-    border-radius: 20px;
-    box-shadow: 10px;
+`;
+
+const MoviePoster = styled.div<{ bg_photo: string }>`
+  background-image: url(${(props) => props.bg_photo});
+  background-size: cover;
+  background-position: center center;
+  height: 415px;
+  width: 275px;
+  scale: 0.9;
+  border-radius: 20px;
+  box-shadow: 10px;
+  display: block;
+  transition: 0.5s;
+  transform: scale(1.1);
+  &:hover {
+    transform: scale(1.14);
+    cursor: pointer;
   }
-  .movie_poster {
-    width: 100%;
-    display: block;
-    transition: 0.5s;
-    transform: scale(1.1);
-    &:hover {
-      transform: scale(1.16);
-      cursor: pointer;
-    }
+`;
+
+const SkeletonPoster = styled.div`
+  background-color: gray;
+  width: 275px;
+  height: 415px;
+  border-radius: 20px;
+  scale: 0.9;
+  box-shadow: 10px;
+  display: block;
+  transition: 0.5s;
+  transform: scale(1.1);
+  &:hover {
+    transform: scale(1.16);
+    cursor: pointer;
   }
 `;
 
@@ -97,8 +114,8 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     setTabNum(val);
   };
 
-  const [nowPlayingMovie, setNowPlayingMovie] = useState<IMovie[]>();
-  const [upcomingMovie, setUpcomingMovie] = useState<IMovie[]>();
+  const [nowPlayingMovie, setNowPlayingMovie] = useState<IMovie[] | null>(null);
+  const [upcomingMovie, setUpcomingMovie] = useState<IMovie[] | null>(null);
 
   useEffect(() => {
     // 현재 상영 영화 요청 옵션 정의
@@ -177,44 +194,40 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         </button>
       </Tab>
       <MovieContainer>
-        {tabNum === 0 &&
-          nowPlayingMovie?.map(function (item, idx) {
-            return (
-              <Link
-                key={idx}
-                className='movie_frame'
-                to={'/detail/' + item.id}
-                state={item}
-                onClick={() => {
-                  console.log('영화 클릭');
-                }}
-              >
-                <img
-                  className='movie_poster'
-                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-                ></img>
-              </Link>
-            );
-          })}
-        {tabNum === 1 &&
-          upcomingMovie?.map(function (item, idx) {
-            return (
-              <Link
-                key={idx}
-                className='movie_frame'
-                to={'/detail/' + item.id}
-                state={item}
-                onClick={() => {
-                  console.log('영화 클릭');
-                }}
-              >
-                <img
-                  className='movie_poster'
-                  src={`https://image.tmdb.org/t/p/w300${item.poster_path}`}
-                ></img>
-              </Link>
-            );
-          })}
+        {
+          tabNum === 0 &&
+            (nowPlayingMovie
+              ? nowPlayingMovie.map((item) => (
+                  <MoviePoster
+                    onClick={() =>
+                      (window.location.href = `/detail/${item.id}`)
+                    }
+                    bg_photo={
+                      item.poster_path
+                        ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                        : '/images/noImage.png'
+                    }
+                  />
+                ))
+              : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />)) // 스켈레톤 UI 추가
+        }
+        {
+          tabNum === 1 &&
+            (upcomingMovie
+              ? upcomingMovie.map((item) => (
+                  <MoviePoster
+                    onClick={() =>
+                      (window.location.href = `/detail/${item.id}`)
+                    }
+                    bg_photo={
+                      item.poster_path
+                        ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                        : '/images/noImage.png'
+                    }
+                  />
+                ))
+              : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />)) // 스켈레톤 UI 추가
+        }
       </MovieContainer>
     </RMSWrapper>
   );

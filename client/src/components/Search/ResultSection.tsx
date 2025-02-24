@@ -85,12 +85,16 @@ const ResultSection = () => {
 
   const upToDate = () => {
     setMovieData((prev) =>
-      [...prev].sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
+      [...prev].sort((a: any, b: any) =>
+        b.release_date.localeCompare(a.release_date)
+      )
     );
   };
 
   const alphabet = () => {
-    setMovieData((prev) => [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title)));
+    setMovieData((prev) =>
+      [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title))
+    );
     console.log(movieData);
   };
 
@@ -125,7 +129,11 @@ const ResultSection = () => {
         <>
           <ResultTitle>
             <h3>
-              '<span>{`${decodeURIComponent(location.search.split('=')[1])}`}</span>' 관련된 영화
+              '
+              <span>{`${decodeURIComponent(
+                location.search.split('=')[1]
+              )}`}</span>
+              ' 관련된 영화
             </h3>
             <div>
               <span onClick={upToDate}>
@@ -156,7 +164,11 @@ const ResultSection = () => {
       ) : (
         <NoResult title={decodeURIComponent(location.search.split('=')[1])} />
       )}
-      <PaginationNoSlice currentPage={currentPage} pageMove={pageMove} allPage={allPage} />
+      <PaginationNoSlice
+        currentPage={currentPage}
+        pageMove={pageMove}
+        allPage={allPage}
+      />
     </ResultWrapper>
   );
 };

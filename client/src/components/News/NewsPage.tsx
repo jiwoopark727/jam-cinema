@@ -12,11 +12,6 @@ interface INewsData {
   image_url: string;
   content_url: string;
   thumbnail_url: string;
-  // author: string;
-  // companies: string[];
-  // entities: string[];
-  // esg: string | null;
-  // sections: string[];
 }
 
 const NewsPage = () => {
