@@ -69,7 +69,7 @@ const MoviePoster = styled.div<{ bg_photo: string }>`
   transition: 0.5s;
   transform: scale(1.1);
   &:hover {
-    transform: scale(1.16);
+    transform: scale(1.14);
     cursor: pointer;
   }
 `;

@@ -39,7 +39,7 @@ const EPSWrapper = styled.div`
 
   .g-title {
     padding-left: 60px;
-    padding-bottom: 13px;
+    padding-bottom: 10px;
     font-size: 18px;
     font-weight: 600;
   }
@@ -68,24 +68,37 @@ const StyledSlider = styled(Slider)`
   }
 `;
 
-const MovieBox = styled.div`
-  width: 185px !important;
-  height: 260px !important;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 15px;
-  font-size: 14px;
-  color: white;
-  background-color: ${(props) => props.color || 'black'};
-  cursor: pointer;
+const MovieContainer = styled.div``;
 
-  .m_img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+const MoviePoster = styled.div<{ bg_photo: string }>`
+  background-image: url(${(props) => props.bg_photo});
+  background-size: cover;
+  background-position: center center;
+  height: 300px;
+  width: 200px;
+  scale: 0.9;
+  border-radius: 20px;
+  box-shadow: 10px;
+  display: block;
+  transition: 0.5s;
+  &:hover {
+    transform: scale(1.07);
+    cursor: pointer;
+  }
+`;
+
+const SkeletonPoster = styled.div`
+  background-color: gray;
+  height: 300px;
+  width: 200px;
+  border-radius: 20px;
+  scale: 0.9;
+  box-shadow: 10px;
+  display: block;
+  transition: 0.5s;
+  &:hover {
+    transform: scale(1.07);
+    cursor: pointer;
   }
 `;
 
@@ -158,8 +171,8 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     ],
   };
 
-  const [topRatedMovie, setTopRatedMovie] = useState<IMovie[]>();
-  const [trendingMovie, setTrendingMovie] = useState<IMovie[]>();
+  const [topRatedMovie, setTopRatedMovie] = useState<IMovie[] | null>(null);
+  const [trendingMovie, setTrendingMovie] = useState<IMovie[] | null>(null);
 
   useEffect(() => {
     // 탑레이트영화 영화 요청 옵션 정의
@@ -179,7 +192,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
       .then((res) => {
         console.log('탑레이트영화');
         setTopRatedMovie(res.data.results);
-        console.log(topRatedMovie);
       })
       .catch((err) => {
         console.log(err);
@@ -202,7 +214,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
       .then((res) => {
         console.log('주간트렌드영화');
         setTrendingMovie(res.data.results);
-        console.log(trendingMovie);
       })
       .catch((err) => {
         console.log(err);
@@ -210,6 +221,9 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
   }, []);
 
   const navigate = useNavigate();
+
+  console.log(topRatedMovie);
+  console.log(trendingMovie);
 
   return (
     <EPSWrapper ref={ref}>
@@ -229,32 +243,50 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
       {/* 1번째 장르 */}
       <div className='g-title'>주간 인기 영화 🔥🔥 </div>
       <StyledSlider {...settings}>
-        {trendingMovie?.map((movie, idx) => {
-          return (
-            <MovieBox key={idx} onClick={() => navigate(`/detail/${movie.id}`)}>
-              <img
-                className='m_img'
-                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                alt=''
-              />
-            </MovieBox>
-          );
-        })}
+        {trendingMovie
+          ? trendingMovie.map((movie) => (
+              <MovieContainer key={movie.id}>
+                {/* ✅ 개별 슬라이드로 유지 */}
+                <MoviePoster
+                  onClick={() => navigate(`/detail/${movie.id}`)}
+                  bg_photo={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                      : '/images/noImage.png'
+                  }
+                />
+              </MovieContainer>
+            ))
+          : [...Array(29)].map((_, i) => (
+              <MovieContainer key={i}>
+                {/* ✅ 스켈레톤도 개별 슬라이드 */}
+                <SkeletonPoster />
+              </MovieContainer>
+            ))}
       </StyledSlider>
       {/* 2번째 장르 */}
       <div className='g-title'>평점 높은 영화 ★★★★★</div>
       <StyledSlider {...settings}>
-        {topRatedMovie?.map((movie, idx) => {
-          return (
-            <MovieBox key={idx} onClick={() => navigate(`/detail/${movie.id}`)}>
-              <img
-                className='m_img'
-                src={`https://image.tmdb.org/t/p/w300${movie.poster_path}`}
-                alt=''
-              />
-            </MovieBox>
-          );
-        })}
+        {topRatedMovie
+          ? topRatedMovie.map((movie) => (
+              <MovieContainer key={movie.id}>
+                {/* ✅ 개별 슬라이드로 유지 */}
+                <MoviePoster
+                  onClick={() => navigate(`/detail/${movie.id}`)}
+                  bg_photo={
+                    movie.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${movie.poster_path}`
+                      : '/images/noImage.png'
+                  }
+                />
+              </MovieContainer>
+            ))
+          : [...Array(29)].map((_, i) => (
+              <MovieContainer key={i}>
+                {/* ✅ 스켈레톤도 개별 슬라이드 */}
+                <SkeletonPoster />
+              </MovieContainer>
+            ))}
       </StyledSlider>
     </EPSWrapper>
   );
