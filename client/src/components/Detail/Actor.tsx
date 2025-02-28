@@ -32,7 +32,7 @@ const ActorWrapper = styled.div`
 `;
 
 const ActorImg = styled.div<{ act_img: string }>`
-  background-color: white;
+  background-color: gray;
   background-image: url(${(props) => props.act_img});
   /* background-size: cover; */
   background-position: center center;

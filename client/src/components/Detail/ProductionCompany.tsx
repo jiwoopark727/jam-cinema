@@ -18,7 +18,7 @@ const CompanyWrapper = styled.div`
 `;
 
 const CompanyImg = styled.div<{ bg_img: string }>`
-  background-color: white;
+  background-color: gray;
   background-image: url(${(props) => props.bg_img});
   /* background-size: cover; */
   background-position: center center;

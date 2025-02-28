@@ -68,7 +68,7 @@ const BasicInfo = styled.div`
 `;
 
 const Poster = styled.div<{ bg_photo: string }>`
-  background-color: white;
+  background-color: gray;
   background-image: url(${(props) => props.bg_photo});
   background-size: cover;
   background-position: center center;
@@ -159,7 +159,9 @@ const MovieDetail = () => {
   return (
     <DetailWrapper>
       <BasicInfo>
-        <Poster bg_photo={`https://image.tmdb.org/t/p/w300${detailData?.poster_path}`}></Poster>
+        <Poster
+          bg_photo={`https://image.tmdb.org/t/p/w300${detailData?.poster_path}`}
+        ></Poster>
         <Info>
           <div>
             <span>영화 제목: </span>
@@ -198,7 +200,10 @@ const MovieDetail = () => {
         <InfoMenu>
           {allMenu.map((menu) => (
             <span>
-              <span onClick={() => changeMenu(menu)} className={menuName === menu ? 'clicked' : ''}>
+              <span
+                onClick={() => changeMenu(menu)}
+                className={menuName === menu ? 'clicked' : ''}
+              >
                 {menu}
               </span>
               <span> | </span>

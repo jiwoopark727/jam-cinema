@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import NewsPage from '../components/News/NewsPage';
+import NewsPage from '../components/News/NewsList';
 
 const NewsViewWrapper = styled.div`
   height: 100%;
