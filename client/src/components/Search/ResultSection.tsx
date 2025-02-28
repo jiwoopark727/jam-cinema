@@ -57,7 +57,7 @@ const ResultList = styled.div`
 `;
 
 const ResultData = styled.div<{ bg_photo: string }>`
-  background-color: white;
+  background-color: gray;
   background-image: url(${(props) => props.bg_photo});
   background-size: cover;
   background-position: center center;

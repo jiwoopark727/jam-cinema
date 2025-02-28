@@ -246,7 +246,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
         {trendingMovie
           ? trendingMovie.map((movie) => (
               <MovieContainer key={movie.id}>
-                {/* ✅ 개별 슬라이드로 유지 */}
                 <MoviePoster
                   onClick={() => navigate(`/detail/${movie.id}`)}
                   bg_photo={
@@ -259,7 +258,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
             ))
           : [...Array(29)].map((_, i) => (
               <MovieContainer key={i}>
-                {/* ✅ 스켈레톤도 개별 슬라이드 */}
                 <SkeletonPoster />
               </MovieContainer>
             ))}
@@ -270,7 +268,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
         {topRatedMovie
           ? topRatedMovie.map((movie) => (
               <MovieContainer key={movie.id}>
-                {/* ✅ 개별 슬라이드로 유지 */}
                 <MoviePoster
                   onClick={() => navigate(`/detail/${movie.id}`)}
                   bg_photo={
@@ -283,7 +280,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
             ))
           : [...Array(29)].map((_, i) => (
               <MovieContainer key={i}>
-                {/* ✅ 스켈레톤도 개별 슬라이드 */}
                 <SkeletonPoster />
               </MovieContainer>
             ))}
