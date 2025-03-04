@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 interface RMSProps {
@@ -110,6 +111,8 @@ interface IMovie {
 export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
   const [tabNum, setTabNum] = useState(0);
 
+  const navigate = useNavigate();
+
   const handleTabNum = (val: number) => {
     setTabNum(val);
   };
@@ -197,11 +200,10 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         {
           tabNum === 0 &&
             (nowPlayingMovie
-              ? nowPlayingMovie.map((item) => (
+              ? nowPlayingMovie.map((item, idx) => (
                   <MoviePoster
-                    onClick={() =>
-                      (window.location.href = `/detail/${item.id}`)
-                    }
+                    key={idx}
+                    onClick={() => navigate(`/detail/${item.id}`)}
                     bg_photo={
                       item.poster_path
                         ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
@@ -214,11 +216,10 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         {
           tabNum === 1 &&
             (upcomingMovie
-              ? upcomingMovie.map((item) => (
+              ? upcomingMovie.map((item, idx) => (
                   <MoviePoster
-                    onClick={() =>
-                      (window.location.href = `/detail/${item.id}`)
-                    }
+                    key={idx}
+                    onClick={() => navigate(`/detail/${item.id}`)}
                     bg_photo={
                       item.poster_path
                         ? `https://image.tmdb.org/t/p/w300${item.poster_path}`

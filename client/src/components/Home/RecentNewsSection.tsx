@@ -1,6 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 const RNSWrapper = styled.div`
   width: 1200px;
   margin: auto;
@@ -52,26 +55,43 @@ const NewsCotainer = styled.div`
   }
 
   .news_text {
-    padding: 10px;
-    font-size: 16px;
+    padding: 2px 10px 10px 10px;
+    font-size: 14px;
     text-align: left;
-    color: #333;
+    color: #777;
   }
 
   .news_source {
-    font-size: 12px;
-    color: #777;
+    font-size: 16px;
+    color: #333;
     margin-bottom: 5px;
   }
 `;
 
+interface INewsData {
+  id: string;
+  publisher: string;
+  published_at: string;
+  title: string;
+  summary: string;
+  image_url: string;
+  content_url: string;
+  thumbnail_url: string;
+}
+
 export const RecentNewsSection = () => {
-  const newsArray = [
-    [1, '베놈'],
-    [2, '대도시의 사랑법'],
-    [3, '조커'],
-    [4, '보통의가족'],
-  ];
+  const [newsData, setNewsData] = useState<INewsData[]>([]);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8001/news/list')
+      .then((res) => {
+        console.log('메인페이지 뉴스 기사 4개', res.data.slice(0, 4));
+        setNewsData(res.data.slice(0, 4)); // 처음 4개 불러오기
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <RNSWrapper>
       <HeaderContainer>
@@ -82,25 +102,24 @@ export const RecentNewsSection = () => {
         <span className='more'>더보기 +</span>
       </HeaderContainer>
       <NewsCotainer>
-        {newsArray.map((val, idx) => {
+        {newsData.map((val, idx) => {
           return (
             <div className='news_box' key={idx}>
-              <div
+              <img
                 className='news_image'
                 style={{
-                  backgroundImage: `url('../../images/examplePoster/poster${idx + 1}.png')`,
                   objectFit: 'cover',
+                  scale: '95%',
                 }}
-              ></div>
+                src={val.image_url}
+              ></img>
               <div className='news_text'>
-                <div className='news_source'>{val[1]}</div>
-                <div>트럼프가 총알을 맞을 뻔 했는데 살아서 차기 대통령 당선 확률 급증</div>
+                <div className='news_source'>{val.title}</div>
+                <div>{val.summary.slice(0, 44)}.....</div>
               </div>
             </div>
           );
         })}
-
-        {/* 다른 news_box들도 동일하게 추가 */}
       </NewsCotainer>
     </RNSWrapper>
   );
