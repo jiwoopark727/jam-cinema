@@ -35,8 +35,7 @@ function App() {
   useEffect(() => {
     // 페이지 로드 시 localStorage에서 토큰을 읽어서 인증 처리
     const accessToken =
-      localStorage.getItem('accessToken') ||
-      sessionStorage.getItem('accessToken');
+      localStorage.getItem('accessToken') || sessionStorage.getItem('accessToken');
 
     if (accessToken) {
       // Access Token을 사용하여 유효한 로그인 세션을 확인
@@ -56,6 +55,12 @@ function App() {
     }
   }, [dispatch]); // 앱 시작 시 한 번 실행
 
+  useEffect(() => {
+    window.onbeforeunload = function pushRefresh() {
+      window.scrollTo(0, 0);
+    };
+  }, []);
+
   const isDark = useSelector((state: RootState) => state.darkMode.dark);
 
   return (
@@ -69,14 +74,8 @@ function App() {
           <Route path='/community' element={<CommunityView />} />
           <Route path='/news' element={<NewsView />} />
           <Route path='/community/write' element={<CommunityWriteView />} />
-          <Route
-            path='/community/modify/:id'
-            element={<CommunityModifyView />}
-          />
-          <Route
-            path='/community/detail/:id'
-            element={<CommunityDetailView />}
-          />
+          <Route path='/community/modify/:id' element={<CommunityModifyView />} />
+          <Route path='/community/detail/:id' element={<CommunityDetailView />} />
           <Route path='/search' element={<SearchView />} />
           <Route path='/results' element={<ResultsView />} />
           <Route path='/detail/:id' element={<DetailView />} />

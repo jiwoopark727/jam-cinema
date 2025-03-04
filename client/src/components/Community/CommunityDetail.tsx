@@ -7,6 +7,7 @@ import axios from 'axios';
 import { listType } from './CommunityList';
 
 const CommunityDetailWrapper = styled.div`
+  /* height: calc(100vh-) */
   color: ${(props) => props.theme.textColor};
   .detail_title {
     margin-top: 40px;
@@ -63,6 +64,8 @@ const CommunityDetailWrapper = styled.div`
     border-bottom: 1px solid #000;
     border-color: ${(props) => props.theme.textColor};
     p {
+      white-space: pre-wrap;
+      word-wrap: break-word;
       margin-bottom: 30px;
     }
   }
