@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 const FooterWrapper = styled.div``;
@@ -83,12 +84,13 @@ const FooterBottom = styled.div`
 `;
 
 export const Footer = () => {
-  const handleScrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-  };
+  // const handleScrollToTop = () => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: 'smooth',
+  //   });
+  // };
+  const navigate = useNavigate();
   return (
     <FooterWrapper>
       <FooterContainer>
@@ -108,7 +110,7 @@ export const Footer = () => {
             <h4>바로 가기</h4>
             <ul>
               <li>
-                <a onClick={handleScrollToTop} style={{ cursor: 'pointer' }}>
+                <a onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
                   홈
                 </a>
               </li>
@@ -131,7 +133,7 @@ export const Footer = () => {
                 <img src='/images/footer/github.png' alt='GitHub Logo' />
               </a>
               <a
-                href='https://www.instagram.com/qkrvvldn'
+                href='https://www.instagram.com/iamburgerlover'
                 target='_blank'
                 rel='instagram'
               >

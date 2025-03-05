@@ -21,8 +21,6 @@ const NewsPage = () => {
   const observerRef = useRef<IntersectionObserver | null>(null);
   const itemsPerPage = 5; // 한 번에 불러올 뉴스 개수
 
-  const [check, setCheck] = useState(0);
-
   // 뉴스 데이터 추가 로드 감지
   useEffect(() => {
     if (
@@ -53,25 +51,23 @@ const NewsPage = () => {
   }, [totalNewsData, visibleNewsData]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8001/news/fetch-and-store')
-      .then((res) => {
-        console.log(res);
-        setCheck(1);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    const fetchNews = async () => {
+      try {
+        // 1️⃣ 뉴스 데이터 가져와서 DB 저장
+        await axios.get('http://localhost:8001/news/fetch-and-store');
 
-  useEffect(() => {
-    axios
-      .get('http://localhost:8001/news/list')
-      .then((res) => {
-        console.log(res);
-        setTotalNewsData(res.data);
-        setVisibleNewsData(res.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
-      })
-      .catch((err) => console.log(err));
-  }, [check]);
+        // 2️⃣ 저장된 뉴스 데이터를 다시 가져오기
+        const response = await axios.get('http://localhost:8001/news/list');
+        console.log(response);
+        setTotalNewsData(response.data);
+        setVisibleNewsData(response.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+
+    fetchNews();
+  }, []);
 
   useEffect(() => {
     console.log(visibleNewsData);

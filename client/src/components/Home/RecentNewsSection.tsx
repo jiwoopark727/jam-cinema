@@ -83,13 +83,21 @@ export const RecentNewsSection = () => {
   const [newsData, setNewsData] = useState<INewsData[]>([]);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8001/news/list')
-      .then((res) => {
-        console.log('메인페이지 뉴스 기사 4개', res.data.slice(0, 4));
-        setNewsData(res.data.slice(0, 4)); // 처음 4개 불러오기
-      })
-      .catch((err) => console.log(err));
+    const fetchNews = async () => {
+      try {
+        // 1️⃣ 뉴스 데이터 가져와서 DB 저장
+        await axios.get('http://localhost:8001/news/fetch-and-store');
+
+        // 2️⃣ 저장된 뉴스 데이터를 다시 가져오기
+        const response = await axios.get('http://localhost:8001/news/list');
+        console.log('메인페이지 뉴스 기사 4개', response.data.slice(0, 4));
+        setNewsData(response.data.slice(0, 4)); // 처음 4개 불러오기
+      } catch (error) {
+        console.error('Error fetching news:', error);
+      }
+    };
+
+    fetchNews();
   }, []);
 
   return (
