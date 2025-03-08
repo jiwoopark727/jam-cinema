@@ -23,11 +23,7 @@ const NewsPage = () => {
 
   // 뉴스 데이터 추가 로드 감지
   useEffect(() => {
-    if (
-      !observerTargetRef.current ||
-      totalNewsData.length <= visibleNewsData.length
-    )
-      return;
+    if (!observerTargetRef.current || totalNewsData.length <= visibleNewsData.length) return;
 
     // 기존 observer가 있다면 disconnect
     if (observerRef.current) observerRef.current.disconnect();
@@ -36,9 +32,7 @@ const NewsPage = () => {
       (entries) => {
         if (entries[0].isIntersecting) {
           if (entries[0].isIntersecting) {
-            setVisibleNewsData((prev) =>
-              totalNewsData.slice(0, prev.length + itemsPerPage)
-            );
+            setVisibleNewsData((prev) => totalNewsData.slice(0, prev.length + itemsPerPage));
           }
         }
       },
@@ -93,11 +87,7 @@ const NewsPage = () => {
               {val.publisher}
               <span>{formatDate(val.published_at)}</span>
             </NewsPublisher>
-            <StyledLink
-              to={val.content_url}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
+            <StyledLink to={val.content_url} target='_blank' rel='noopener noreferrer'>
               <NewsTitle>{val.title}</NewsTitle>
               <NewsContent>{val.summary}</NewsContent>
             </StyledLink>
@@ -130,6 +120,7 @@ const NewsBox = styled.div`
   max-height: 210px;
   width: 70%;
   margin-bottom: 50px;
+  border-bottom: 2px solid gray;
 `;
 
 const NewsPublisher = styled.div`
@@ -152,7 +143,6 @@ const NewsContent = styled.div`
   color: ${(props) => props.theme.textColor};
   font-size: 19px;
   padding-bottom: 10px;
-  border-bottom: 2px solid gray;
 `;
 
 const NewsImage = styled.div`

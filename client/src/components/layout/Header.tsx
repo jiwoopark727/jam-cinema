@@ -11,7 +11,7 @@ import { useDispatch } from 'react-redux';
 import { searchOnOff } from '../../store/search';
 import { switchDarkLight } from '../../store/darkMode';
 
-const HeaderWrapper = styled.div`
+const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   position: relative;
   height: 5vw;
   display: flex;
@@ -46,7 +46,7 @@ const HeaderWrapper = styled.div`
       font-weight: semibold;
       cursor: pointer;
       &:nth-child(2) {
-        margin: 0 50px;
+        margin: ${({ isMainPage }) => (isMainPage ? '0 50px' : '0 0 0 50px')};
       }
     }
   }
@@ -228,7 +228,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   };
 
   return (
-    <HeaderWrapper>
+    <HeaderWrapper isMainPage={isMainPage}>
       <div className='logo'>
         <img src='../../images/logo.png' alt='logo' onClick={clickLogo} />
         <DarkMode onClick={changeDark}>
@@ -255,11 +255,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
             )}
           </div>
           <div className='my' onClick={clickUserMenu}>
-            {Object.keys(loginInfo).length ? (
-              loginInfo.emoji
-            ) : (
-              <FontAwesomeIcon icon={faUser} />
-            )}
+            {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
           </div>
           <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
@@ -269,11 +265,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
       <HamburgerButton>
         <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? (
-            loginInfo.emoji
-          ) : (
-            <FontAwesomeIcon icon={faUser} />
-          )}
+          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         <br />
