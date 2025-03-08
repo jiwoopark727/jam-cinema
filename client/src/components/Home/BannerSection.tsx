@@ -1,4 +1,4 @@
-import React from 'react';
+import TypeIt from 'typeit-react';
 import styled from 'styled-components';
 
 const BannerSectionWrapper = styled.div`
@@ -7,7 +7,7 @@ const BannerSectionWrapper = styled.div`
   .main_banner {
     margin-top: 40px;
     margin-bottom: 5px;
-    font-size: 16px;
+    font-size: 20px;
     font-weight: 500;
     color: ${(props) => props.theme.SignatureColor};
   }
@@ -22,11 +22,31 @@ const BannerSectionWrapper = styled.div`
 export const BannerSection = () => {
   return (
     <BannerSectionWrapper>
-      <div className='main_banner'>영화 마니아들의 천국</div>
+      {/* 첫 번째 텍스트 */}
+      <div className='main_banner'>
+        <TypeIt
+          options={{
+            speed: 50,
+            waitUntilVisible: true,
+            cursor: false,
+          }}
+        >
+          영화 마니아들의 천국
+        </TypeIt>
+      </div>
+
+      {/* 두 번째 텍스트 (첫 번째가 끝나고 나서 실행) */}
       <div className='sub_banner'>
-        최신 영화부터 뉴스,
-        <br />
-        고전 명작 영화까지 한 번에!
+        <TypeIt
+          options={{
+            speed: 50,
+            startDelay: 1500,
+            waitUntilVisible: true,
+            cursor: false,
+          }}
+        >
+          최신 영화부터 뉴스, <br /> 고전 명작 영화까지 한 번에!
+        </TypeIt>
       </div>
     </BannerSectionWrapper>
   );
