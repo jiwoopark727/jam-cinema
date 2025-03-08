@@ -1,7 +1,7 @@
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserIcon } from './UserIcon';
 import { useState } from 'react';
@@ -117,6 +117,9 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   const isDark = useSelector((state: RootState) => state.darkMode.dark);
 
+  const location = useLocation();
+  const isMainPage = location.pathname === '/'; // 메인 페이지 여부 확인
+
   const [userMenu, setUserMenu] = useState(false);
   // const [isDark, setIsDark] = useState(true);
 
@@ -177,7 +180,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
       <ul className='menu'>
         <li onClick={goToNews}>뉴스</li>
         <li onClick={goToCommunity}>커뮤니티</li>
-        <li onClick={onScrollToGS}>장르별 영화</li>
+        {isMainPage && <li onClick={onScrollToGS}>장르별 영화</li>}
       </ul>
       <div className='search_my'>
         <div className='search'>

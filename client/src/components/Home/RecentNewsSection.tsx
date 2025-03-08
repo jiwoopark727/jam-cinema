@@ -93,7 +93,12 @@ export const RecentNewsSection = () => {
         console.log('메인페이지 뉴스 기사 4개', response.data.slice(0, 4));
         setNewsData(response.data.slice(0, 4)); // 처음 4개 불러오기
       } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error('최신 뉴스 기사 가져오기 실패', error);
+
+        // 2️⃣ 기존에 저장되어 있던 뉴스 데이터를 다시 가져오기
+        const response = await axios.get('http://localhost:8001/news/list');
+        console.log('메인페이지 뉴스 기사 4개', response.data.slice(0, 4));
+        setNewsData(response.data.slice(0, 4)); // 처음 4개 불러오기
       }
     };
 

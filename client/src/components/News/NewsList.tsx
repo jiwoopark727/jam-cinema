@@ -62,7 +62,13 @@ const NewsPage = () => {
         setTotalNewsData(response.data);
         setVisibleNewsData(response.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
       } catch (error) {
-        console.error('Error fetching news:', error);
+        console.error('최신 뉴스 기사 가져오기 실패', error);
+
+        // 2️⃣ 기존에 저장되어 있던 뉴스 데이터를 다시 가져오기
+        const response = await axios.get('http://localhost:8001/news/list');
+        console.log(response);
+        setTotalNewsData(response.data);
+        setVisibleNewsData(response.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
       }
     };
 
