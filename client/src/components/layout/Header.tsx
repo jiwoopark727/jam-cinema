@@ -110,6 +110,62 @@ const OnDarkMode = styled.div`
   }
 `;
 
+const Nav = styled.div`
+  @media (max-width: 1600px) {
+    display: none;
+  }
+`;
+
+const HamburgerButton = styled.button`
+  display: none;
+  font-size: 24px;
+  background: none;
+  border: none;
+  color: black;
+  position: relative;
+  margin-right: 17vh;
+  padding-left: 2rem;
+  cursor: pointer;
+
+  .my {
+    margin-right: 7px;
+    margin-left: 17px;
+    margin-top: 3px;
+    padding: 2px;
+    font-size: 19px;
+  }
+
+  @media (max-width: 1600px) {
+    display: flex;
+  }
+`;
+
+const HamburgerMenu = styled.div<{ isOpen: boolean }>`
+  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+  font-size: 15px;
+  list-style: none;
+  flex-direction: column;
+  position: absolute;
+  top: 60px;
+  left: -5vh;
+  margin-right: 20vh;
+  width: 80%;
+  gap: 15px;
+
+  .h_li {
+    background-color: #4939fc;
+    padding: 7px;
+    width: 150%;
+    border-radius: 10px;
+    color: white;
+    transition: background 0.5s ease-in-out;
+
+    &:hover {
+      background-color: #292189;
+    }
+  }
+`;
+
 interface HeaderProps {
   onScrollToGS: () => void;
 }
@@ -119,6 +175,8 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
 
   const location = useLocation();
   const isMainPage = location.pathname === '/'; // 메인 페이지 여부 확인
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const [userMenu, setUserMenu] = useState(false);
   // const [isDark, setIsDark] = useState(true);
@@ -165,6 +223,10 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
     closeUserMenu();
   };
 
+  const handleHamburger = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <HeaderWrapper>
       <div className='logo'>
@@ -177,19 +239,35 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
           <OnDarkMode className={isDark ? '' : 'light_mode'}></OnDarkMode>
         </DarkMode>
       </div>
-      <ul className='menu'>
-        <li onClick={goToNews}>뉴스</li>
-        <li onClick={goToCommunity}>커뮤니티</li>
-        {isMainPage && <li onClick={onScrollToGS}>장르별 영화</li>}
-      </ul>
-      <div className='search_my'>
-        <div className='search'>
-          {searchBoolean ? (
-            <FontAwesomeIcon icon={faXmark} onClick={clickSearch} />
-          ) : (
-            <FontAwesomeIcon icon={faMagnifyingGlass} onClick={clickSearch} />
-          )}
+
+      <Nav>
+        <ul className='menu'>
+          <li onClick={goToNews}>뉴 스</li>
+          <li onClick={goToCommunity}>커뮤니티</li>
+          {isMainPage && <li onClick={onScrollToGS}>장르별 영화</li>}
+        </ul>
+        <div className='search_my'>
+          <div className='search'>
+            {searchBoolean ? (
+              <FontAwesomeIcon icon={faXmark} onClick={clickSearch} />
+            ) : (
+              <FontAwesomeIcon icon={faMagnifyingGlass} onClick={clickSearch} />
+            )}
+          </div>
+          <div className='my' onClick={clickUserMenu}>
+            {Object.keys(loginInfo).length ? (
+              loginInfo.emoji
+            ) : (
+              <FontAwesomeIcon icon={faUser} />
+            )}
+          </div>
+          <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
+      </Nav>
+
+      {/* 햄버거 버튼 */}
+      <HamburgerButton>
+        <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
           {Object.keys(loginInfo).length ? (
             loginInfo.emoji
@@ -198,7 +276,31 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
           )}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
-      </div>
+        <br />
+        {/* 햄버거 메뉴 */}
+        <HamburgerMenu isOpen={isOpen} onClick={handleHamburger}>
+          <li className='h_li' onClick={goToNews}>
+            뉴 스
+          </li>
+          <li className='h_li' onClick={goToCommunity}>
+            커뮤니티
+          </li>
+          {isMainPage && (
+            <li className='h_li' onClick={onScrollToGS}>
+              장르별 영화
+            </li>
+          )}
+          <li className='h_li'>
+            <div className='search'>
+              {searchBoolean ? (
+                <span onClick={clickSearch}>검색창 닫기</span>
+              ) : (
+                <span onClick={clickSearch}>검색창 열기</span>
+              )}
+            </div>
+          </li>
+        </HamburgerMenu>
+      </HamburgerButton>
     </HeaderWrapper>
   );
 };
