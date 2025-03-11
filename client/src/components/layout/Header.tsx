@@ -13,7 +13,7 @@ import { switchDarkLight } from '../../store/darkMode';
 
 const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   position: relative;
-  height: 6.5rem;
+  height: 6rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -124,7 +124,7 @@ const HamburgerButton = styled.button`
   color: black;
   position: relative;
   margin-right: 10vw;
-  padding-left: 3rem;
+  padding-left: 2rem;
   cursor: pointer;
 
   .my {
@@ -143,19 +143,24 @@ const HamburgerButton = styled.button`
 const HamburgerMenuWrapper = styled.div`
   position: absolute;
   top: 140%;
-  width: 100px;
-  right: 35%;
+  right: 0;
+  width: 7rem;
   margin-top: 5px;
   overflow: hidden;
+  visibility: hidden;
+  transition: all 0.5s;
+
+  &.open {
+    visibility: visible;
+  }
 `;
 
 const HamburgerMenu = styled.ul`
-  font-size: 15px;
-  list-style: none;
+  font-size: 14px;
   border-radius: 10px;
   background-color: #fff;
   transform: translateY(-100%);
-  transition: all 0.7s;
+  transition: all 0.5s;
 
   &.open {
     transform: translateY(0);
@@ -166,8 +171,6 @@ const HamburgerMenu = styled.ul`
     padding: 0.5rem 1rem;
     border-radius: 10px;
     color: #000;
-    border-radius: 10px;
-    font-size: 14px;
 
     &:hover {
       background-color: #c0c0c0;
@@ -263,11 +266,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
             )}
           </div>
           <div className='my' onClick={clickUserMenu}>
-            {Object.keys(loginInfo).length ? (
-              loginInfo.emoji
-            ) : (
-              <FontAwesomeIcon icon={faUser} />
-            )}
+            {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
           </div>
           <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
@@ -277,19 +276,12 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
       <HamburgerButton>
         <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? (
-            loginInfo.emoji
-          ) : (
-            <FontAwesomeIcon icon={faUser} />
-          )}
+          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         {/* 햄버거 메뉴 */}
-        <HamburgerMenuWrapper>
-          <HamburgerMenu
-            onClick={handleHamburger}
-            className={isOpen ? 'open' : ''}
-          >
+        <HamburgerMenuWrapper className={isOpen ? 'open' : ''}>
+          <HamburgerMenu onClick={handleHamburger} className={isOpen ? 'open' : ''}>
             <li className='h_li' onClick={goToNews}>
               뉴 스
             </li>

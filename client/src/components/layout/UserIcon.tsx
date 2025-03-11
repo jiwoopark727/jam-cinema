@@ -9,10 +9,17 @@ import { searchOnOff } from '../../store/search';
 const UserIconWrapper = styled.div`
   position: absolute;
   top: 140%;
-  right: -25%;
+  right: 0;
   text-align: center;
   overflow: hidden;
   margin-top: 5px;
+  visibility: hidden;
+  transition: all 0.5s;
+
+  &.show {
+    visibility: visible;
+  }
+
   div {
     background-color: #fff;
     border-radius: 10px;
@@ -63,7 +70,7 @@ export const UserIcon = ({ closeUserMenu, userMenu }: UserIconProps) => {
   };
 
   return (
-    <UserIconWrapper>
+    <UserIconWrapper className={userMenu ? 'show' : ''}>
       {!Object.keys(loginData).length ? (
         <div className={userMenu ? 'show' : ''}>
           <p onClick={goToLogin}>로그인</p>
