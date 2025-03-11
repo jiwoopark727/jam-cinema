@@ -9,7 +9,7 @@ import { searchOnOff } from '../../store/search';
 const UserIconWrapper = styled.div`
   position: absolute;
   top: 140%;
-  right: 0;
+  right: -25%;
   text-align: center;
   overflow: hidden;
   margin-top: 5px;

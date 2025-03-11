@@ -13,7 +13,7 @@ import { switchDarkLight } from '../../store/darkMode';
 
 const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   position: relative;
-  height: 6rem;
+  height: 6.5rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -124,7 +124,7 @@ const HamburgerButton = styled.button`
   color: black;
   position: relative;
   margin-right: 10vw;
-  padding-left: 2rem;
+  padding-left: 3rem;
   cursor: pointer;
 
   .my {
@@ -143,7 +143,8 @@ const HamburgerButton = styled.button`
 const HamburgerMenuWrapper = styled.div`
   position: absolute;
   top: 140%;
-  right: 0;
+  width: 100px;
+  right: 35%;
   margin-top: 5px;
   overflow: hidden;
 `;
@@ -154,7 +155,7 @@ const HamburgerMenu = styled.ul`
   border-radius: 10px;
   background-color: #fff;
   transform: translateY(-100%);
-  transition: all 0.5s;
+  transition: all 0.7s;
 
   &.open {
     transform: translateY(0);
@@ -262,7 +263,11 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
             )}
           </div>
           <div className='my' onClick={clickUserMenu}>
-            {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+            {Object.keys(loginInfo).length ? (
+              loginInfo.emoji
+            ) : (
+              <FontAwesomeIcon icon={faUser} />
+            )}
           </div>
           <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
@@ -272,12 +277,19 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
       <HamburgerButton>
         <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+          {Object.keys(loginInfo).length ? (
+            loginInfo.emoji
+          ) : (
+            <FontAwesomeIcon icon={faUser} />
+          )}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         {/* 햄버거 메뉴 */}
         <HamburgerMenuWrapper>
-          <HamburgerMenu onClick={handleHamburger} className={isOpen ? 'open' : ''}>
+          <HamburgerMenu
+            onClick={handleHamburger}
+            className={isOpen ? 'open' : ''}
+          >
             <li className='h_li' onClick={goToNews}>
               뉴 스
             </li>
