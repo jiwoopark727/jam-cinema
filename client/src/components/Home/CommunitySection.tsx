@@ -111,7 +111,9 @@ interface IPost {
 export const CommunitySection = () => {
   const navigate = useNavigate();
 
-  const currentUser = useSelector((state: RootState) => state.members.user.nickname);
+  const currentUser = useSelector(
+    (state: RootState) => state.members.user.nickname
+  );
 
   const [popularPost, setPopularPost] = useState<IPost[]>();
   const [recentPost, setRecentPost] = useState<IPost[]>();
@@ -173,7 +175,9 @@ export const CommunitySection = () => {
     const interval = setInterval(() => {
       // 여기서 1분마다 timeStamps를 업데이트
       if (recentPost) {
-        setTimeStamps(recentPost.map((post) => formatTimeDifference(post.date)));
+        setTimeStamps(
+          recentPost.map((post) => formatTimeDifference(post.date))
+        );
       }
     }, 60000);
     return () => clearInterval(interval);
@@ -185,7 +189,9 @@ export const CommunitySection = () => {
         <span className='title'>
           커뮤니티 <FontAwesomeIcon icon={faGlobe} />
         </span>
-        <span className='more'>더보기 +</span>
+        <span className='more' onClick={() => navigate('/community')}>
+          더보기 +
+        </span>
       </HeaderContainer>
       <COMCotainer>
         <div className='sub_title'>
