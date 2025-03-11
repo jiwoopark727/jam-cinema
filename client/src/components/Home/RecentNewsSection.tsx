@@ -4,6 +4,7 @@ import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const RNSWrapper = styled.div`
   width: 1200px;
@@ -40,7 +41,7 @@ const NewsCotainer = styled.div`
   .news_box {
     background-color: #f3f3f3;
     width: 276px;
-    height: 276px;
+    height: 305px;
     border-radius: 20px;
     display: flex;
     flex-direction: column;
@@ -48,11 +49,12 @@ const NewsCotainer = styled.div`
   }
 
   .news_image {
-    height: 60%; /* 상단 절반을 이미지로 */
+    height: 160px; /* 상단 절반을 이미지로 */
     background-size: cover;
     background-position: center;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
+    margin-top: 2px;
   }
 
   .news_text {
@@ -60,14 +62,17 @@ const NewsCotainer = styled.div`
     font-size: 14px;
     text-align: left;
     color: #777;
+    overflow: hidden;
   }
 
   .news_source {
     font-size: 16px;
     color: #333;
-    margin-bottom: 5px;
+    margin-bottom: 6px;
   }
 `;
+
+const StyledLink = styled(Link)``;
 
 interface INewsData {
   id: string;
@@ -123,18 +128,24 @@ export const RecentNewsSection = () => {
         {newsData.map((val, idx) => {
           return (
             <div className='news_box' key={idx}>
-              <img
-                className='news_image'
-                style={{
-                  objectFit: 'cover',
-                  scale: '95%',
-                }}
-                src={val.image_url}
-              ></img>
-              <div className='news_text'>
-                <div className='news_source'>{val.title}</div>
-                <div>{val.summary.slice(0, 44)}.....</div>
-              </div>
+              <StyledLink
+                to={val.content_url}
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                <img
+                  className='news_image'
+                  style={{
+                    objectFit: 'cover',
+                    scale: '95%',
+                  }}
+                  src={val.image_url}
+                ></img>
+                <div className='news_text'>
+                  <div className='news_source'>{val.title}</div>
+                  <div>{val.summary.slice(0, 70)}.....</div>
+                </div>
+              </StyledLink>
             </div>
           );
         })}
