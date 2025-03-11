@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { faNewspaper } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 const RNSWrapper = styled.div`
   width: 1200px;
@@ -82,6 +83,8 @@ interface INewsData {
 export const RecentNewsSection = () => {
   const [newsData, setNewsData] = useState<INewsData[]>([]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -112,7 +115,9 @@ export const RecentNewsSection = () => {
           최신 영화 뉴스
           <FontAwesomeIcon style={{ marginLeft: '7px' }} icon={faNewspaper} />
         </span>
-        <span className='more'>더보기 +</span>
+        <span className='more' onClick={() => navigate('/news')}>
+          더보기 +
+        </span>
       </HeaderContainer>
       <NewsCotainer>
         {newsData.map((val, idx) => {
