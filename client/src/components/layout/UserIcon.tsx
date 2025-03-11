@@ -26,7 +26,7 @@ const UserIconWrapper = styled.div`
       border-radius: 10px;
       padding: 10px 12px;
       cursor: pointer;
-      font-size: 16px;
+      font-size: 14px;
       &:hover {
         background-color: #c0c0c0;
       }
@@ -52,7 +52,6 @@ export const UserIcon = ({ closeUserMenu, userMenu }: UserIconProps) => {
   };
 
   const goToMyPage = () => {
-    // 경로 추가 예정
     navigate('/mypage');
     closeUserMenu();
   };

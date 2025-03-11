@@ -13,7 +13,7 @@ import { switchDarkLight } from '../../store/darkMode';
 
 const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   position: relative;
-  height: 5vw;
+  height: 6rem;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -21,7 +21,7 @@ const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   .logo {
     display: flex;
     align-items: center;
-    margin-left: 20vh;
+    margin-left: 10vw;
     img {
       width: 131px;
       height: 55px;
@@ -53,7 +53,7 @@ const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
   .search_my {
     position: relative;
     display: flex;
-    margin-right: 20vh;
+    margin-right: 10vw;
     padding-left: 2rem;
     font-size: 18px;
     .search {
@@ -123,7 +123,7 @@ const HamburgerButton = styled.button`
   border: none;
   color: black;
   position: relative;
-  margin-right: 17vh;
+  margin-right: 10vw;
   padding-left: 2rem;
   cursor: pointer;
 
@@ -140,28 +140,36 @@ const HamburgerButton = styled.button`
   }
 `;
 
-const HamburgerMenu = styled.div<{ isOpen: boolean }>`
-  display: ${({ isOpen }) => (isOpen ? 'flex' : 'none')};
+const HamburgerMenuWrapper = styled.div`
+  position: absolute;
+  top: 140%;
+  right: 0;
+  margin-top: 5px;
+  overflow: hidden;
+`;
+
+const HamburgerMenu = styled.ul`
   font-size: 15px;
   list-style: none;
-  flex-direction: column;
-  position: absolute;
-  top: 60px;
-  left: -5vh;
-  margin-right: 20vh;
-  width: 80%;
-  gap: 15px;
+  border-radius: 10px;
+  background-color: #fff;
+  transform: translateY(-100%);
+  transition: all 0.5s;
+
+  &.open {
+    transform: translateY(0);
+  }
 
   .h_li {
-    background-color: #4939fc;
-    padding: 7px;
-    width: 150%;
+    background-color: #fff;
+    padding: 0.5rem 1rem;
     border-radius: 10px;
-    color: white;
-    transition: background 0.5s ease-in-out;
+    color: #000;
+    border-radius: 10px;
+    font-size: 14px;
 
     &:hover {
-      background-color: #292189;
+      background-color: #c0c0c0;
     }
   }
 `;
@@ -177,9 +185,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   const isMainPage = location.pathname === '/'; // 메인 페이지 여부 확인
 
   const [isOpen, setIsOpen] = useState(false);
-
   const [userMenu, setUserMenu] = useState(false);
-  // const [isDark, setIsDark] = useState(true);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -207,6 +213,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
 
   const clickUserMenu = () => {
     setUserMenu(!userMenu);
+    setIsOpen(false);
   };
 
   const closeUserMenu = () => {
@@ -214,7 +221,6 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   };
 
   const changeDark = () => {
-    // setIsDark((prev) => !prev);
     dispatch(switchDarkLight(!isDark));
   };
 
@@ -225,6 +231,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
 
   const handleHamburger = () => {
     setIsOpen(!isOpen);
+    closeUserMenu();
   };
 
   return (
@@ -268,30 +275,31 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
           {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
-        <br />
         {/* 햄버거 메뉴 */}
-        <HamburgerMenu isOpen={isOpen} onClick={handleHamburger}>
-          <li className='h_li' onClick={goToNews}>
-            뉴 스
-          </li>
-          <li className='h_li' onClick={goToCommunity}>
-            커뮤니티
-          </li>
-          {isMainPage && (
-            <li className='h_li' onClick={onScrollToGS}>
-              장르별 영화
+        <HamburgerMenuWrapper>
+          <HamburgerMenu onClick={handleHamburger} className={isOpen ? 'open' : ''}>
+            <li className='h_li' onClick={goToNews}>
+              뉴 스
             </li>
-          )}
-          <li className='h_li'>
-            <div className='search'>
-              {searchBoolean ? (
-                <span onClick={clickSearch}>검색창 닫기</span>
-              ) : (
-                <span onClick={clickSearch}>검색창 열기</span>
-              )}
-            </div>
-          </li>
-        </HamburgerMenu>
+            <li className='h_li' onClick={goToCommunity}>
+              커뮤니티
+            </li>
+            {isMainPage && (
+              <li className='h_li' onClick={onScrollToGS}>
+                장르별 영화
+              </li>
+            )}
+            <li className='h_li'>
+              <div className='search'>
+                {searchBoolean ? (
+                  <span onClick={clickSearch}>검색창 닫기</span>
+                ) : (
+                  <span onClick={clickSearch}>검색창 열기</span>
+                )}
+              </div>
+            </li>
+          </HamburgerMenu>
+        </HamburgerMenuWrapper>
       </HamburgerButton>
     </HeaderWrapper>
   );
