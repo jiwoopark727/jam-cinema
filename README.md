@@ -27,38 +27,69 @@
 <table>
   <tr>
     <td align="center">
+      <p>회원가입 화면</p>
+      <img src="client/src/assets/images/jamcinema_signup.png" height="230" alt="회원가입 화면">
+    </td>
+    <td align="center">
+      <p>회원가입 완료 화면</p>
+      <img src="client/src/assets/images/jamcinema_signup_complete.png" height="230" alt="회원가입 완료 화면">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
       <p>로그인 화면</p>
       <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="로그인 화면">
     </td>
     <td align="center">
-      <p>즐겨찾기 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="즐겨찾기 화면">
+      <p>마이페이지 화면</p>
+      <img src="client/src/assets/images/jamcinema_mypage.png" height="230" alt="마이페이지 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
-      <p>주소검색 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="주소검색 화면">
+      <p>영화정보 화면</p>
+      <img src="client/src/assets/images/jamcinema_movie_info.png" height="230" alt="영화정보 화면">
     </td>
     <td align="center">
-      <p>지도 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="지도 화면">
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <p>매물관리 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="매물관리 화면">
-    </td>
-    <td align="center">
-      <p>등기대장 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="등기대장 화면">
+      <p>영화검색 화면</p>
+      <img src="client/src/assets/images/jamcinema_search.png" height="230" alt="영화검색 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
-      <p>계약서 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="계약서 화면">
+      <p>뉴스페이지 화면</p>
+      <img src="client/src/assets/images/jamcinema_news.png" height="230" alt="뉴스페이지 화면">
+    </td>
+    <td align="center">
+      <p>커뮤니티 화면</p>
+      <img src="client/src/assets/images/jamcinema_community.png" height="230" alt="커뮤니티 화면">
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <p>커뮤니티 글쓰기 화면</p>
+      <img src="client/src/assets/images/jamcinema_write.png" height="230" alt="커뮤니티 글쓰기 화면">
+    </td>
+    <td align="center">
+      <p>커뮤니티 게시글 화면</p>
+      <img src="client/src/assets/images/jamcinema_post.png" height="230" alt="커뮤니티 게시글글 화면">
+    </td>
+  </tr>
+    <tr>
+    <td align="center">
+      <p>다크모드 화면(main1)</p>
+      <img src="client/src/assets/images/jamcinema_dark.png" height="230" alt="다크모드 화면">
+    </td>
+    <td align="center">
+      <p>메인2 화면(최신영화뉴스, 커뮤니티(인기,최신 게시글))</p>
+      <img src="client/src/assets/images/jamcinema_main2.png" height="230" alt="메인2 화면">
+    </td>
+  </tr>
+    </tr>
+    <tr>
+    <td align="center">
+      <p>메인3 화면(장르별 영화, 에디터 픽 영화)</p>
+      <img src="client/src/assets/images/jamcinema_main3.png" height="230" alt="메인3 화면">
     </td>
   </tr>
 </table>
