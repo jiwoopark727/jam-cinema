@@ -28,37 +28,37 @@
   <tr>
     <td align="center">
       <p>로그인 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="로그인 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="로그인 화면">
     </td>
     <td align="center">
       <p>즐겨찾기 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="즐겨찾기 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="즐겨찾기 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>주소검색 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="주소검색 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="주소검색 화면">
     </td>
     <td align="center">
       <p>지도 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="지도 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="지도 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>매물관리 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="매물관리 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="매물관리 화면">
     </td>
     <td align="center">
       <p>등기대장 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="등기대장 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="등기대장 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>계약서 화면</p>
-      <img src="./src/assets/images/jamcinema_login.png" height="230" alt="계약서 화면">
+      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="계약서 화면">
     </td>
   </tr>
 </table>
