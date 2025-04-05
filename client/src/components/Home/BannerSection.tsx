@@ -2,6 +2,7 @@ import TypeIt from 'typeit-react';
 import styled from 'styled-components';
 
 const BannerSectionWrapper = styled.div`
+  height: 150px;
   text-align: center;
   align-items: center;
   .main_banner {
