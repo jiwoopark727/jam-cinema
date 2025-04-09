@@ -17,7 +17,7 @@
 
 - **Frontend**: `React`, `TypeScript`, `Vite`, `styled-components`
 - **Backend**: `Node.js`, `mariaDB`, `HeidiSQL`
-- **API**: `Intersection Observer API`, `Deep Search News API`
+- **API**: `The Movie DataBase(TMDB) API`, `Intersection Observer API`, `Deep Search News API`
 - **Deployment**: `Vercel`
 
 ## 🎬 데모 배포 사이트 및 스크린샷
@@ -72,7 +72,7 @@
     </td>
     <td align="center">
       <p>커뮤니티 게시글 화면</p>
-      <img src="client/src/assets/images/jamcinema_post.png" height="230" alt="커뮤니티 게시글글 화면">
+      <img src="client/src/assets/images/jamcinema_post.png" height="230" alt="커뮤니티 게시글 화면">
     </td>
   </tr>
     <tr>
