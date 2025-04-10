@@ -91,7 +91,10 @@ export const Layout: React.FC<LayoutProps> = ({ onScrollToGS }) => {
     <LayoutWrapper>
       <Header onScrollToGS={onScrollToGS} />
       <main>{searchBoolean ? <SearchView /> : <Outlet />}</main>
-      <TopBtn onClick={scrollToTop} className={scrollPosition ? '' : 'disappear'}>
+      <TopBtn
+        onClick={scrollToTop}
+        className={scrollPosition ? '' : 'disappear'}
+      >
         <FontAwesomeIcon icon={faChevronUp} />
       </TopBtn>
       <Footer />

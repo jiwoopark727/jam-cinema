@@ -266,7 +266,11 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
             )}
           </div>
           <div className='my' onClick={clickUserMenu}>
-            {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+            {Object.keys(loginInfo).length ? (
+              loginInfo.emoji
+            ) : (
+              <FontAwesomeIcon icon={faUser} />
+            )}
           </div>
           <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
@@ -276,12 +280,19 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
       <HamburgerButton>
         <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
+          {Object.keys(loginInfo).length ? (
+            loginInfo.emoji
+          ) : (
+            <FontAwesomeIcon icon={faUser} />
+          )}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         {/* 햄버거 메뉴 */}
         <HamburgerMenuWrapper className={isOpen ? 'open' : ''}>
-          <HamburgerMenu onClick={handleHamburger} className={isOpen ? 'open' : ''}>
+          <HamburgerMenu
+            onClick={handleHamburger}
+            className={isOpen ? 'open' : ''}
+          >
             <li className='h_li' onClick={goToNews}>
               뉴 스
             </li>
