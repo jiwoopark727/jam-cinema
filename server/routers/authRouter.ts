@@ -23,7 +23,7 @@ authRouter.post('/join', async (req, res) => {
   db.query(
     'INSERT INTO users (email, emoji, nickname, password) VALUES (?, ?, ?, ?)',
     [email, emoji, nickname, hashed],
-    (err, result) => {
+    (err: any, result: any) => {
       if (err) {
         res.status(500).send('회원가입 실패');
         throw err;
@@ -36,7 +36,7 @@ authRouter.post('/join', async (req, res) => {
 
 authRouter.post('/emailcheck', (req, res) => {
   const email = req.body.email;
-  db.query('SELECT * FROM users WHERE email=?', [email], (err, result) => {
+  db.query('SELECT * FROM users WHERE email=?', [email], (err: any, result:any) => {
     if (err) {
       res.status(500).send('회원가입 실패');
       console.log(err);
@@ -49,7 +49,7 @@ authRouter.post('/emailcheck', (req, res) => {
 
 authRouter.post('/nicknamecheck', (req, res) => {
   const nickname = req.body.nickname;
-  db.query('SELECT * FROM users WHERE nickname=?', [nickname], (err, result) => {
+  db.query('SELECT * FROM users WHERE nickname=?', [nickname], (err: any, result: any) => {
     if (err) {
       res.status(500).send('회원가입 실패');
       throw err;
@@ -62,7 +62,7 @@ authRouter.post('/nicknamecheck', (req, res) => {
 authRouter.post('/login', async (req, res) => {
   const { userId, userPw, keepLogged } = req.body;
 
-  db.query('SELECT * FROM users WHERE email=?', [userId], async (err, result) => {
+  db.query('SELECT * FROM users WHERE email=?', [userId], async (err: any, result: any) => {
     if (err) {
       res.status(500).send('로그인 실패');
       throw err;
@@ -210,13 +210,13 @@ authRouter.patch('/modify', async (req, res) => {
   const modifyQuery = `UPDATE users SET ${updates.join(', ')} WHERE userId = ?`;
   params.push(userId);
 
-  db.query(modifyQuery, params, (err, result) => {
+  db.query(modifyQuery, params, (err: any, result:any) => {
     if (err) {
       console.error(err);
       return res.status(500).send('정보 수정에 실패했습니다.');
     }
     const selectQuery = `SELECT * FROM users WHERE userId = ?`;
-    db.query(selectQuery, [userId], (err, rows) => {
+    db.query(selectQuery, [userId], (err: any, rows:any) => {
       if (err) {
         console.error(err);
         return res.status(500).send('수정된 데이터를 가져오는 데 실패했습니다.');
@@ -233,7 +233,7 @@ authRouter.patch('/modify', async (req, res) => {
 
 authRouter.post('/pwCheck', async (req, res) => {
   const { currentPw, userId } = req.body;
-  db.query('SELECT password FROM users WHERE userId=?', [userId], (err, result) => {
+  db.query('SELECT password FROM users WHERE userId=?', [userId], (err: any, result: any) => {
     bcrypt.compare(currentPw, result[0].password, function (err, ans) {
       if (!ans) {
         res.send(false);
