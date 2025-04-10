@@ -29,6 +29,7 @@
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/jsonwebtoken": "^9.0.7",
+    "@types/mysql": "^2.15.27",
     "@types/node": "^20.14.11"
   }
 }
