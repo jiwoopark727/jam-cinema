@@ -1,8 +1,12 @@
 # JAM CINEMA(잼 시네마) - 영화 종합 정보 플랫폼
 
+<br/>
+
 ## 🚀 프로젝트 소개
 
 **JAM CINEMA**는 고전 영화부터 최신 영화까지 영화를 좋아하는 모든 사람들이 영화에 대한 정보를 얻고 소통할 수 있는 플랫폼입니다.
+
+<br/>
 
 ## 🎯 주요 기능
 
@@ -13,6 +17,8 @@
 - **다양한 카테고리별 영화 분류**: 장르별 영화, 에디터 추천 영화, 주간 인기 영화, 평점 높은순 영화, 현재 상영, 개봉 예정 영화 등 다양한 카테고리 별로 영화를 분류하여 기호에 따라 쉽게 탐색 가능
 - **동적인 검색 기능**: 입력값 하나마다 포함하는 영화들을 띄워주고 로그인을 한 상태라면 검색 기록을 저장
 
+<br/>
+
 ## 🛠 기술 스택
 
 - **Frontend**: `React`, `TypeScript`, `Vite`, `styled-components`
@@ -20,79 +26,83 @@
 - **API**: `The Movie DataBase(TMDB) API`, `Intersection Observer API`, `Deep Search News API`
 - **Deployment**: `Vercel`
 
+<br/>
+
 ## 🎬 데모 배포 사이트 및 스크린샷
 
-🚀 **[JAM CINEMA 배포 사이트](https://job-nest-iota.vercel.app)**
+🚀 <a href="https://job-nest-iota.vercel.app" target="_blank" rel="noopener noreferrer"><strong>[JAM CINEMA 배포 사이트]</strong></a>
 
 <table>
   <tr>
     <td align="center">
       <p>회원가입 화면</p>
-      <img src="client/src/assets/images/jamcinema_signup.png" height="230" alt="회원가입 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_signup.png" height="230" alt="회원가입 화면">
     </td>
     <td align="center">
       <p>회원가입 완료 화면</p>
-      <img src="client/src/assets/images/jamcinema_signup_complete.png" height="230" alt="회원가입 완료 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_signup_complete.png" height="230" alt="회원가입 완료 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>로그인 화면</p>
-      <img src="client/src/assets/images/jamcinema_login.png" height="230" alt="로그인 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_login.png" height="230" alt="로그인 화면">
     </td>
     <td align="center">
       <p>마이페이지 화면</p>
-      <img src="client/src/assets/images/jamcinema_mypage.png" height="230" alt="마이페이지 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_mypage.png" height="230" alt="마이페이지 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>영화정보 화면</p>
-      <img src="client/src/assets/images/jamcinema_movie_info.png" height="230" alt="영화정보 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_movie_info.png" height="230" alt="영화정보 화면">
     </td>
     <td align="center">
       <p>영화검색 화면</p>
-      <img src="client/src/assets/images/jamcinema_search.png" height="230" alt="영화검색 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_search.png" height="230" alt="영화검색 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>뉴스페이지 화면</p>
-      <img src="client/src/assets/images/jamcinema_news.png" height="230" alt="뉴스페이지 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_news.png" height="230" alt="뉴스페이지 화면">
     </td>
     <td align="center">
       <p>커뮤니티 화면</p>
-      <img src="client/src/assets/images/jamcinema_community.png" height="230" alt="커뮤니티 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_community.png" height="230" alt="커뮤니티 화면">
     </td>
   </tr>
   <tr>
     <td align="center">
       <p>커뮤니티 글쓰기 화면</p>
-      <img src="client/src/assets/images/jamcinema_write.png" height="230" alt="커뮤니티 글쓰기 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_write.png" height="230" alt="커뮤니티 글쓰기 화면">
     </td>
     <td align="center">
       <p>커뮤니티 게시글 화면</p>
-      <img src="client/src/assets/images/jamcinema_post.png" height="230" alt="커뮤니티 게시글 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_post.png" height="230" alt="커뮤니티 게시글 화면">
     </td>
   </tr>
     <tr>
     <td align="center">
       <p>다크모드 화면(main1)</p>
-      <img src="client/src/assets/images/jamcinema_dark.png" height="230" alt="다크모드 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_dark.png" height="230" alt="다크모드 화면">
     </td>
     <td align="center">
       <p>메인2 화면(최신영화뉴스, 커뮤니티(인기,최신 게시글))</p>
-      <img src="client/src/assets/images/jamcinema_main2.png" height="230" alt="메인2 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_main2.png" height="230" alt="메인2 화면">
     </td>
   </tr>
     </tr>
     <tr>
     <td align="center">
       <p>메인3 화면(장르별 영화, 에디터 픽 영화)</p>
-      <img src="client/src/assets/images/jamcinema_main3.png" height="230" alt="메인3 화면">
+      <img src="https://raw.githubusercontent.com/jiwoopark727/jam-cinema/main/client/src/assets/images/jamcinema_main3.png" height="230" alt="메인3 화면">
     </td>
   </tr>
 </table>
+
+<br/>
 
 ## 🏗 프로젝트 구조
 
@@ -109,6 +119,7 @@
     ├── 📁 routers         # API 라우터 정의
     └── 📁 types           # TypeScript 타입 정의
 
+<br/>
 
 ## 🔧 설치 및 실행 방법
 
@@ -126,6 +137,8 @@ npm install
 # 개발 서버 실행
 npm run dev
 ````
+
+<br/>
 
 ## 📜 라이선스
 
