@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
 import axios from 'axios';
@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router';
+import { API_URL } from '../../utils/api';
 
 const CommunityWriteWrapper = styled.div`
   color: ${(props) => props.theme.textColor};
@@ -90,7 +91,7 @@ export const CommunityWrite = () => {
     };
 
     axios
-      .post('http://localhost:8001/community/write', { communityInfo })
+      .post(`${API_URL}/community/write`, { communityInfo })
       .then((res) => {
         if (res.data.affectedRows) {
           alert('등록이 완료되었습니다.');

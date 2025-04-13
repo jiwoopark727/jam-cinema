@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import styled from 'styled-components';
 import { IResultData } from '../Search/ResultSection';
@@ -66,7 +66,6 @@ const GenreData = styled.div<{ bg_photo: string }>`
 const GenreMovieList = ({ genre }: IGenre) => {
   const params = useParams();
   const navigate = useNavigate();
-  console.log(params.genreId);
 
   const [genreList, setGenreList] = useState<IResultData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -80,7 +79,6 @@ const GenreMovieList = ({ genre }: IGenre) => {
 
   const alphabet = () => {
     setGenreList((prev) => [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title)));
-    console.log(genreList);
   };
 
   const clickPoster = (data: IResultData) => {
@@ -97,7 +95,6 @@ const GenreMovieList = ({ genre }: IGenre) => {
         `https://api.themoviedb.org/3/discover/movie?api_key=878ff909e9f63d6bb3b857c0479816e5&with_genres=${params.genreId}&language=ko&page=${currentPage}`
       )
       .then((res) => {
-        console.log(res);
         setGenreList(res.data.results);
         setAllPage(res.data.total_pages);
       })

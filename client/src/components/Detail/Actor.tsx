@@ -1,7 +1,5 @@
-import React from 'react';
 import { ICast } from './MovieDetail';
 import styled from 'styled-components';
-import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 interface IActor {
@@ -29,17 +27,6 @@ const ActorWrapper = styled.div`
       color: #828282;
     }
   }
-`;
-
-const ActorImg = styled.div<{ act_img: string }>`
-  background-color: gray;
-  background-image: url(${(props) => props.act_img});
-  /* background-size: cover; */
-  background-position: center center;
-  background-repeat: no-repeat;
-  width: 200px;
-  height: 300px;
-  border-radius: 10px;
 `;
 
 const Actor = ({ actor }: IActor) => {

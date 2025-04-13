@@ -1,4 +1,3 @@
-import React from 'react';
 import { ICrew } from './MovieDetail';
 import styled from 'styled-components';
 import Card from 'react-bootstrap/Card';
@@ -26,10 +25,6 @@ const ProductionCrew = ({ crew }: IProductionCrew) => {
   return (
     <CrewWrapper>
       {crew?.map((data) => (
-        // <div>
-        //   {data.original_name}
-        //   <p>{data.job}</p>
-        // </div>
         <Card style={{ width: '100%' }}>
           <Card.Body>
             <Card.Title>{data.original_name}</Card.Title>

@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import { IProductionCompany } from './MovieDetail';
 
@@ -10,17 +9,11 @@ const CompanyWrapper = styled.div`
   display: grid;
   gap: 15px;
   grid-template-columns: repeat(5, 1fr);
-  /* & > div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  } */
 `;
 
 const CompanyImg = styled.div<{ bg_img: string }>`
   background-color: gray;
   background-image: url(${(props) => props.bg_img});
-  /* background-size: cover; */
   background-position: center center;
   background-repeat: no-repeat;
   width: 200px;
