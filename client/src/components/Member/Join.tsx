@@ -5,6 +5,7 @@ import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import JoinComplete from './JoinComplete';
+import { API_URL } from '../../utils/api';
 
 const JoinWrapper = styled.div`
   display: flex;
@@ -150,7 +151,6 @@ export const Join = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.target;
-    console.log(value, name);
     setUserInfo((userInfo) => ({ ...userInfo, [name]: value }));
   };
 
@@ -162,7 +162,6 @@ export const Join = () => {
     numCheck.test(pw) ? setPwNum(true) : setPwNum(false);
     engCheck.test(pw) ? setPwEng(true) : setPwEng(false);
     setUserInfo((userInfo) => ({ ...userInfo, userPw: pw }));
-    console.log(userInfo);
   };
 
   const emojiChange = (emo: string) => {
@@ -224,7 +223,7 @@ export const Join = () => {
     };
 
     axios
-      .post('http://localhost:8001/auth/join', { addMember })
+      .post(`${API_URL}/auth/join`, { addMember })
       .then((res) => {
         if (res.data.affectedRows === 1) {
           setJoinComplete(true);
@@ -239,7 +238,7 @@ export const Join = () => {
   const emailCheck = (email: string) => {
     email
       ? axios
-          .post('http://localhost:8001/auth/emailcheck', { email: email })
+          .post(`${API_URL}/auth/emailcheck`, { email: email })
           .then((res) => {
             res.data[0] ? setEmailErrMsg('중복된 이메일입니다.') : setEmailErrMsg('');
           })
@@ -250,7 +249,7 @@ export const Join = () => {
   const nicknameCheck = (nickname: string) => {
     nickname
       ? axios
-          .post('http://localhost:8001/auth/nicknamecheck', {
+          .post(`${API_URL}/auth/nicknamecheck`, {
             nickname: nickname,
           })
           .then((res) => {
@@ -289,7 +288,7 @@ export const Join = () => {
               <p>나만의 캐릭터</p>
               <div className='emoji_wrapper'>
                 {animalEmoji.map((emo) => (
-                  <div>
+                  <div key={emo}>
                     <input
                       type='radio'
                       id={emo}

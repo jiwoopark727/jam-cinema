@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig } from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 
 interface RMSProps {
-  onScrollToEPS: () => void; // 스크롤 함수 전달
+  onScrollToEPS: () => void;
 }
 
 /* const TabHoverAnimation = keyframes`
@@ -121,7 +121,6 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
   const [upcomingMovie, setUpcomingMovie] = useState<IMovie[] | null>(null);
 
   useEffect(() => {
-    // 현재 상영 영화 요청 옵션 정의
     const NPMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/now_playing?api_key=033d5d85d42294188dc8888ddadfc21e',
@@ -136,15 +135,12 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     axios
       .request(NPMoptions)
       .then((res) => {
-        console.log('현재 상영 영화');
         setNowPlayingMovie(res.data.results.slice(0, 12));
-        console.log(nowPlayingMovie);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // 개봉 예정 영화 요청 옵션 정의
     const UMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/upcoming?api_key=033d5d85d42294188dc8888ddadfc21e',
@@ -159,9 +155,7 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
     axios
       .request(UMoptions)
       .then((res) => {
-        console.log('개봉예정영화');
         setUpcomingMovie(res.data.results.slice(0, 12));
-        console.log(upcomingMovie);
       })
       .catch((err) => {
         console.log(err);
@@ -197,38 +191,34 @@ export const RecentMovieSection: React.FC<RMSProps> = ({ onScrollToEPS }) => {
         </button>
       </Tab>
       <MovieContainer>
-        {
-          tabNum === 0 &&
-            (nowPlayingMovie
-              ? nowPlayingMovie.map((item, idx) => (
-                  <MoviePoster
-                    key={idx}
-                    onClick={() => navigate(`/detail/${item.id}`)}
-                    bg_photo={
-                      item.poster_path
-                        ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-                        : '/images/noImage.png'
-                    }
-                  />
-                ))
-              : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />)) // 스켈레톤 UI 추가
-        }
-        {
-          tabNum === 1 &&
-            (upcomingMovie
-              ? upcomingMovie.map((item, idx) => (
-                  <MoviePoster
-                    key={idx}
-                    onClick={() => navigate(`/detail/${item.id}`)}
-                    bg_photo={
-                      item.poster_path
-                        ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
-                        : '/images/noImage.png'
-                    }
-                  />
-                ))
-              : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />)) // 스켈레톤 UI 추가
-        }
+        {tabNum === 0 &&
+          (nowPlayingMovie
+            ? nowPlayingMovie.map((item, idx) => (
+                <MoviePoster
+                  key={idx}
+                  onClick={() => navigate(`/detail/${item.id}`)}
+                  bg_photo={
+                    item.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                      : '/images/noImage.png'
+                  }
+                />
+              ))
+            : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />))}
+        {tabNum === 1 &&
+          (upcomingMovie
+            ? upcomingMovie.map((item, idx) => (
+                <MoviePoster
+                  key={idx}
+                  onClick={() => navigate(`/detail/${item.id}`)}
+                  bg_photo={
+                    item.poster_path
+                      ? `https://image.tmdb.org/t/p/w300${item.poster_path}`
+                      : '/images/noImage.png'
+                  }
+                />
+              ))
+            : [...Array(12)].map((_, i) => <SkeletonPoster key={i} />))}
       </MovieContainer>
     </RMSWrapper>
   );

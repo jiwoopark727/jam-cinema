@@ -23,7 +23,6 @@ const BannerSectionWrapper = styled.div`
 export const BannerSection = () => {
   return (
     <BannerSectionWrapper>
-      {/* 첫 번째 텍스트 */}
       <div className='main_banner'>
         <TypeIt
           options={{
@@ -36,7 +35,6 @@ export const BannerSection = () => {
         </TypeIt>
       </div>
 
-      {/* 두 번째 텍스트 (첫 번째가 끝나고 나서 실행) */}
       <div className='sub_banner'>
         <TypeIt
           options={{

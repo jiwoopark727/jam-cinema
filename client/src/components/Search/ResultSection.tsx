@@ -1,7 +1,7 @@
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import NoResult from './NoResult';
@@ -77,7 +77,6 @@ const ResultData = styled.div<{ bg_photo: string }>`
 const ResultSection = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // console.log(location.search.split('=')[1]);
 
   const [movieData, setMovieData] = useState<IResultData[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,17 +84,12 @@ const ResultSection = () => {
 
   const upToDate = () => {
     setMovieData((prev) =>
-      [...prev].sort((a: any, b: any) =>
-        b.release_date.localeCompare(a.release_date)
-      )
+      [...prev].sort((a: any, b: any) => b.release_date.localeCompare(a.release_date))
     );
   };
 
   const alphabet = () => {
-    setMovieData((prev) =>
-      [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title))
-    );
-    console.log(movieData);
+    setMovieData((prev) => [...prev].sort((a: any, b: any) => a.title.localeCompare(b.title)));
   };
 
   const clickPoster = (data: IResultData) => {
@@ -114,7 +108,6 @@ const ResultSection = () => {
         }&api_key=878ff909e9f63d6bb3b857c0479816e5&include_adult=false&language=ko-KR&page=${currentPage}`
       )
       .then((res) => {
-        console.log(res.data.results);
         setMovieData(res.data.results);
         setAllPage(res.data.total_pages);
       })
@@ -129,11 +122,7 @@ const ResultSection = () => {
         <>
           <ResultTitle>
             <h3>
-              '
-              <span>{`${decodeURIComponent(
-                location.search.split('=')[1]
-              )}`}</span>
-              ' 관련된 영화
+              '<span>{`${decodeURIComponent(location.search.split('=')[1])}`}</span>' 관련된 영화
             </h3>
             <div>
               <span onClick={upToDate}>
@@ -150,6 +139,7 @@ const ResultSection = () => {
           <ResultList>
             {movieData?.map((data) => (
               <ResultData
+                key={data.id}
                 className={data.poster_path ? '' : 'size_cover'}
                 bg_photo={
                   data.poster_path
@@ -164,11 +154,7 @@ const ResultSection = () => {
       ) : (
         <NoResult title={decodeURIComponent(location.search.split('=')[1])} />
       )}
-      <PaginationNoSlice
-        currentPage={currentPage}
-        pageMove={pageMove}
-        allPage={allPage}
-      />
+      <PaginationNoSlice currentPage={currentPage} pageMove={pageMove} allPage={allPage} />
     </ResultWrapper>
   );
 };

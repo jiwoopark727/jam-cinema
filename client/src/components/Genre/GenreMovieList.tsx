@@ -122,6 +122,7 @@ const GenreMovieList = ({ genre }: IGenre) => {
       <GenreList>
         {genreList.map((data) => (
           <GenreData
+            key={data.id}
             bg_photo={
               data.poster_path
                 ? `https://image.tmdb.org/t/p/w300${data.poster_path}`

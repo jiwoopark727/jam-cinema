@@ -22,11 +22,10 @@ const CompanyImg = styled.div<{ bg_img: string }>`
 `;
 
 const ProductionCompany = ({ company }: ICompanyProps) => {
-  console.log(company);
   return (
     <CompanyWrapper>
       {company?.map((data) => (
-        <div>
+        <div key={data.name}>
           <CompanyImg
             bg_img={
               data.logo_path

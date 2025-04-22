@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { API_URL } from '../../utils/api';
 
 const RNSWrapper = styled.div`
   width: 1200px;
@@ -31,7 +32,7 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const NewsCotainer = styled.div`
+const NewsContainer = styled.div`
   text-align: center;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -94,18 +95,16 @@ export const RecentNewsSection = () => {
     const fetchNews = async () => {
       try {
         // 1️⃣ 뉴스 데이터 가져와서 DB 저장
-        await axios.get('http://localhost:8001/news/fetch-and-store');
+        await axios.get(`${API_URL}/news/fetch-and-store`);
 
         // 2️⃣ 저장된 뉴스 데이터를 다시 가져오기
-        const response = await axios.get('http://localhost:8001/news/list');
-        console.log('메인페이지 뉴스 기사 4개', response.data.slice(0, 4));
+        const response = await axios.get(`${API_URL}/news/list`);
         setNewsData(response.data.slice(0, 4)); // 처음 4개 불러오기
       } catch (error) {
         console.error('최신 뉴스 기사 가져오기 실패', error);
 
         // 2️⃣ 기존에 저장되어 있던 뉴스 데이터를 다시 가져오기
-        const response = await axios.get('http://localhost:8001/news/list');
-        console.log('메인페이지 뉴스 기사 4개', response.data.slice(0, 4));
+        const response = await axios.get(`${API_URL}/news/list`);
         setNewsData(response.data.slice(0, 4)); // 처음 4개 불러오기
       }
     };
@@ -124,15 +123,11 @@ export const RecentNewsSection = () => {
           더보기 +
         </span>
       </HeaderContainer>
-      <NewsCotainer>
+      <NewsContainer>
         {newsData.map((val, idx) => {
           return (
             <div className='news_box' key={idx}>
-              <StyledLink
-                to={val.content_url}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
+              <StyledLink to={val.content_url} target='_blank' rel='noopener noreferrer'>
                 <img
                   className='news_image'
                   style={{
@@ -149,7 +144,7 @@ export const RecentNewsSection = () => {
             </div>
           );
         })}
-      </NewsCotainer>
+      </NewsContainer>
     </RNSWrapper>
   );
 };

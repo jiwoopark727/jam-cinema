@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 
 const LayoutWrapper = styled.div`
   background: ${(props) => props.theme.bgColor};
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -91,10 +90,7 @@ export const Layout: React.FC<LayoutProps> = ({ onScrollToGS }) => {
     <LayoutWrapper>
       <Header onScrollToGS={onScrollToGS} />
       <main>{searchBoolean ? <SearchView /> : <Outlet />}</main>
-      <TopBtn
-        onClick={scrollToTop}
-        className={scrollPosition ? '' : 'disappear'}
-      >
+      <TopBtn onClick={scrollToTop} className={scrollPosition ? '' : 'disappear'}>
         <FontAwesomeIcon icon={faChevronUp} />
       </TopBtn>
       <Footer />

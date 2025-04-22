@@ -118,7 +118,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info, currentU
       .post(`${API_URL}/community/hit`, {
         communityNumber: info.communityNumber,
       })
-      .then((res) => console.log(res))
+      .then((_) => {})
       .catch((err) => console.log(err));
   }, []);
 

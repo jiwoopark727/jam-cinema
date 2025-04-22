@@ -12,9 +12,6 @@ const searchSlice = createSlice({
   },
 });
 
-// export const { initMembers, userLogin, userLogout, localUser } =
-//   memberSlice.actions;
-
 export const { searchOnOff } = searchSlice.actions;
 
 export default searchSlice.reducer;

@@ -8,7 +8,6 @@ const FooterContainer = styled.div`
   color: white;
   margin-top: 100px;
   padding: 20px 40px;
-  /* position: absolute; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,13 +63,15 @@ const FooterColumn = styled.div`
 
 const SocialLinks = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  gap: 30px;
+  align-items: center;
 
   a {
     color: white;
     font-size: 1.5rem;
     text-decoration: none;
+    margin: 0 0.7rem 0.5rem;
 
     &:hover {
       color: #61dafb;
@@ -84,12 +85,6 @@ const FooterBottom = styled.div`
 `;
 
 export const Footer = () => {
-  // const handleScrollToTop = () => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: 'smooth',
-  //   });
-  // };
   const navigate = useNavigate();
   return (
     <FooterWrapper>
@@ -125,26 +120,23 @@ export const Footer = () => {
           <FooterColumn>
             <h4>Connect With Us</h4>
             <SocialLinks>
-              <a
-                href='https://github.com/jiwoopark727/jam-cinema'
-                target='_blank'
-                rel='github'
-              >
-                <img src='/images/footer/github.png' alt='GitHub Logo' />
-              </a>
-              <a
-                href='https://www.instagram.com/iamburgerlover'
-                target='_blank'
-                rel='instagram'
-              >
-                <img src='/images/footer/instagram.png' alt='GitHub Logo' />
-              </a>
+              <div>
+                <a href='https://github.com/jiwoopark727/jam-cinema' target='_blank' rel='github'>
+                  <img src='/images/footer/github.png' alt='GitHub Logo' />
+                </a>
+                <a href='https://www.instagram.com/iamburgerlover' target='_blank' rel='instagram'>
+                  <img src='/images/footer/instagram.png' alt='GitHub Logo' />
+                </a>
+              </div>
+              <div>
+                <a href='https://github.com/asd45618' target='_blank' rel='github'>
+                  <img src='/images/footer/github.png' alt='GitHub Logo' />
+                </a>
+              </div>
             </SocialLinks>
           </FooterColumn>
         </FooterTop>
-        <FooterBottom>
-          © {new Date().getFullYear()} Jam Cinema. All Rights Reserved.
-        </FooterBottom>
+        <FooterBottom>© {new Date().getFullYear()} Jam Cinema. All Rights Reserved.</FooterBottom>
       </FooterContainer>
     </FooterWrapper>
   );

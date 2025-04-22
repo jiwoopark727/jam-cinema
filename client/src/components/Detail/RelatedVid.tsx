@@ -26,7 +26,6 @@ const RelatedVid = ({ vidUrl }: IUrl) => {
       )
       .then((res) => {
         setVideo(res.data.results);
-        console.log(res.data.results);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -35,6 +34,7 @@ const RelatedVid = ({ vidUrl }: IUrl) => {
     <RelateVidWrapper>
       {video?.map((key) => (
         <iframe
+          key={key.key}
           width='400'
           height='220'
           src={`https://www.youtube.com/embed/${key.key}?si=rvzsBOIeyvLvno02`}

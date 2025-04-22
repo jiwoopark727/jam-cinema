@@ -1,4 +1,3 @@
-import React from 'react';
 import SearchSection from '../components/Search/SearchSection';
 
 const SearchView = () => {

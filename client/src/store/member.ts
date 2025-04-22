@@ -22,22 +22,15 @@ const memberSlice = createSlice({
         nickname,
       } as User;
       localStorage.loging = JSON.stringify({ userId: userId });
-      console.log(state.user);
     },
-    // localUser(state, action) {
-    //   state.user = action.payload;
-    // },
-    userLogout(state, action) {
+
+    userLogout(state, _) {
       state.user = {} as User;
       localStorage.clear();
       sessionStorage.clear();
-      console.log(state.user);
     },
   },
 });
-
-// export const { initMembers, userLogin, userLogout, localUser } =
-//   memberSlice.actions;
 
 export const { userLogin, userLogout } = memberSlice.actions;
 

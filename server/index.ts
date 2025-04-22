@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 // import path from 'path';
 import cors from 'cors';
 import authRouter from './routers/authRouter';
@@ -16,10 +16,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
-// const __dirname = path.resolve();
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRouter);
 app.use('/community', communityRouter);

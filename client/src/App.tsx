@@ -21,6 +21,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from './store';
 import { darkTheme, lightTheme } from './theme';
 import NewsView from './views/NewsView';
+import { API_URL } from './utils/api';
 
 function App() {
   const dispatch = useDispatch();
@@ -40,7 +41,7 @@ function App() {
     if (accessToken) {
       // Access Token을 사용하여 유효한 로그인 세션을 확인
       axios
-        .get('http://localhost:8001/auth/api/protected', {
+        .get(`${API_URL}/auth/api/protected`, {
           headers: { Authorization: `Bearer ${accessToken}` },
         })
         .then((response) => {

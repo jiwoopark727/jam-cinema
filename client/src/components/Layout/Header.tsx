@@ -4,14 +4,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useLocation, useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { UserIcon } from './UserIcon';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store';
 import { useDispatch } from 'react-redux';
 import { searchOnOff } from '../../store/search';
 import { switchDarkLight } from '../../store/darkMode';
 
-const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
+const HeaderWrapper = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isMain',
+})<{ isMain: boolean }>`
   position: relative;
   height: 6rem;
   display: flex;
@@ -46,7 +48,7 @@ const HeaderWrapper = styled.div<{ isMainPage: boolean }>`
       font-weight: semibold;
       cursor: pointer;
       &:nth-child(2) {
-        margin: ${({ isMainPage }) => (isMainPage ? '0 50px' : '0 0 0 50px')};
+        margin: ${({ isMain }) => (isMain ? '0 50px' : '0 0 0 50px')};
       }
     }
   }
@@ -103,7 +105,6 @@ const OnDarkMode = styled.div`
   left: 0;
   border-radius: 15px;
   background-color: #4939fc;
-  /* z-index: 0; */
   transition: all 0.3s;
   &.light_mode {
     left: 50%;
@@ -186,8 +187,8 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
   const isDark = useSelector((state: RootState) => state.darkMode.dark);
 
   const location = useLocation();
-  const isMainPage = location.pathname === '/'; // 메인 페이지 여부 확인
 
+  const [isMain, setIsMain] = useState(location.pathname === '/' ? true : false);
   const [isOpen, setIsOpen] = useState(false);
   const [userMenu, setUserMenu] = useState(false);
 
@@ -238,8 +239,12 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
     closeUserMenu();
   };
 
+  useEffect(() => {
+    location.pathname === '/' ? setIsMain(true) : setIsMain(false);
+  }, [location.pathname]);
+
   return (
-    <HeaderWrapper isMainPage={isMainPage}>
+    <HeaderWrapper isMain={isMain}>
       <div className='logo'>
         <img src='../../images/logo.png' alt='logo' onClick={clickLogo} />
         <DarkMode onClick={changeDark}>
@@ -255,7 +260,7 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
         <ul className='menu'>
           <li onClick={goToNews}>뉴 스</li>
           <li onClick={goToCommunity}>커뮤니티</li>
-          {isMainPage && <li onClick={onScrollToGS}>장르별 영화</li>}
+          {isMain && <li onClick={onScrollToGS}>장르별 영화</li>}
         </ul>
         <div className='search_my'>
           <div className='search'>
@@ -266,40 +271,28 @@ export const Header: React.FC<HeaderProps> = ({ onScrollToGS }) => {
             )}
           </div>
           <div className='my' onClick={clickUserMenu}>
-            {Object.keys(loginInfo).length ? (
-              loginInfo.emoji
-            ) : (
-              <FontAwesomeIcon icon={faUser} />
-            )}
+            {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
           </div>
           <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         </div>
       </Nav>
 
-      {/* 햄버거 버튼 */}
       <HamburgerButton>
         <span onClick={handleHamburger}>☰</span>
         <div className='my' onClick={clickUserMenu}>
-          {Object.keys(loginInfo).length ? (
-            loginInfo.emoji
-          ) : (
-            <FontAwesomeIcon icon={faUser} />
-          )}
+          {Object.keys(loginInfo).length ? loginInfo.emoji : <FontAwesomeIcon icon={faUser} />}
         </div>
         <UserIcon closeUserMenu={closeUserMenu} userMenu={userMenu} />
         {/* 햄버거 메뉴 */}
         <HamburgerMenuWrapper className={isOpen ? 'open' : ''}>
-          <HamburgerMenu
-            onClick={handleHamburger}
-            className={isOpen ? 'open' : ''}
-          >
+          <HamburgerMenu onClick={handleHamburger} className={isOpen ? 'open' : ''}>
             <li className='h_li' onClick={goToNews}>
               뉴 스
             </li>
             <li className='h_li' onClick={goToCommunity}>
               커뮤니티
             </li>
-            {isMainPage && (
+            {isMain && (
               <li className='h_li' onClick={onScrollToGS}>
                 장르별 영화
               </li>

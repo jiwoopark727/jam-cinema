@@ -8,7 +8,7 @@ const newsRouter = express.Router();
 const news_api_key = process.env.news_api_key;
 
 // 1. 뉴스 API에서 데이터 가져와 DB에 저장
-newsRouter.get('/fetch-and-store', async (req, res) => {
+newsRouter.get('/fetch-and-store', async (_, res) => {
   const url = `https://api-v2.deepsearch.com/v1/articles?keyword=영화&page_size=30&api_key=${news_api_key}`;
 
   try {
@@ -102,7 +102,7 @@ newsRouter.get('/fetch-and-store', async (req, res) => {
 });
 
 // 2. DB에서 뉴스 리스트 가져오기
-newsRouter.get('/list', (req, res) => {
+newsRouter.get('/list', (_, res) => {
   db.query('SELECT * FROM news ORDER BY published_at DESC', [], (err, result) => {
     if (err) {
       res.status(500).json('뉴스 리스트 불러오기 실패');

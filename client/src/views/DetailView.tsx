@@ -1,4 +1,3 @@
-import React from 'react';
 import MovieDetail from '../components/Detail/MovieDetail';
 import styled from 'styled-components';
 

@@ -135,7 +135,7 @@ export const CommunityList = () => {
   useEffect(() => {
     axios
       .request(options)
-      .then((res) => console.log(res))
+      .then((_) => {})
       .catch((err) => console.log(err));
   }, []);
 

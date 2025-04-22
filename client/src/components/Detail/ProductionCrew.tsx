@@ -24,8 +24,8 @@ const CrewWrapper = styled.div`
 const ProductionCrew = ({ crew }: IProductionCrew) => {
   return (
     <CrewWrapper>
-      {crew?.map((data) => (
-        <Card style={{ width: '100%' }}>
+      {crew?.map((data, idx) => (
+        <Card key={idx} style={{ width: '100%' }}>
           <Card.Body>
             <Card.Title>{data.original_name}</Card.Title>
             <Card.Subtitle className='mb-2 text-muted'>{data.job}</Card.Subtitle>

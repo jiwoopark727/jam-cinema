@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import styled from 'styled-components';
 import ProductionCompany from './ProductionCompany';
@@ -133,7 +133,6 @@ const InfoMenu = styled.div`
 
 const MovieDetail = () => {
   const params = useParams();
-  console.log(params.id);
 
   const allMenu = ['관련 영상', '제작사', '배우', '제작진'];
 
@@ -151,7 +150,6 @@ const MovieDetail = () => {
       )
       .then((res) => {
         setDetailData(res.data);
-        console.log(res.data);
       })
       .catch((err) => console.log(err));
   }, []);
@@ -185,10 +183,10 @@ const MovieDetail = () => {
             <span>배우: </span>
             <span>
               {detailData?.credits.cast.slice(0, 5).map((data) => (
-                <>
+                <React.Fragment key={data.character}>
                   <span>{data.name}</span>
                   <span>, </span>
-                </>
+                </React.Fragment>
               ))}
             </span>
           </div>
@@ -196,8 +194,8 @@ const MovieDetail = () => {
       </BasicInfo>
       <AddInfo>
         <InfoMenu>
-          {allMenu.map((menu) => (
-            <span>
+          {allMenu.map((menu, idx) => (
+            <span key={idx}>
               <span onClick={() => changeMenu(menu)} className={menuName === menu ? 'clicked' : ''}>
                 {menu}
               </span>

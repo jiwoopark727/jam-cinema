@@ -60,37 +60,4 @@ searchRouter.delete('/allDelete', (req, res) => {
   });
 });
 
-// searchRouter.post('/hit', (req, res) => {
-//   const communityNumber = req.body.communityNumber;
-//   db.query(
-//     'UPDATE community SET hit = hit + 1 WHERE communityNumber = ?',
-//     [communityNumber],
-//     (err, result) => {
-//       if (err) {
-//         res.status(500).send('커뮤니티 조회수 업데이트 실패');
-//         throw err;
-//       } else {
-//         res.send(result);
-//       }
-//     }
-//   );
-// });
-
-// searchRouter.post('/modify', (req, res) => {
-//   const { communityNumber, title, content, date } = req.body.communityInfo;
-//   const modifyQuery = `
-//   UPDATE community
-//   SET title = ?, content = ?, date = ?
-//   WHERE communityNumber = ?
-// `;
-//   db.query(modifyQuery, [title, content, date, communityNumber], (err, result) => {
-//     if (err) {
-//       res.status(500).send('커뮤니티 수정 실패');
-//       throw err;
-//     } else {
-//       res.send(result);
-//     }
-//   });
-// });
-
 export default searchRouter;

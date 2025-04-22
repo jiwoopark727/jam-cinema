@@ -30,11 +30,10 @@ const ActorWrapper = styled.div`
 `;
 
 const Actor = ({ actor }: IActor) => {
-  console.log(actor);
   return (
     <ActorWrapper>
-      {actor?.map((data) => (
-        <Card style={{ width: '200px' }}>
+      {actor?.map((data, idx) => (
+        <Card key={idx} style={{ width: '200px' }}>
           <CardWrapper>
             <Card.Img
               variant='top'

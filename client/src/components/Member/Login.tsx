@@ -1,11 +1,12 @@
 import { faSquareCheck } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios, { AxiosError } from 'axios';
-import React, { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { userLogin } from '../../store/member';
+import { API_URL } from '../../utils/api';
 
 const LoginWrapper = styled.div`
   display: flex;
@@ -107,13 +108,12 @@ export const Login = () => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:8001/auth/login', {
+      .post(`${API_URL}/auth/login`, {
         userId: userId,
         userPw: userPw,
         keepLogged: keepLogged,
       })
       .then((res) => {
-        console.log(res.data);
         if (res.data.message === '로그인 성공') {
           if (keepLogged) {
             localStorage.setItem('accessToken', res.data.accessToken); // 로그인 상태 유지
