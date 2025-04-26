@@ -1,10 +1,12 @@
 import express from 'express';
-// import path from 'path';
 import cors from 'cors';
 import authRouter from './routers/authRouter';
 import communityRouter from './routers/communityRouter';
 import searchRouter from './routers/searchRouter';
 import newsRouter from './routers/newsRouter';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8001;
