@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
@@ -7,6 +7,7 @@ import { RootState } from '../../store';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import Pagination from '../Pagination/Pagination';
+import { API_URL } from '../../utils/api';
 
 const CommunityListWrapper = styled.div`
   color: ${(props) => props.theme.textColor};
@@ -115,7 +116,7 @@ export const CommunityList = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8001/community/list')
+      .get(`${API_URL}/community/list`)
       .then((res) => setList(res.data))
       .catch((err) => console.log(err));
   }, []);
@@ -134,7 +135,7 @@ export const CommunityList = () => {
   useEffect(() => {
     axios
       .request(options)
-      .then((res) => console.log(res))
+      .then((_) => {})
       .catch((err) => console.log(err));
   }, []);
 

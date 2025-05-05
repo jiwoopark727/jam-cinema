@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef } from 'react';
+import { forwardRef, useRef } from 'react';
 import { BannerSection } from '../components/Home/BannerSection';
 import { RecentMovieSection } from '../components/Home/RecentMovieSection';
 import { RecentNewsSection } from '../components/Home/RecentNewsSection';

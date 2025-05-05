@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router';
 import styled, { keyframes } from 'styled-components';
 import { RootState } from '../../store';
 import dayjs from 'dayjs';
+import { API_URL } from '../../utils/api';
 
 const blinkAnimation = keyframes`
   0%, 100% { opacity: 1; }
@@ -38,7 +39,7 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const COMCotainer = styled.div`
+const COMContainer = styled.div`
   text-align: start;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -111,9 +112,7 @@ interface IPost {
 export const CommunitySection = () => {
   const navigate = useNavigate();
 
-  const currentUser = useSelector(
-    (state: RootState) => state.members.user.nickname
-  );
+  const currentUser = useSelector((state: RootState) => state.members.user.nickname);
 
   const [popularPost, setPopularPost] = useState<IPost[]>();
   const [recentPost, setRecentPost] = useState<IPost[]>();
@@ -123,13 +122,7 @@ export const CommunitySection = () => {
     const postDate = new Date(postTime);
     const currentDate = new Date();
 
-    // console.log(postTime);
-    // console.log(postDate.getTime());
-    // console.log(currentDate.getTime());
-
     const diff = currentDate.getTime() - postDate.getTime();
-    // console.log(diff);
-    // console.log(dayjs(postDate).format('YYYY-MM-DD'));
     const diffMinutes = Math.floor(diff / (1000 * 60));
     const diffHours = Math.floor(diff / (1000 * 60 * 60));
     const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
@@ -149,17 +142,15 @@ export const CommunitySection = () => {
 
   useEffect(() => {
     axios
-      .get('http://localhost:8001/community/list/recent')
+      .get(`${API_URL}/community/list/recent`)
       .then((res) => {
-        // console.log(res.data);
         setRecentPost(res.data);
       })
       .catch((err) => console.log(err));
 
     axios
-      .get('http://localhost:8001/community/list/popular')
+      .get(`${API_URL}/community/list/popular`)
       .then((res) => {
-        // console.log(res.data);
         setPopularPost(res.data);
       })
       .catch((err) => console.log(err));
@@ -173,11 +164,8 @@ export const CommunitySection = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      // 여기서 1분마다 timeStamps를 업데이트
       if (recentPost) {
-        setTimeStamps(
-          recentPost.map((post) => formatTimeDifference(post.date))
-        );
+        setTimeStamps(recentPost.map((post) => formatTimeDifference(post.date)));
       }
     }, 60000);
     return () => clearInterval(interval);
@@ -193,7 +181,7 @@ export const CommunitySection = () => {
           더보기 +
         </span>
       </HeaderContainer>
-      <COMCotainer>
+      <COMContainer>
         <div className='sub_title'>
           <span className='top_title'>인기 게시글 👀</span>
           <hr className='under_line' />
@@ -238,16 +226,13 @@ export const CommunitySection = () => {
                     <span>{post.title}</span>
                     <span className='new_text'>NEW</span>
                   </span>
-                  <span className='post_viewCount'>
-                    {/* {formatTimeDifference(post.date)} */}
-                    {timeStamps[idx]}
-                  </span>
+                  <span className='post_viewCount'>{timeStamps[idx]}</span>
                 </div>
               );
             })}
           </div>
         </div>
-      </COMCotainer>
+      </COMContainer>
     </COMWrapper>
   );
 };

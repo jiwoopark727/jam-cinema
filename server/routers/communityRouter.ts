@@ -3,7 +3,7 @@ import { db } from '../db';
 
 const communityRouter = express.Router();
 
-communityRouter.get('/list', (req, res) => {
+communityRouter.get('/list', (_, res) => {
   db.query('SELECT * FROM community', [], (err, result) => {
     if (err) {
       res.status(500).send('커뮤니티 리스트 불러오기 실패');
@@ -76,7 +76,7 @@ communityRouter.delete('/delete', (req, res) => {
   });
 });
 
-communityRouter.get('/list/popular', (req, res) => {
+communityRouter.get('/list/popular', (_, res) => {
   db.query('SELECT * FROM community ORDER BY hit DESC LIMIT 5', [], (err, result) => {
     if (err) {
       res.status(500).send('커뮤니티 리스트 불러오기 실패');
@@ -87,7 +87,7 @@ communityRouter.get('/list/popular', (req, res) => {
   });
 });
 
-communityRouter.get('/list/recent', (req, res) => {
+communityRouter.get('/list/recent', (_, res) => {
   db.query('SELECT * FROM community ORDER BY date DESC LIMIT 5', [], (err, result) => {
     if (err) {
       res.status(500).send('커뮤니티 리스트 불러오기 실패');
@@ -100,7 +100,6 @@ communityRouter.get('/list/recent', (req, res) => {
 
 communityRouter.get('/list/my', (req, res) => {
   const nickname = req.query.nickname;
-  console.log(req.query, req.query.nickname, nickname);
   if (nickname) {
     db.query('SELECT * FROM community WHERE nickname = ?', [nickname], (err, result) => {
       if (err) {

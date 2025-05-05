@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 
 interface CommunityTopTitleProps {
@@ -10,9 +9,6 @@ const CommunityTopTitleWrapper = styled.div`
   justify-content: center;
   margin: 20px;
   color: ${(props) => props.theme.textColor};
-  h2 {
-    /* border-top: 2px solid #000; */
-  }
 `;
 
 export const CommunityTopTitle = ({ title }: CommunityTopTitleProps) => {

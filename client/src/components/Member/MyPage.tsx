@@ -10,6 +10,7 @@ import { useDispatch } from 'react-redux';
 import { userLogin } from '../../store/member';
 import Pagination from '../Pagination/Pagination';
 import dayjs from 'dayjs';
+import { API_URL } from '../../utils/api';
 
 const MPWrapper = styled.div`
   height: 110vh;
@@ -192,20 +193,7 @@ const MyPage = () => {
   const userPwOkRef = useRef<HTMLInputElement>(null);
   const currentPwRef = useRef<HTMLInputElement>(null);
 
-  const animalEmoji = [
-    '🐶',
-    '🐷',
-    '🐯',
-    '🐰',
-    '🐱',
-    '🐻',
-    '🐹',
-    '🐼',
-    '🐮',
-    '🦊',
-    '🐵',
-    '🦁',
-  ];
+  const animalEmoji = ['🐶', '🐷', '🐯', '🐰', '🐱', '🐻', '🐹', '🐼', '🐮', '🦊', '🐵', '🦁'];
 
   const [userInfo, setUserInfo] = useState({
     userEmoji: currentUserInfo.emoji,
@@ -213,16 +201,13 @@ const MyPage = () => {
     userPw: '',
     userPwOk: '',
   });
-  const [pwCheck, setPwCheck] = useState(false);
   const [nicknameErrMsg, setNicknameErrMsg] = useState('');
   const [pwErrMsg, setPwErrMsg] = useState('');
   const [pwOkErrMsg, setPwOkErrMsg] = useState('');
-  const [currentPwErrMsg, setCurrentPwErrMsg] = useState('');
   const [currentPw, setCurrentPw] = useState('');
   const [pwLength, setPwLength] = useState(false);
   const [pwNum, setPwNum] = useState(false);
   const [pwEng, setPwEng] = useState(false);
-  // const [pwCheck, setPwCheck] = useState(false);
   const [state, setState] = useState('modify');
   const [list, setList] = useState<listType[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -242,15 +227,13 @@ const MyPage = () => {
     e.preventDefault();
 
     axios
-      .post('http://localhost:8001/auth/pwCheck', {
+      .post(`${API_URL}/auth/pwCheck`, {
         currentPw: currentPw,
         userId: currentUserInfo.userId,
       })
       .then((res) => {
         if (!res.data) {
-          setPwCheck(false);
           alert('현재 비밀번호를 확인해주세요.');
-          // window.location.reload();
         } else {
           if (nicknameErrMsg) {
             userNicknameRef.current!.focus();
@@ -279,9 +262,8 @@ const MyPage = () => {
           };
 
           axios
-            .patch('http://localhost:8001/auth/modify', { modifyMember })
+            .patch(`${API_URL}/auth/modify`, { modifyMember })
             .then((res) => {
-              console.log(res.data.data);
               dispatch(userLogin(res.data.data));
               alert(res.data.message);
               navigate('/');
@@ -295,13 +277,11 @@ const MyPage = () => {
   const nicknameCheck = (nickname: string) => {
     nickname !== currentUserInfo.nickname
       ? axios
-          .post('http://localhost:8001/auth/nicknamecheck', {
+          .post(`${API_URL}/auth/nicknamecheck`, {
             nickname: nickname,
           })
           .then((res) => {
-            res.data[0]
-              ? setNicknameErrMsg('중복된 닉네임입니다.')
-              : setNicknameErrMsg('');
+            res.data[0] ? setNicknameErrMsg('중복된 닉네임입니다.') : setNicknameErrMsg('');
           })
           .catch((err) => console.log(err))
       : setNicknameErrMsg('');
@@ -329,9 +309,7 @@ const MyPage = () => {
   useEffect(() => {
     if (currentUserInfo.nickname) {
       axios
-        .get(
-          `http://localhost:8001/community/list/my?nickname=${currentUserInfo?.nickname}`
-        )
+        .get(`${API_URL}/community/list/my?nickname=${currentUserInfo?.nickname}`)
         .then((res) => setList(res.data))
         .catch((err) => console.log(err));
     }
@@ -408,10 +386,8 @@ const MyPage = () => {
                     placeholder='현재 비밀번호'
                     onChange={userPw}
                     ref={currentPwRef}
-                    className={currentPwErrMsg ? 'err' : ''}
                   ></PasswordInput>
                 </div>
-                <div className='err_msg'>{currentPwErrMsg}</div>
                 <PasswordInput
                   type='password'
                   name='userPw'
@@ -458,15 +434,10 @@ const MyPage = () => {
               </ul>
               <ul className='list_content'>
                 {list
-                  ?.slice(
-                    itemsPerPage * (currentPage - 1),
-                    itemsPerPage * currentPage
-                  )
+                  ?.slice(itemsPerPage * (currentPage - 1), itemsPerPage * currentPage)
                   .map((val, idx) => (
                     <li key={idx} onClick={() => goToDetail(val)}>
-                      <div>
-                        {list.length - idx - (currentPage - 1) * itemsPerPage}
-                      </div>
+                      <div>{list.length - idx - (currentPage - 1) * itemsPerPage}</div>
                       <div>{val.title}</div>
                       <div>{val.nickname}</div>
                       <div>{dayjs(val.date).format('YYYY-MM-DD')}</div>

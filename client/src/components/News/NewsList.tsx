@@ -2,6 +2,7 @@ import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { API_URL } from '../../utils/api';
 
 interface INewsData {
   id: string;
@@ -23,11 +24,7 @@ const NewsPage = () => {
 
   // 뉴스 데이터 추가 로드 감지
   useEffect(() => {
-    if (
-      !observerTargetRef.current ||
-      totalNewsData.length <= visibleNewsData.length
-    )
-      return;
+    if (!observerTargetRef.current || totalNewsData.length <= visibleNewsData.length) return;
 
     // 기존 observer가 있다면 disconnect
     if (observerRef.current) observerRef.current.disconnect();
@@ -36,9 +33,7 @@ const NewsPage = () => {
       (entries) => {
         if (entries[0].isIntersecting) {
           if (entries[0].isIntersecting) {
-            setVisibleNewsData((prev) =>
-              totalNewsData.slice(0, prev.length + itemsPerPage)
-            );
+            setVisibleNewsData((prev) => totalNewsData.slice(0, prev.length + itemsPerPage));
           }
         }
       },
@@ -54,19 +49,17 @@ const NewsPage = () => {
     const fetchNews = async () => {
       try {
         // 1️⃣ 뉴스 데이터 가져와서 DB 저장
-        await axios.get('http://localhost:8001/news/fetch-and-store');
+        await axios.get(`${API_URL}/news/fetch-and-store`);
 
         // 2️⃣ 저장된 뉴스 데이터를 다시 가져오기
-        const response = await axios.get('http://localhost:8001/news/list');
-        console.log(response);
+        const response = await axios.get(`${API_URL}/news/list`);
         setTotalNewsData(response.data);
         setVisibleNewsData(response.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
       } catch (error) {
         console.error('최신 뉴스 기사 가져오기 실패', error);
 
         // 2️⃣ 기존에 저장되어 있던 뉴스 데이터를 다시 가져오기
-        const response = await axios.get('http://localhost:8001/news/list');
-        console.log(response);
+        const response = await axios.get(`${API_URL}/news/list`);
         setTotalNewsData(response.data);
         setVisibleNewsData(response.data.slice(0, itemsPerPage)); // 처음 5개 불러오기
       }
@@ -74,10 +67,6 @@ const NewsPage = () => {
 
     fetchNews();
   }, []);
-
-  useEffect(() => {
-    console.log(visibleNewsData);
-  }, [visibleNewsData]);
 
   return (
     <NewsContainer>
@@ -93,11 +82,7 @@ const NewsPage = () => {
               {val.publisher}
               <span>{formatDate(val.published_at)}</span>
             </NewsPublisher>
-            <StyledLink
-              to={val.content_url}
-              target='_blank'
-              rel='noopener noreferrer'
-            >
+            <StyledLink to={val.content_url} target='_blank' rel='noopener noreferrer'>
               <NewsTitle>{val.title}</NewsTitle>
               <NewsContent>{val.summary}</NewsContent>
             </StyledLink>

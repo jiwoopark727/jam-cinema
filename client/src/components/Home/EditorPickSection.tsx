@@ -102,7 +102,6 @@ const SkeletonPoster = styled.div`
   }
 `;
 
-// 이전,다음 화살표 커스텀
 const CustomPrevArrow: React.FC<CustomArrowProps> = (props) => {
   const { onClick } = props;
   return (
@@ -139,7 +138,6 @@ interface IMovie {
 }
 
 export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
-  // 슬라이드 설정 옵션
   const settings = {
     dots: false,
     infinite: true,
@@ -175,7 +173,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
   const [trendingMovie, setTrendingMovie] = useState<IMovie[] | null>(null);
 
   useEffect(() => {
-    // 탑레이트영화 영화 요청 옵션 정의
     const TRMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/movie/top_rated?api_key=033d5d85d42294188dc8888ddadfc21e',
@@ -190,14 +187,12 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     axios
       .request(TRMoptions)
       .then((res) => {
-        console.log('탑레이트영화');
         setTopRatedMovie(res.data.results);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // 주간트렌드 영화 요청 옵션 정의
     const WTMoptions: AxiosRequestConfig = {
       method: 'GET',
       url: 'https://api.themoviedb.org/3/trending/movie/week?api_key=033d5d85d42294188dc8888ddadfc21e',
@@ -212,7 +207,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
     axios
       .request(WTMoptions)
       .then((res) => {
-        console.log('주간트렌드영화');
         setTrendingMovie(res.data.results);
       })
       .catch((err) => {
@@ -221,9 +215,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
   }, []);
 
   const navigate = useNavigate();
-
-  console.log(topRatedMovie);
-  console.log(trendingMovie);
 
   return (
     <EPSWrapper ref={ref}>
@@ -240,7 +231,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
           />
         </div>
       </HeaderContainer>
-      {/* 1번째 장르 */}
       <div className='g-title'>주간 인기 영화 🔥🔥 </div>
       <StyledSlider {...settings}>
         {trendingMovie
@@ -262,7 +252,6 @@ export const EditorPickSection = forwardRef<HTMLDivElement>((_, ref) => {
               </MovieContainer>
             ))}
       </StyledSlider>
-      {/* 2번째 장르 */}
       <div className='g-title'>평점 높은 영화 ★★★★★</div>
       <StyledSlider {...settings}>
         {topRatedMovie

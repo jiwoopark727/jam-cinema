@@ -36,10 +36,9 @@ authRouter.post('/join', async (req, res) => {
 
 authRouter.post('/emailcheck', (req, res) => {
   const email = req.body.email;
-  db.query('SELECT * FROM users WHERE email=?', [email], (err: any, result:any) => {
+  db.query('SELECT * FROM users WHERE email=?', [email], (err: any, result: any) => {
     if (err) {
       res.status(500).send('회원가입 실패');
-      console.log(err);
       throw err;
     } else {
       res.send(result);
@@ -210,13 +209,13 @@ authRouter.patch('/modify', async (req, res) => {
   const modifyQuery = `UPDATE users SET ${updates.join(', ')} WHERE userId = ?`;
   params.push(userId);
 
-  db.query(modifyQuery, params, (err: any, result:any) => {
+  db.query(modifyQuery, params, (err: any, result: any) => {
     if (err) {
       console.error(err);
       return res.status(500).send('정보 수정에 실패했습니다.');
     }
     const selectQuery = `SELECT * FROM users WHERE userId = ?`;
-    db.query(selectQuery, [userId], (err: any, rows:any) => {
+    db.query(selectQuery, [userId], (err: any, rows: any) => {
       if (err) {
         console.error(err);
         return res.status(500).send('수정된 데이터를 가져오는 데 실패했습니다.');

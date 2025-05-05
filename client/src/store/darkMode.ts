@@ -12,9 +12,6 @@ const darkModeSlice = createSlice({
   },
 });
 
-// export const { initMembers, userLogin, userLogout, localUser } =
-//   memberSlice.actions;
-
 export const { switchDarkLight } = darkModeSlice.actions;
 
 export default darkModeSlice.reducer;

@@ -1,6 +1,6 @@
 import { faMagnifyingGlass, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import { IResultData } from './ResultSection';
+import { API_URL } from '../../utils/api';
 
 interface IRecent {
   userId: number;
@@ -147,14 +148,12 @@ const SearchSection = () => {
     navigate(`/results?search_query=${keyword}`);
     const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
     axios
-      .post('http://localhost:8001/search/add', {
+      .post(`${API_URL}/search/add`, {
         keyword: keyword,
         userId: userId,
         date: date,
       })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((_) => {})
       .catch((err) => console.log(err));
   };
 
@@ -163,14 +162,12 @@ const SearchSection = () => {
     navigate(`/results?search_query=${keyword}`);
     const date = dayjs().format('YYYY-MM-DD HH:mm:ss');
     axios
-      .post('http://localhost:8001/search/add', {
+      .post(`${API_URL}/search/add`, {
         keyword: keyword,
         userId: userId,
         date: date,
       })
-      .then((res) => {
-        console.log(res);
-      })
+      .then((_) => {})
       .catch((err) => console.log(err));
   };
 
@@ -181,26 +178,23 @@ const SearchSection = () => {
         `https://api.themoviedb.org/3/search/movie?query=${e.target.value}&api_key=878ff909e9f63d6bb3b857c0479816e5&include_adult=false&language=ko-KR&page=1`
       )
       .then((res) => {
-        console.log(res);
         setRelatedWord(res.data.results);
       })
       .catch((err) => console.log(err));
   };
 
   const allDeleteRecent = () => {
-    console.log('모두 지우기 클릭');
     axios
-      .delete(`http://localhost:8001/search/allDelete?userId=${userId}`)
-      .then((res) => console.log(res))
+      .delete(`${API_URL}/search/allDelete?userId=${userId}`)
+      .then((_) => {})
       .catch((err) => console.log(err));
     setRecentKeywordList([]);
   };
 
   const deleteRecent = (word: string) => {
-    console.log('하나 지우기 클릭');
     axios
-      .delete(`http://localhost:8001/search/delete?userId=${userId}&word=${word}`)
-      .then((res) => console.log(res))
+      .delete(`${API_URL}/search/delete?userId=${userId}&word=${word}`)
+      .then((_) => {})
       .catch((err) => console.log(err));
     setRecentKeywordList((prevList) => prevList.filter((item) => item.word !== word));
   };
@@ -217,9 +211,8 @@ const SearchSection = () => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:8001/search/list?userId=${userId}`)
+      .get(`${API_URL}/search/list?userId=${userId}`)
       .then((res) => {
-        console.log(res);
         setRecentKeywordList(res.data);
       })
       .catch((err) => console.log(err));
@@ -249,7 +242,7 @@ const SearchSection = () => {
               </div>
               <div className='list'>
                 {recentKeywordList?.map((data) => (
-                  <p>
+                  <p key={data.word}>
                     <span onClick={() => clickRecent(data.word)}>{data.word} </span>
                     <FontAwesomeIcon icon={faXmark} onClick={() => deleteRecent(data.word)} />
                   </p>
@@ -272,7 +265,7 @@ const SearchSection = () => {
           </div>
           <div className='list'>
             {relatedWord?.slice(0, 6).map((data) => (
-              <div onClick={() => clickRelated(data)}>
+              <div key={data.id} onClick={() => clickRelated(data)}>
                 <RelatedImg img={`https://image.tmdb.org/t/p/w200${data.poster_path}`}></RelatedImg>
                 <p>{data.title}</p>
               </div>

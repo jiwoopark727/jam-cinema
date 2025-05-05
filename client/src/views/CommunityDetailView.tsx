@@ -1,4 +1,3 @@
-import React from 'react';
 import { CommunityDetail } from '../components/Community/CommunityDetail';
 import { useLocation } from 'react-router';
 
@@ -7,10 +6,7 @@ export const CommunityDetailView = () => {
 
   return (
     <div>
-      <CommunityDetail
-        info={location.state.info}
-        currentUser={location.state.currentUser}
-      />
+      <CommunityDetail info={location.state.info} currentUser={location.state.currentUser} />
     </div>
   );
 };

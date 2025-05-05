@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 
 const LayoutWrapper = styled.div`
   background: ${(props) => props.theme.bgColor};
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;

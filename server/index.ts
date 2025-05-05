@@ -1,10 +1,12 @@
-import express, { Request, Response } from 'express';
-// import path from 'path';
+import express from 'express';
 import cors from 'cors';
 import authRouter from './routers/authRouter';
 import communityRouter from './routers/communityRouter';
 import searchRouter from './routers/searchRouter';
 import newsRouter from './routers/newsRouter';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 8001;
@@ -16,10 +18,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 app.use(express.json());
-
-// const __dirname = path.resolve();
-// app.use(express.static(path.join(__dirname, 'build')));
-// app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use('/auth', authRouter);
 app.use('/community', communityRouter);

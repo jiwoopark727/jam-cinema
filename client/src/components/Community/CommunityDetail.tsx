@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
 import { Link, useNavigate } from 'react-router-dom';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { listType } from './CommunityList';
+import { API_URL } from '../../utils/api';
 
 const CommunityDetailWrapper = styled.div`
-  /* height: calc(100vh-) */
   color: ${(props) => props.theme.textColor};
   .detail_title {
     margin-top: 40px;
@@ -100,7 +100,7 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info, currentU
   const deleteCommunity = (communityNumber: number) => {
     if (confirm('정말 삭제하시겠습니까?')) {
       axios
-        .delete('http://localhost:8001/community/delete', {
+        .delete(`${API_URL}/community/delete`, {
           data: { communityNumber: communityNumber },
         })
         .then((res) => {
@@ -115,10 +115,10 @@ export const CommunityDetail: React.FC<CommunityDetailProps> = ({ info, currentU
 
   useEffect(() => {
     axios
-      .post('http://localhost:8001/community/hit', {
+      .post(`${API_URL}/community/hit`, {
         communityNumber: info.communityNumber,
       })
-      .then((res) => console.log(res))
+      .then((_) => {})
       .catch((err) => console.log(err));
   }, []);
 

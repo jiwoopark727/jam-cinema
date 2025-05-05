@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import { CommunityTopTitle } from './CommunityTopTitle';
 import { listType } from './CommunityList';
 import dayjs from 'dayjs';
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { API_URL } from '../../utils/api';
 
 const CommunityModifyWrapper = styled.div`
   color: ${(props) => props.theme.textColor};
@@ -93,7 +94,7 @@ export const CommunityModify: React.FC<CommunityModifyProps> = ({ info }) => {
     };
 
     axios
-      .post('http://localhost:8001/community/modify', { communityInfo })
+      .post(`${API_URL}/community/modify`, { communityInfo })
       .then((res) => {
         if (res.data.affectedRows) {
           alert('수정이 완료되었습니다.');
